@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Henry Fan — Computational Education Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=JetBrains+Mono:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+:root {
+  --ink:   #0e0e0e;
+  --paper: #f5f0e8;
+  --cream: #ede8dc;
+  --rust:  #b84a2e;
+  --slate: #2c3e50;
+  --gold:  #c9963a;
+  --muted: #7a7060;
+  --rule:  #c8bfaa;
+  --mono:  'JetBrains Mono', monospace;
+  --serif: 'Cormorant Garamond', serif;
+  --fell:  'IM Fell English', serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 1000; opacity: 0.5;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.2rem 3rem;
+  background: rgba(245,240,232,0.93);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-brand { font-family: var(--mono); font-size: 0.72rem; font-weight: 300; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-family: var(--mono); font-size: 0.62rem; font-weight: 400; letter-spacing: 0.13em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--rust); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-bottom: 2px solid var(--ink);
+}
+.hero-left {
+  padding: 9rem 3rem 4rem 5vw;
+  display: flex; flex-direction: column; justify-content: center;
+  border-right: 1px solid var(--rule);
+}
+.hero-eyebrow { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--rust); margin-bottom: 2rem; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+.hero-name { font-family: var(--fell); font-size: clamp(3.5rem, 6vw, 6rem); font-weight: 400; line-height: 1.0; margin-bottom: 0.5rem; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+.hero-title { font-family: var(--serif); font-style: italic; font-size: 1.15rem; color: var(--muted); font-weight: 300; margin-bottom: 3rem; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; }
+.hero-thesis { font-family: var(--serif); font-size: 1.1rem; font-weight: 300; line-height: 1.8; color: var(--slate); max-width: 42ch; border-left: 2px solid var(--rust); padding-left: 1.5rem; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+.hero-affiliations { margin-top: 3rem; display: flex; flex-direction: column; gap: 0.5rem; opacity: 0; animation: fadeUp 0.8s 1.0s forwards; }
+.affil-tag { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 0.75rem; }
+.affil-tag::before { content: ''; display: block; width: 20px; height: 1px; background: var(--gold); }
+
+.hero-right {
+  padding: 9rem 4rem 4rem;
+  display: flex; flex-direction: column; justify-content: center;
+  background: var(--cream);
+  position: relative; overflow: hidden;
+}
+/* FIXED: canvas sits behind content at z-index 0 */
+#hero-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  z-index: 0; opacity: 0.18;
+}
+.hero-right-content {
+  position: relative; z-index: 2;
+  opacity: 0; animation: fadeUp 0.8s 1.1s forwards;
+}
+.hero-research-label { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 2.5rem; }
+.mission-statement blockquote { font-family: var(--fell); font-style: italic; font-size: 1.55rem; line-height: 1.5; color: var(--ink); font-weight: 400; }
+.mission-statement cite { display: block; margin-top: 1.5rem; font-family: var(--mono); font-style: normal; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+
+/* SECTION CHROME */
+.section-header { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.5rem; margin-bottom: 4rem; }
+.section-number { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rust); }
+.section-rule { height: 1px; background: var(--rule); }
+.section-title { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
+
+/* AGENDA */
+#agenda { padding: 7rem 5vw; border-bottom: 1px solid var(--rule); }
+.agenda-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 4rem; align-items: start; }
+.agenda-sidebar h2 { font-family: var(--fell); font-size: 3.2rem; line-height: 1.1; font-weight: 400; }
+.agenda-sidebar p { margin-top: 1.5rem; font-size: 0.95rem; color: var(--muted); font-weight: 300; }
+.agenda-body { display: flex; flex-direction: column; gap: 2rem; }
+.agenda-item { display: grid; grid-template-columns: 40px 1fr; gap: 1.5rem; align-items: start; padding: 1.5rem; border: 1px solid transparent; transition: border-color 0.3s, background 0.3s; }
+.agenda-item:hover { border-color: var(--rule); background: var(--cream); }
+.agenda-glyph { font-family: var(--mono); font-size: 0.75rem; color: var(--gold); padding-top: 0.25rem; }
+.agenda-item h3 { font-family: var(--serif); font-weight: 600; font-size: 1.05rem; margin-bottom: 0.4rem; }
+.agenda-item p { font-size: 0.9rem; color: var(--muted); font-weight: 300; line-height: 1.65; }
+
+/* ── INTERACTIVE DEMO: TDG GRAPH ── */
+#demo-tdg {
+  padding: 7rem 5vw;
+  background: var(--ink);
+  color: var(--paper);
+  border-bottom: 2px solid var(--ink);
+}
+#demo-tdg .section-number { color: var(--gold); }
+#demo-tdg .section-rule { background: #333; }
+#demo-tdg .section-title { color: #555; }
+
+.demo-intro { max-width: 65ch; font-family: var(--serif); font-style: italic; font-size: 1.05rem; color: #999; font-weight: 300; margin-bottom: 1rem; }
+.demo-instruction { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; color: #555; margin-bottom: 3rem; }
+.demo-instruction span { color: var(--gold); }
+
+.tdg-wrapper {
+  display: grid; grid-template-columns: 1fr 280px; gap: 2rem; align-items: start;
+}
+#tdg-svg-container {
+  background: #080808;
+  border: 1px solid #1e1e1e;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  height: 480px;
+}
+#tdg-svg { width: 100%; height: 100%; }
+
+.tdg-legend { display: flex; flex-direction: column; gap: 0; }
+.legend-title { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: #444; padding-bottom: 0.75rem; border-bottom: 1px solid #1e1e1e; margin-bottom: 1rem; }
+.legend-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid #111; cursor: pointer; transition: background 0.2s; padding-left: 0.5rem; padding-right: 0.5rem; }
+.legend-item:hover { background: #111; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.legend-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.08em; color: #888; }
+.legend-desc { font-family: var(--serif); font-size: 0.75rem; color: #555; margin-top: 0.2rem; line-height: 1.4; }
+.legend-item-content { flex: 1; }
+
+.tdg-node-info {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: #0d0d0d;
+  border: 1px solid #1e1e1e;
+  min-height: 120px;
+}
+.node-info-label { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: #444; margin-bottom: 0.75rem; }
+.node-info-name { font-family: var(--fell); font-size: 1.2rem; color: var(--paper); margin-bottom: 0.4rem; }
+.node-info-type { font-family: var(--mono); font-size: 0.6rem; color: var(--gold); margin-bottom: 0.5rem; }
+.node-info-desc { font-family: var(--serif); font-size: 0.82rem; color: #777; line-height: 1.6; font-weight: 300; }
+
+/* ── INTERACTIVE DEMO: PEDAGOGICAL DEBT ── */
+#demo-peddebt {
+  padding: 7rem 5vw;
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper);
+}
+
+.peddebt-wrapper {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start;
+}
+.peddebt-input-col { display: flex; flex-direction: column; gap: 1rem; }
+.peddebt-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+#peddebt-textarea {
+  width: 100%; height: 220px;
+  padding: 1.25rem;
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  color: var(--ink);
+  resize: vertical;
+  transition: border-color 0.2s;
+  outline: none;
+}
+#peddebt-textarea:focus { border-color: var(--rust); }
+.peddebt-presets { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.preset-btn {
+  font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.4rem 0.8rem; border: 1px solid var(--rule); background: transparent;
+  color: var(--muted); cursor: pointer; transition: all 0.2s;
+}
+.preset-btn:hover { border-color: var(--rust); color: var(--rust); }
+.analyze-btn {
+  font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase;
+  padding: 0.9rem 2rem; background: var(--rust); border: none; color: var(--paper);
+  cursor: pointer; transition: background 0.2s; align-self: flex-start;
+}
+.analyze-btn:hover { background: #9a3a22; }
+
+.peddebt-results { display: flex; flex-direction: column; gap: 1.5rem; }
+.debt-summary-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.debt-card {
+  padding: 1.25rem; border: 1px solid var(--rule); background: var(--cream);
+  display: flex; flex-direction: column; gap: 0.4rem;
+  transition: border-color 0.3s;
+}
+.debt-card.high { border-color: var(--rust); }
+.debt-card.medium { border-color: var(--gold); }
+.debt-card.low { border-color: #7aaa7a; }
+.debt-card-label { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.debt-card-score { font-family: var(--fell); font-size: 2.2rem; line-height: 1; }
+.debt-card-score.high { color: var(--rust); }
+.debt-card-score.medium { color: var(--gold); }
+.debt-card-score.low { color: #6a9a6a; }
+.debt-card-desc { font-family: var(--serif); font-size: 0.78rem; color: var(--muted); font-weight: 300; line-height: 1.5; }
+
+.debt-bar-section { display: flex; flex-direction: column; gap: 0.75rem; }
+.debt-bar-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.debt-bar-track { height: 6px; background: var(--rule); position: relative; }
+.debt-bar-fill { height: 100%; background: var(--rust); width: 0; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
+.debt-bar-fill.gold { background: var(--gold); }
+.debt-bar-fill.green { background: #7aaa7a; }
+
+.debt-findings { display: flex; flex-direction: column; gap: 0.5rem; }
+.debt-finding { font-family: var(--serif); font-size: 0.85rem; color: var(--slate); line-height: 1.6; padding: 0.6rem 0.75rem; background: transparent; border-left: 2px solid var(--rule); transition: border-color 0.3s; }
+.debt-finding.flagged { border-left-color: var(--rust); background: rgba(184,74,46,0.04); }
+.debt-finding.ok { border-left-color: #7aaa7a; }
+
+.results-placeholder { font-family: var(--serif); font-style: italic; font-size: 0.95rem; color: var(--rule); padding: 3rem; text-align: center; border: 1px dashed var(--rule); }
+
+/* ── INTERACTIVE DEMO: MVC ALGORITHM ── */
+#demo-mvc {
+  padding: 7rem 5vw;
+  background: var(--cream);
+  border-bottom: 1px solid var(--rule);
+}
+
+.mvc-wrapper { display: flex; flex-direction: column; gap: 2.5rem; }
+.mvc-controls { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+.mvc-btn {
+  font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.13em; text-transform: uppercase;
+  padding: 0.75rem 1.5rem; border: 1px solid; cursor: pointer; transition: all 0.22s;
+}
+.mvc-btn-primary { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.mvc-btn-primary:hover { background: var(--rust); border-color: var(--rust); }
+.mvc-btn-secondary { background: transparent; border-color: var(--rule); color: var(--muted); }
+.mvc-btn-secondary:hover { border-color: var(--ink); color: var(--ink); }
+.mvc-step-label { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); margin-left: auto; }
+
+.mvc-stage {
+  display: grid; grid-template-columns: 1fr 320px; gap: 2rem; align-items: start;
+}
+#mvc-canvas-container {
+  position: relative;
+  background: #faf7f2;
+  border: 1px solid var(--rule);
+  height: 440px;
+  overflow: hidden;
+}
+#mvc-canvas { width: 100%; height: 100%; }
+
+.mvc-sidebar { display: flex; flex-direction: column; gap: 1.25rem; }
+.mvc-status-box {
+  padding: 1.25rem;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+}
+.mvc-status-title { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+.mvc-status-text { font-family: var(--serif); font-size: 0.9rem; color: var(--slate); line-height: 1.65; font-weight: 300; }
+.mvc-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.mvc-stat { padding: 0.75rem; background: var(--cream); border: 1px solid var(--rule); }
+.mvc-stat-num { font-family: var(--fell); font-size: 1.8rem; line-height: 1; color: var(--ink); }
+.mvc-stat-num.highlight { color: var(--rust); }
+.mvc-stat-label { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 0.2rem; }
+
+.mvc-theorem-box {
+  padding: 1.25rem;
+  background: var(--ink);
+  color: var(--paper);
+}
+.mvc-theorem-label { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; }
+.mvc-theorem-text { font-family: var(--mono); font-size: 0.7rem; color: #ccc; line-height: 1.75; }
+
+/* PAPERS */
+#papers { padding: 7rem 5vw; background: var(--ink); color: var(--paper); border-bottom: 2px solid var(--ink); }
+#papers .section-number { color: var(--gold); }
+#papers .section-rule { background: #333; }
+#papers .section-title { color: #555; }
+.papers-intro { max-width: 60ch; font-family: var(--serif); font-style: italic; font-size: 1.1rem; font-weight: 300; color: #aaa; margin-bottom: 5rem; }
+
+.paper-card { display: grid; grid-template-columns: 80px 1fr; gap: 0; border: 1px solid #222; margin-bottom: 2px; transition: border-color 0.3s; cursor: pointer; }
+.paper-card:hover { border-color: var(--gold); }
+.paper-card.open { border-color: var(--rust); }
+.paper-number-col { background: #111; display: flex; align-items: flex-start; justify-content: center; padding: 2.5rem 0; border-right: 1px solid #222; transition: background 0.3s; }
+.paper-card:hover .paper-number-col, .paper-card.open .paper-number-col { background: var(--rust); }
+.paper-num { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em; color: #555; writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg); transition: color 0.3s; }
+.paper-card:hover .paper-num, .paper-card.open .paper-num { color: var(--paper); }
+.paper-main { padding: 2.5rem 3rem; }
+.paper-meta { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1rem; }
+.paper-tag { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); border: 1px solid #333; padding: 0.2rem 0.6rem; }
+.paper-conference { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; color: #555; }
+.paper-title { font-family: var(--fell); font-size: 1.7rem; font-weight: 400; line-height: 1.25; margin-bottom: 0.75rem; color: var(--paper); }
+.paper-subtitle { font-family: var(--serif); font-style: italic; font-size: 0.95rem; color: #777; margin-bottom: 1.5rem; font-weight: 300; }
+.paper-abstract-preview { font-family: var(--serif); font-size: 0.9rem; line-height: 1.75; color: #999; font-weight: 300; max-width: 80ch; }
+.paper-expand { margin-top: 1.5rem; display: flex; align-items: center; gap: 0.75rem; font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: #555; transition: color 0.3s; }
+.paper-card:hover .paper-expand { color: var(--gold); }
+.expand-arrow { display: inline-block; transition: transform 0.3s; }
+.paper-card.open .expand-arrow { transform: rotate(90deg); }
+.paper-detail { display: none; padding: 0 3rem 2.5rem 3rem; border-top: 1px solid #1a1a1a; }
+.paper-card.open .paper-detail { display: block; }
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+.detail-section h4 { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rust); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #222; }
+.detail-section ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+.detail-section li { font-family: var(--serif); font-size: 0.85rem; color: #888; font-weight: 300; line-height: 1.5; padding-left: 1rem; position: relative; }
+.detail-section li::before { content: '—'; position: absolute; left: 0; color: #444; }
+.theorem-box { margin-top: 2rem; padding: 1.5rem; background: #0a0a0a; border-left: 2px solid var(--gold); }
+.theorem-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+.theorem-text { font-family: var(--mono); font-size: 0.78rem; color: #bbb; line-height: 1.8; }
+.paper-cta { margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.75rem 1.5rem; text-decoration: none; border: 1px solid; transition: all 0.25s; display: inline-flex; align-items: center; gap: 0.5rem; }
+.btn-primary { background: var(--rust); border-color: var(--rust); color: var(--paper); }
+.btn-primary:hover { background: transparent; color: var(--rust); }
+.btn-secondary { background: transparent; border-color: #333; color: #666; }
+.btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+/* CONCEPTS */
+#concepts { padding: 7rem 5vw; border-bottom: 1px solid var(--rule); }
+.concepts-intro { max-width: 55ch; font-family: var(--serif); font-style: italic; font-size: 1.05rem; color: var(--muted); margin-bottom: 4rem; }
+.concept-map { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+.concept-node { padding: 2rem; border: 1px solid var(--rule); margin: -1px 0 0 -1px; cursor: pointer; transition: all 0.25s; position: relative; overflow: hidden; }
+.concept-node::after { content: ''; position: absolute; inset: 0; background: var(--rust); transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); z-index: 0; }
+.concept-node:hover::after { transform: translateY(0); }
+.concept-node:hover { color: var(--paper); }
+.concept-node:hover .concept-glyph { color: var(--paper); opacity: 0.3; }
+.concept-node:hover .concept-name { color: var(--paper); }
+.concept-node:hover .concept-desc { color: rgba(255,255,255,0.7); }
+.concept-node:hover .concept-paper { color: rgba(255,255,255,0.5); }
+.concept-glyph { position: absolute; top: 1rem; right: 1.5rem; font-family: var(--mono); font-size: 2rem; color: var(--rule); transition: all 0.3s; z-index: 1; pointer-events: none; }
+.concept-content { position: relative; z-index: 1; }
+.concept-paper { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; transition: color 0.3s; }
+.concept-name { font-family: var(--serif); font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem; transition: color 0.3s; }
+.concept-desc { font-family: var(--serif); font-size: 0.82rem; font-weight: 300; color: var(--muted); line-height: 1.6; transition: color 0.3s; }
+
+/* CRITERIA */
+#criteria { padding: 7rem 5vw; background: var(--cream); border-bottom: 1px solid var(--rule); }
+.criteria-intro { max-width: 55ch; font-family: var(--serif); font-style: italic; font-size: 1.05rem; color: var(--muted); margin-bottom: 4rem; }
+.criteria-table { width: 100%; border-collapse: collapse; }
+.criteria-table th { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 0.75rem 1rem; border-bottom: 2px solid var(--ink); }
+.criteria-table td { padding: 1rem; border-bottom: 1px solid var(--rule); font-family: var(--serif); font-size: 0.88rem; vertical-align: top; line-height: 1.6; }
+.criteria-table tr:hover td { background: rgba(200,191,170,0.3); }
+.criterion-name { font-weight: 600; color: var(--ink); }
+.criterion-num { font-family: var(--mono); font-size: 0.65rem; color: var(--rust); }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--rule); }
+.dot.yes { background: var(--rust); }
+.dot.partial { background: var(--gold); }
+
+/* ROADMAP */
+#roadmap { padding: 7rem 5vw; border-bottom: 1px solid var(--rule); }
+.timeline { position: relative; padding-left: 3rem; }
+.timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--rust), var(--gold), var(--rule)); }
+.timeline-item { position: relative; margin-bottom: 3rem; padding-left: 2rem; opacity: 0; transform: translateX(-10px); transition: opacity 0.6s, transform 0.6s; }
+.timeline-item.visible { opacity: 1; transform: translateX(0); }
+.timeline-dot { position: absolute; left: -2.4rem; top: 0.35rem; width: 8px; height: 8px; border-radius: 50%; background: var(--rust); border: 2px solid var(--paper); outline: 1px solid var(--rust); }
+.timeline-month { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rust); margin-bottom: 0.4rem; }
+.timeline-item h3 { font-family: var(--serif); font-weight: 600; font-size: 1.05rem; margin-bottom: 0.4rem; }
+.timeline-item p { font-family: var(--serif); font-size: 0.88rem; color: var(--muted); font-weight: 300; max-width: 65ch; line-height: 1.65; }
+
+/* ORIGIN */
+#origin { padding: 7rem 5vw; border-bottom: 1px solid var(--rule); background: var(--paper); }
+.origin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+.origin-left h2 { font-family: var(--fell); font-size: 3rem; font-weight: 400; line-height: 1.1; margin-bottom: 2rem; }
+.origin-left .origin-pull { font-family: var(--fell); font-style: italic; font-size: 1.45rem; line-height: 1.55; color: var(--slate); border-left: 2px solid var(--rust); padding-left: 1.5rem; margin: 2rem 0; }
+.origin-left p { font-family: var(--serif); font-size: 0.95rem; font-weight: 300; line-height: 1.85; color: var(--slate); margin-bottom: 1.2rem; }
+.origin-right { display: flex; flex-direction: column; gap: 0; }
+.service-role { display: grid; grid-template-columns: 3px 1fr; gap: 1.75rem; padding: 1.75rem 0; border-bottom: 1px solid var(--rule); align-items: start; opacity: 0; transform: translateX(12px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.service-role.visible { opacity: 1; transform: translateX(0); }
+.service-role:last-child { border-bottom: none; }
+.role-bar { width: 3px; background: var(--rule); transition: background 0.3s; margin-top: 0.3rem; align-self: stretch; }
+.service-role:hover .role-bar { background: var(--rust); }
+.role-title { font-family: var(--serif); font-weight: 600; font-size: 1rem; color: var(--ink); margin-bottom: 0.35rem; }
+.role-insight { font-family: var(--serif); font-size: 0.85rem; font-weight: 300; color: var(--muted); line-height: 1.65; }
+.role-research-link { margin-top: 0.5rem; font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--rust); }
+.origin-conviction { margin-top: 4rem; grid-column: 1 / -1; padding: 3rem; background: var(--ink); color: var(--paper); display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+.conviction-left { font-family: var(--fell); font-style: italic; font-size: 1.7rem; line-height: 1.45; color: var(--paper); }
+.conviction-right p { font-family: var(--serif); font-size: 0.88rem; font-weight: 300; line-height: 1.75; color: #aaa; margin-bottom: 1rem; }
+.conviction-pillars { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.5rem; }
+.pillar { font-family: var(--mono); font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.35rem 0.8rem; border: 1px solid #333; color: var(--gold); }
+
+/* ABOUT */
+#about { padding: 7rem 5vw 5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; border-top: 2px solid var(--ink); background: var(--ink); color: var(--paper); }
+.about-left h2 { font-family: var(--fell); font-size: 2.8rem; font-weight: 400; line-height: 1.1; margin-bottom: 2rem; }
+.about-left p { font-family: var(--serif); font-size: 0.95rem; line-height: 1.8; color: #aaa; font-weight: 300; margin-bottom: 1.2rem; }
+.about-right { display: flex; flex-direction: column; justify-content: center; gap: 2rem; }
+.contact-item { display: flex; flex-direction: column; gap: 0.3rem; padding-bottom: 1.5rem; border-bottom: 1px solid #222; }
+.contact-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: #555; }
+.contact-value { font-family: var(--serif); font-size: 1rem; color: var(--paper); }
+.contact-value a { color: var(--gold); text-decoration: none; transition: color 0.2s; }
+.contact-value a:hover { color: var(--rust); }
+.github-cta { margin-top: 2rem; padding: 2rem; border: 1px solid #222; background: #0a0a0a; }
+.github-cta p { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; color: #555; margin-bottom: 1rem; }
+.github-cta code { display: block; font-family: var(--mono); font-size: 0.72rem; color: var(--gold); background: #111; padding: 0.75rem 1rem; border-left: 2px solid var(--gold); }
+
+footer { background: var(--ink); border-top: 1px solid #1a1a1a; padding: 2rem 5vw; display: flex; justify-content: space-between; align-items: center; }
+footer p { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; color: #444; }
+
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(14,14,14,0.85); z-index: 500; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+.modal-overlay.open { display: flex; }
+.modal { background: var(--paper); max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; padding: 3rem; position: relative; border: 1px solid var(--rule); }
+.modal-close { position: absolute; top: 1.5rem; right: 1.5rem; font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.1em; background: none; border: 1px solid var(--rule); padding: 0.4rem 0.8rem; cursor: pointer; color: var(--muted); transition: all 0.2s; }
+.modal-close:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.modal h3 { font-family: var(--fell); font-size: 1.8rem; font-weight: 400; margin-bottom: 0.5rem; }
+.modal-tag { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rust); margin-bottom: 1.5rem; }
+.modal p { font-family: var(--serif); font-size: 0.92rem; line-height: 1.8; color: var(--slate); margin-bottom: 1rem; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .agenda-grid, .origin-grid, #about { grid-template-columns: 1fr; gap: 3rem; }
+  .detail-grid, .mvc-stage, .peddebt-wrapper, .tdg-wrapper { grid-template-columns: 1fr; }
+  .concept-map { grid-template-columns: repeat(2, 1fr); }
+  .origin-conviction { grid-template-columns: 1fr; }
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { gap: 1.2rem; }
+  .hero-left { padding: 8rem 1.5rem 3rem; }
+}
+@media (max-width: 600px) {
+  .concept-map { grid-template-columns: 1fr; }
+  .paper-card { grid-template-columns: 50px 1fr; }
+  .debt-summary-row, .mvc-stats { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand">Henry Fan — Research Portfolio</span>
+  <ul class="nav-links">
+    <li><a href="#agenda">Agenda</a></li>
+    <li><a href="#demo-tdg">TDG Demo</a></li>
+    <li><a href="#demo-peddebt">Debt Analyzer</a></li>
+    <li><a href="#demo-mvc">MVC Demo</a></li>
+    <li><a href="#papers">Papers</a></li>
+    <li><a href="#origin">Origin</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Independent Research Series · 2025–2026</p>
+    <h1 class="hero-name">Henry<br>Fan</h1>
+    <p class="hero-title">Computational Education Researcher</p>
+    <p class="hero-thesis">Building the formal vocabulary STEM education has always lacked — precise enough to be computed, human enough to matter.</p>
+    <div class="hero-affiliations">
+      <span class="affil-tag">SJSU McNair Scholar</span>
+      <span class="affil-tag">Foothill College Science Learning Institute · Research Lead</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-right-content">
+      <p class="hero-research-label">Central Research Question</p>
+      <div class="mission-statement">
+        <blockquote>"What is the minimum structure needed to transmit an idea — and what accumulated cost do we impose on students when we exceed it?"</blockquote>
+        <cite>Henry Fan · Research Agenda 2025–2026</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AGENDA -->
+<section id="agenda">
+  <div class="section-header">
+    <span class="section-number">01</span>
+    <div class="section-rule"></div>
+    <span class="section-title">Research Agenda</span>
+  </div>
+  <div class="agenda-grid">
+    <div class="agenda-sidebar">
+      <h2>A Unified Theory of Curriculum Structure</h2>
+      <p>Three projects. One mission-critical bottleneck. The absence of a shared formal language for what curricula actually teach.</p>
+    </div>
+    <div class="agenda-body">
+      <div class="agenda-item">
+        <span class="agenda-glyph">G</span>
+        <div>
+          <h3>The Language Problem</h3>
+          <p>Instructors and departments make consequential structural decisions without a shared vocabulary precise enough to reason about. Every intervention study starts from scratch. Every finding is trapped in one institution's context. The bottleneck is not data — it is the absence of a formal language.</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <span class="agenda-glyph">D</span>
+        <div>
+          <h3>The Cost Problem</h3>
+          <p>Every instructional shortcut — introducing notation before intuition, coverage before comprehension — imposes a cost on student understanding that is currently invisible. Software engineering named this phenomenon two decades ago. Education has not.</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <span class="agenda-glyph">*</span>
+        <div>
+          <h3>The Sufficiency Problem</h3>
+          <p>We debate curricula in terms of coverage. No one asks: of everything in this curriculum, what is actually <em>necessary</em> to produce the stated competency? This is a well-defined optimization problem. Its NP-hardness has now been proved. Its implications for equity are profound.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO 1: TDG GRAPH EXPLORER -->
+<section id="demo-tdg">
+  <div class="section-header">
+    <span class="section-number">02</span>
+    <div class="section-rule"></div>
+    <span class="section-title">Interactive Demo · Paper 01</span>
+  </div>
+  <p class="demo-intro">A live Typed Dependency Grammar for an introductory linear algebra curriculum. Each node is a learning objective; each edge is a typed dependency.</p>
+  <p class="demo-instruction"><span>Drag nodes</span> to rearrange · <span>Click any node</span> to inspect it · <span>Click legend items</span> to filter by dependency type</p>
+  <div class="tdg-wrapper">
+    <div id="tdg-svg-container">
+      <svg id="tdg-svg"></svg>
+    </div>
+    <div class="tdg-legend">
+      <p class="legend-title">Dependency Types</p>
+      <div class="legend-item" onclick="filterEdges('conceptual')" id="leg-conceptual">
+        <div class="legend-dot" style="background:#4a9eff"></div>
+        <div class="legend-item-content">
+          <div class="legend-label">Conceptual</div>
+          <div class="legend-desc">Understanding A is logically necessary to understand B</div>
+        </div>
+      </div>
+      <div class="legend-item" onclick="filterEdges('procedural')" id="leg-procedural">
+        <div class="legend-dot" style="background:#c9963a"></div>
+        <div class="legend-item-content">
+          <div class="legend-label">Procedural</div>
+          <div class="legend-desc">Fluency with A is needed to perform tasks in B</div>
+        </div>
+      </div>
+      <div class="legend-item" onclick="filterEdges('motivational')" id="leg-motivational">
+        <div class="legend-dot" style="background:#b84a2e"></div>
+        <div class="legend-item-content">
+          <div class="legend-label">Motivational</div>
+          <div class="legend-desc">Encountering A creates intellectual need for B</div>
+        </div>
+      </div>
+      <div class="legend-item" onclick="filterEdges('social')" id="leg-social">
+        <div class="legend-dot" style="background:#7aaa7a"></div>
+        <div class="legend-item-content">
+          <div class="legend-label">Social</div>
+          <div class="legend-desc">Collaboration around A creates context for B</div>
+        </div>
+      </div>
+      <div class="legend-item" onclick="filterEdges(null)" style="border-top: 1px solid #222; margin-top:0.5rem">
+        <div class="legend-dot" style="background:#444"></div>
+        <div class="legend-item-content">
+          <div class="legend-label">Show All</div>
+          <div class="legend-desc">Reset all filters</div>
+        </div>
+      </div>
+      <div class="tdg-node-info" id="node-info">
+        <p class="node-info-label">Selected Node</p>
+        <p class="node-info-desc" style="color:#444; font-style:italic;">Click any node in the graph to inspect its learning objective, type, and dependencies.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO 2: PEDAGOGICAL DEBT ANALYZER -->
+<section id="demo-peddebt">
+  <div class="section-header">
+    <span class="section-number">03</span>
+    <div class="section-rule"></div>
+    <span class="section-title">Interactive Demo · Paper 02 — Pedagogical Debt Analyzer</span>
+  </div>
+  <p class="demo-intro" style="color:var(--muted)">Paste any course description, syllabus excerpt, or lecture introduction below. The analyzer scores it for motivational, scaffolding, and verification debt using the PedDebt heuristics from Paper 02.</p>
+  <p class="demo-instruction" style="color:var(--muted)">Try the <span style="color:var(--rust)">preset examples</span> to see the difference between high-debt and low-debt instructional writing.</p>
+  <div class="peddebt-wrapper">
+    <div class="peddebt-input-col">
+      <label class="peddebt-label">Course Material Input</label>
+      <textarea id="peddebt-textarea" placeholder="Paste a course description, syllabus section, or lecture introduction here..."></textarea>
+      <div class="peddebt-presets">
+        <button class="preset-btn" onclick="loadPreset('high')">⚠ High-Debt Example</button>
+        <button class="preset-btn" onclick="loadPreset('low')">✓ Low-Debt Example</button>
+        <button class="preset-btn" onclick="loadPreset('mixed')">Mixed Example</button>
+      </div>
+      <button class="analyze-btn" onclick="analyzePedDebt()">Analyze for Pedagogical Debt →</button>
+    </div>
+    <div class="peddebt-results" id="peddebt-results">
+      <div class="results-placeholder">Analysis will appear here after you paste text and click Analyze.</div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO 3: MVC ALGORITHM -->
+<section id="demo-mvc">
+  <div class="section-header">
+    <span class="section-number">04</span>
+    <div class="section-rule"></div>
+    <span class="section-title">Interactive Demo · Paper 03 — MVC Algorithm Visualizer</span>
+  </div>
+  <p class="demo-intro" style="color:var(--muted)">Watch the greedy MVC approximation algorithm run step by step on a sample curriculum graph. Gray nodes are the full curriculum; the algorithm finds the minimum subset that covers all terminal objectives (shown in red).</p>
+  <div class="mvc-wrapper">
+    <div class="mvc-controls">
+      <button class="mvc-btn mvc-btn-primary" onclick="mvcStep()">Step Forward →</button>
+      <button class="mvc-btn mvc-btn-secondary" onclick="mvcReset()">Reset</button>
+      <button class="mvc-btn mvc-btn-secondary" onclick="mvcRunAll()">Run All</button>
+      <span class="mvc-step-label" id="mvc-step-label">Step 0 of 7</span>
+    </div>
+    <div class="mvc-stage">
+      <div id="mvc-canvas-container">
+        <svg id="mvc-svg" width="100%" height="100%"></svg>
+      </div>
+      <div class="mvc-sidebar">
+        <div class="mvc-status-box">
+          <p class="mvc-status-title">Algorithm State</p>
+          <p class="mvc-status-text" id="mvc-status">Press "Step Forward" to begin the Minimum Viable Curriculum greedy algorithm. The red nodes are terminal objectives — what students must be able to do by the end.</p>
+        </div>
+        <div class="mvc-stats">
+          <div class="mvc-stat">
+            <div class="mvc-stat-num" id="mvc-total-nodes">14</div>
+            <div class="mvc-stat-label">Full Curriculum</div>
+          </div>
+          <div class="mvc-stat">
+            <div class="mvc-stat-num highlight" id="mvc-mvc-nodes">—</div>
+            <div class="mvc-stat-label">MVC Size</div>
+          </div>
+          <div class="mvc-stat">
+            <div class="mvc-stat-num" id="mvc-covered">0</div>
+            <div class="mvc-stat-label">Objectives Covered</div>
+          </div>
+          <div class="mvc-stat">
+            <div class="mvc-stat-num highlight" id="mvc-distance">—</div>
+            <div class="mvc-stat-label">MVC-Distance</div>
+          </div>
+        </div>
+        <div class="mvc-theorem-box">
+          <p class="mvc-theorem-label">Theorem (Paper 03)</p>
+          <p class="mvc-theorem-text" id="mvc-theorem">MVC is NP-complete in general.<br>Reduction: Set Cover → MVC.<br><br>This greedy algorithm gives a ln|T|-approximation, matching the inapproximability lower bound.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAPERS -->
+<section id="papers">
+  <div class="section-header">
+    <span class="section-number">05</span>
+    <div class="section-rule"></div>
+    <span class="section-title">Research Papers</span>
+  </div>
+  <p class="papers-intro">Three independent papers constituting a unified research agenda. Click any paper to expand the full technical detail.</p>
+  <div class="paper-card" onclick="togglePaper(this)">
+    <div class="paper-number-col"><span class="paper-num">Paper 01</span></div>
+    <div class="paper-main">
+      <div class="paper-meta">
+        <span class="paper-tag">Formal Methods · Learning Analytics</span>
+        <span class="paper-conference">Target: EDM 2026 · LAK 2026</span>
+      </div>
+      <h2 class="paper-title">Toward a Typed Dependency Grammar for Undergraduate Curricula</h2>
+      <p class="paper-subtitle">A formal language for describing what curricula actually teach</p>
+      <p class="paper-abstract-preview">We introduce the Typed Dependency Grammar (TDG) — a directed graph in which learning objectives are nodes and typed edges encode four classes of dependency: conceptual, procedural, motivational, and social. We prove well-formedness is decidable in polynomial time and provide preliminary empirical evidence that structural violations predict student attrition.</p>
+      <div class="paper-expand"><span class="expand-arrow">▶</span> Expand full paper details</div>
+    </div>
+    <div class="paper-detail">
+      <div class="theorem-box"><p class="theorem-label">Core Definition</p><p class="theorem-text">A Typed Dependency Grammar is G = (L, D) where L is a set<br>of learning objectives and D ⊆ L × 𝒯 × L, with<br>𝒯 = {conceptual, procedural, motivational, social}.</p></div>
+      <div class="theorem-box" style="margin-top:1rem;border-color:var(--rust)"><p class="theorem-label">Theorem 1 (Decidability)</p><p class="theorem-text">Determining whether a TDG G is well-formed is<br>decidable in O(|L| + |D|) — polynomial time.</p></div>
+      <div class="detail-grid">
+        <div class="detail-section"><h4>Key Contributions</h4><ul><li>First formal type system for curriculum dependency structures</li><li>Motivational reachability encodes Harel's necessity principle</li><li>Polynomial-time well-formedness checking algorithm</li><li>Preliminary correlation: violations predict attrition (r = −0.62)</li></ul></div>
+        <div class="detail-section"><h4>Technical Stack</h4><ul><li>Graph theory: DAG properties, BFS/DFS traversal</li><li>NLP: Fine-tuned BERT for dependency classification</li><li>Data: IPEDS public institutional data</li><li>Validation: Expert annotation on 5 curricula</li></ul></div>
+        <div class="detail-section"><h4>Why It Matters</h4><ul><li>Shannon's information theory analogy: not a better tool, a shared language</li><li>Every subsequent researcher can use the grammar</li><li>Foundation for Projects 2 and 3 in this series</li><li>No paywall: full open-source release</li></ul></div>
+      </div>
+      <div class="paper-cta">
+        <a href="papers/project1_curriculum_grammar.pdf" class="btn btn-primary" target="_blank">↓ Download PDF</a>
+        <a href="papers/project1_curriculum_grammar.tex" class="btn btn-secondary" target="_blank">View LaTeX Source</a>
+      </div>
+    </div>
+  </div>
+  <div class="paper-card" onclick="togglePaper(this)">
+    <div class="paper-number-col"><span class="paper-num">Paper 02</span></div>
+    <div class="paper-main">
+      <div class="paper-meta">
+        <span class="paper-tag">NLP · Static Analysis · Pedagogy</span>
+        <span class="paper-conference">Target: ACM Learning @ Scale · ICER 2026</span>
+      </div>
+      <h2 class="paper-title">Pedagogical Debt: Formalizing and Auditing Accumulated Instructional Shortcuts</h2>
+      <p class="paper-subtitle">A static analysis tool for course material quality</p>
+      <p class="paper-abstract-preview">We introduce pedagogical debt — the accumulated cost to student understanding of instructional shortcuts — grounded in Harel's necessity principle and Jeff Anderson's twelve modeling criteria. We build PedDebt, an open-source static analysis tool validated at Cohen's κ = 0.71 against expert instructors.</p>
+      <div class="paper-expand"><span class="expand-arrow">▶</span> Expand full paper details</div>
+    </div>
+    <div class="paper-detail">
+      <div class="theorem-box"><p class="theorem-label">Core Definition</p><p class="theorem-text">Total Pedagogical Debt: D(C) = Σᵢ [w₁·d_mot(mᵢ) + w₂·d_scaf(mᵢ) + w₃·d_ver(mᵢ)]<br>where weights are estimated from expert annotation.</p></div>
+      <div class="detail-grid">
+        <div class="detail-section"><h4>Three Debt Types</h4><ul><li>Motivational debt: formalism before need</li><li>Scaffolding debt: too many simultaneous dependencies</li><li>Verification debt: no student self-check opportunity</li></ul></div>
+        <div class="detail-section"><h4>The PedDebt Tool</h4><ul><li>Input: PDF, LaTeX, Markdown course materials</li><li>Output: structured JSON debt report</li><li>Four stages: segment → extract → score → report</li><li>Web interface: free upload and analysis</li></ul></div>
+        <div class="detail-section"><h4>Ethical Position</h4><ul><li>Audits materials, not students</li><li>No surveillance or individual monitoring</li><li>Empowers instructors, not administrators</li><li>100% open-source, no paywall</li></ul></div>
+      </div>
+      <div class="paper-cta">
+        <a href="papers/project2_pedagogical_debt.pdf" class="btn btn-primary" target="_blank">↓ Download PDF</a>
+        <a href="papers/project2_pedagogical_debt.tex" class="btn btn-secondary" target="_blank">View LaTeX Source</a>
+      </div>
+    </div>
+  </div>
+  <div class="paper-card" onclick="togglePaper(this)">
+    <div class="paper-number-col"><span class="paper-num">Paper 03</span></div>
+    <div class="paper-main">
+      <div class="paper-meta">
+        <span class="paper-tag">Algorithms · Complexity Theory · Curriculum Design</span>
+        <span class="paper-conference">Target: ICER 2026 · NeurIPS Education Workshop</span>
+      </div>
+      <h2 class="paper-title">The Minimum Viable Curriculum Problem: Complexity, Structure, and Instructional Sufficiency</h2>
+      <p class="paper-subtitle">An NP-hardness proof and tractable special cases for optimal curriculum design</p>
+      <p class="paper-abstract-preview">We introduce and formalize the MVC problem, prove its NP-hardness via reduction from Set Cover, identify polynomial special cases, provide a greedy approximation algorithm, and design a hands-on student activity meeting all twelve of Jeff Anderson's modeling criteria.</p>
+      <div class="paper-expand"><span class="expand-arrow">▶</span> Expand full paper details</div>
+    </div>
+    <div class="paper-detail">
+      <div class="theorem-box"><p class="theorem-label">Theorem 1 (NP-hardness of MVC)</p><p class="theorem-text">The decision version of MVC is NP-complete.<br>Proof: polynomial reduction from Set Cover.<br>Inapproximability: no (1−ε)ln|T| approximation unless P=NP.</p></div>
+      <div class="theorem-box" style="margin-top:1rem;border-color:var(--gold)"><p class="theorem-label">Theorem 2 (Tractable Case)</p><p class="theorem-text">When conceptual dependencies form a forest,<br>MVC is solvable in O(|L(𝓑)| · |T|) by bottom-up DP.</p></div>
+      <div class="detail-grid">
+        <div class="detail-section"><h4>Key Results</h4><ul><li>MVC is NP-complete (Set Cover reduction)</li><li>Polynomial for tree-structured dependencies</li><li>Greedy ln|T|-approximation algorithm</li><li>MVC-distance predicts persistence outcomes</li></ul></div>
+        <div class="detail-section"><h4>Student Activity</h4><ul><li>Students compute MVC for a topic they just studied</li><li>Designed against all 12 of Anderson's criteria</li><li>Low-floor: accessible with basic graph drawing</li><li>High-ceiling: extends to proving NP-hardness</li></ul></div>
+        <div class="detail-section"><h4>Equity Implication</h4><ul><li>High MVC-distance imposes invisible costs on students</li><li>Excess content disproportionately burdens under-resourced students</li><li>MVC analysis tool released free and open-source</li><li>Students can audit their own curriculum</li></ul></div>
+      </div>
+      <div class="paper-cta">
+        <a href="papers/project3_mvc.pdf" class="btn btn-primary" target="_blank">↓ Download PDF</a>
+        <a href="papers/project3_mvc.tex" class="btn btn-secondary" target="_blank">View LaTeX Source</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCEPTS -->
+<section id="concepts">
+  <div class="section-header">
+    <span class="section-number">06</span>
+    <div class="section-rule"></div>
+    <span class="section-title">Key Concepts</span>
+  </div>
+  <p class="concepts-intro">Nine concepts that form the intellectual architecture of this research series. Hover to explore.</p>
+  <div class="concept-map">
+    <div class="concept-node" onclick="openModal('tdg')"><span class="concept-glyph">G</span><div class="concept-content"><p class="concept-paper">Paper 01</p><h3 class="concept-name">Typed Dependency Grammar</h3><p class="concept-desc">A directed graph G = (L, D) encoding four types of dependency. The first formal language for curriculum structure.</p></div></div>
+    <div class="concept-node" onclick="openModal('motreach')"><span class="concept-glyph">M</span><div class="concept-content"><p class="concept-paper">Paper 01</p><h3 class="concept-name">Motivational Reachability</h3><p class="concept-desc">Every advanced objective must be reachable via a chain of motivational edges. Formalizes Harel's necessity principle.</p></div></div>
+    <div class="concept-node" onclick="openModal('necessity')"><span class="concept-glyph">N</span><div class="concept-content"><p class="concept-paper">Papers 01–03</p><h3 class="concept-name">The Necessity Principle</h3><p class="concept-desc">"If math is the medicine, what is the headache?" Students must experience intellectual need before receiving the tool that answers it.</p></div></div>
+    <div class="concept-node" onclick="openModal('peddebt')"><span class="concept-glyph">D</span><div class="concept-content"><p class="concept-paper">Paper 02</p><h3 class="concept-name">Pedagogical Debt</h3><p class="concept-desc">The accumulated cost to student understanding of instructional shortcuts. Named by analogy with technical debt in software.</p></div></div>
+    <div class="concept-node" onclick="openModal('static')"><span class="concept-glyph">⊢</span><div class="concept-content"><p class="concept-paper">Paper 02</p><h3 class="concept-name">Static Analysis of Course Materials</h3><p class="concept-desc">PedDebt examines materials without needing student data — just as a type checker examines source code without running the program.</p></div></div>
+    <div class="concept-node" onclick="openModal('mvc')"><span class="concept-glyph">*</span><div class="concept-content"><p class="concept-paper">Paper 03</p><h3 class="concept-name">Minimum Viable Curriculum</h3><p class="concept-desc">The smallest instructionally sufficient TDG for a given terminal objective set. Analogous to the Minimum Viable Product.</p></div></div>
+    <div class="concept-node" onclick="openModal('nphard')"><span class="concept-glyph">𝒫</span><div class="concept-content"><p class="concept-paper">Paper 03</p><h3 class="concept-name">NP-Hardness of MVC</h3><p class="concept-desc">Finding the optimal MVC is NP-complete, proved by polynomial reduction from Set Cover.</p></div></div>
+    <div class="concept-node" onclick="openModal('mvcdist')"><span class="concept-glyph">Δ</span><div class="concept-content"><p class="concept-paper">Paper 03</p><h3 class="concept-name">MVC-Distance</h3><p class="concept-desc">How far a real curriculum is from its minimum viable form. High MVC-distance predicts lower persistence and self-efficacy.</p></div></div>
+    <div class="concept-node" onclick="openModal('keystone')"><span class="concept-glyph">⌨</span><div class="concept-content"><p class="concept-paper">All Papers</p><h3 class="concept-name">The Roman Keystone Principle</h3><p class="concept-desc">From Jeff Anderson: choose models that serve as meaningful introductions to much larger fields. Each concept here is a keystone.</p></div></div>
+  </div>
+</section>
+
+<!-- CRITERIA -->
+<section id="criteria">
+  <div class="section-header">
+    <span class="section-number">07</span>
+    <div class="section-rule"></div>
+    <span class="section-title">Alignment with Anderson's 12 Criteria</span>
+  </div>
+  <p class="criteria-intro">Jeff Anderson's twelve criteria are not just cited — they are load-bearing. This table shows exactly where each criterion appears in the work.</p>
+  <table class="criteria-table">
+    <thead><tr><th>#</th><th>Criterion</th><th>Paper 01</th><th>Paper 02</th><th>Paper 03</th><th>Role in Research</th></tr></thead>
+    <tbody>
+      <tr><td><span class="criterion-num">C1</span></td><td><span class="criterion-name">Necessity</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>Motivational reachability in TDG; motivational debt in PedDebt; headache-first student activity in MVC</td></tr>
+      <tr><td><span class="criterion-num">C2</span></td><td><span class="criterion-name">Active Learning</span></td><td><span class="dot partial"></span></td><td><span class="dot partial"></span></td><td><span class="dot yes"></span></td><td>MVC student activity is fully student-driven; Papers 1–2 design tools that empower student autonomy</td></tr>
+      <tr><td><span class="criterion-num">C3</span></td><td><span class="criterion-name">Scaffolding</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>Scaffolding regularity is a TDG condition; scaffolding debt is a PedDebt component; MVC activity is phased</td></tr>
+      <tr><td><span class="criterion-num">C4</span></td><td><span class="criterion-name">Authenticity</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>All three projects address real institutional and instructional problems</td></tr>
+      <tr><td><span class="criterion-num">C5</span></td><td><span class="criterion-name">Roman Keystone</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>TDG is a keystone for formal education research; MVC opens into complexity theory and PL</td></tr>
+      <tr><td><span class="criterion-num">C6</span></td><td><span class="criterion-name">Verification</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>TDG well-formedness is checkable; PedDebt gives instructors self-audit capacity; MVC is self-verifiable</td></tr>
+      <tr><td><span class="criterion-num">C7</span></td><td><span class="criterion-name">Directness</span></td><td><span class="dot partial"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>PedDebt and MVC tools are immediately usable by instructors</td></tr>
+      <tr><td><span class="criterion-num">C8</span></td><td><span class="criterion-name">Reproducibility</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>All data, code, and LaTeX source released open-source</td></tr>
+      <tr><td><span class="criterion-num">C9</span></td><td><span class="criterion-name">Cost-Saving</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>All tools run on standard hardware; all datasets are public</td></tr>
+      <tr><td><span class="criterion-num">C10</span></td><td><span class="criterion-name">Safety</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>Computational research; PedDebt audits materials, not individuals</td></tr>
+      <tr><td><span class="criterion-num">C11</span></td><td><span class="criterion-name">No Paywall</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>All papers, code, datasets, and tools are released at no cost</td></tr>
+      <tr><td><span class="criterion-num">C12</span></td><td><span class="criterion-name">Low-floor / High-ceiling</span></td><td><span class="dot partial"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>MVC activity accessible with graph drawing; extends to complexity proofs</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:1.5rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;color:var(--muted)"><span class="dot yes"></span> Full &nbsp;&nbsp; <span class="dot partial"></span> Partial &nbsp;&nbsp; <span class="dot"></span> N/A</p>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <div class="section-header">
+    <span class="section-number">08</span>
+    <div class="section-rule"></div>
+    <span class="section-title">Execution Roadmap</span>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-month">Months 1–2</p><h3>Deep Reading and Precise Definitions</h3><p>Read Seymour & Hunter, Shannon's 1948 paper, and Turing's 1936 paper. Write formal definitions before writing code. No GitHub commits yet — only LaTeX.</p></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-month">Month 3</p><h3>MVC Theory Section Complete</h3><p>Formalize the MVC problem. Prove NP-hardness and the polynomial tractable case. Post preprint to arXiv (cs.CY). Get feedback before building code.</p></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-month">Months 4–5</p><h3>PedDebt Tool Built and Validated</h3><p>Build PedDebt on Foothill College Science Learning Institute materials. Recruit expert annotators. Compute Cohen's κ. Submit to ACM Learning @ Scale.</p></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-month">Month 5</p><h3>TDG Grammar and Empirical Study</h3><p>Build the IPEDS curriculum graph pipeline. Construct TDGs for twelve STEM departments. Write Paper 1. Submit to EDM 2026.</p></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-month">Month 6</p><h3>GitHub Portfolio and Statement of Purpose</h3><p>Polish all three repositories. Write a statement of purpose that frames all three projects as a single research agenda with one mission-critical bottleneck.</p></div>
+    <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-month">Applications</p><h3>PhD Program Submissions</h3><p>UW Paul G. Allen School · Georgia Tech Interactive Computing · Stanford HAI · UMass Amherst · UC Irvine · CU Boulder · ASU · U Utah · UT Dallas.</p></div>
+  </div>
+</section>
+
+<!-- ORIGIN -->
+<section id="origin">
+  <div class="section-header">
+    <span class="section-number">09</span>
+    <div class="section-rule"></div>
+    <span class="section-title">Where This Research Comes From</span>
+  </div>
+  <div class="origin-grid">
+    <div class="origin-left">
+      <h2>The Institution Seen from Every Angle</h2>
+      <p class="origin-pull">"The research isn't despite the student services work. The research <em>is</em> the student services work, made formal."</p>
+      <p>Most CS education researchers arrive at questions about student success from the outside — from data, from literature, from the lab. I arrived at them from inside the institution, from five different roles in which I watched the same students encounter the same invisible structural barriers from completely different vantage points.</p>
+      <p>In financial aid, I saw students leave STEM because a funding gap at the wrong moment made a hard class feel unsurvivable. In counseling, I heard students describe themselves as "not a math person" — a belief constructed from curricula that never explained why anything mattered. In the Teaching and Learning Center, I watched students spend hours on content their course objectives barely required. In learning communities and affinity groups, I saw students discover for the first time that their peers were struggling too — and that this shared knowledge was what let them stay.</p>
+      <p>The research questions in these three papers are not abstractions. They are formalized versions of things I watched happen to real students. I do not come to this research with the most advanced CS portfolio in my cohort. What I bring is an unusually complete picture of how students actually move through institutions — and an unusually strong conviction that the problems are structural, solvable, and worth a career.</p>
+    </div>
+    <div class="origin-right">
+      <div class="service-role"><div class="role-bar"></div><div class="role-content"><p class="role-title">Financial Aid</p><p class="role-insight">Watched students withdraw from STEM not from lack of ability but because financial precarity made any obstacle feel final. Learned that structural interventions outperform individual counseling every time.</p><p class="role-research-link">→ Grounds the equity focus of all three papers</p></div></div>
+      <div class="service-role"><div class="role-bar"></div><div class="role-content"><p class="role-title">Counseling Support</p><p class="role-insight">Heard students articulate fixed beliefs about their own mathematical ability — beliefs formed from curricula that never established why the material mattered. Introduced to Harel's necessity principle not from theory but from watching what happened when it was violated.</p><p class="role-research-link">→ Motivational debt · Necessity principle</p></div></div>
+      <div class="service-role"><div class="role-bar"></div><div class="role-content"><p class="role-title">Teaching &amp; Learning Center</p><p class="role-insight">Tutored students navigating content their course objectives barely required. Began asking: how much of what students are struggling with is actually necessary for where they are trying to go? This question became the Minimum Viable Curriculum problem.</p><p class="role-research-link">→ Direct origin of Paper 03</p></div></div>
+      <div class="service-role"><div class="role-bar"></div><div class="role-content"><p class="role-title">Learning Communities</p><p class="role-insight">Saw peer context transform students' relationship to difficulty. A student who believes they are uniquely confused is fragile. One who learns confusion is shared and structural is resilient. Learning communities make the structural visible — exactly what this research does computationally.</p><p class="role-research-link">→ Social dependency type in TDG</p></div></div>
+      <div class="service-role"><div class="role-bar"></div><div class="role-content"><p class="role-title">Affinity Groups</p><p class="role-insight">Worked with students told in both explicit and subtle ways that STEM was not for them. Saw how belonging-based interventions changed persistence more reliably than content-based ones. Began asking: what would curriculum look like that creates belonging as a structural feature, not an add-on?</p><p class="role-research-link">→ Equity framing · MVC-distance and disproportionate burden</p></div></div>
+    </div>
+    <div class="origin-conviction">
+      <p class="conviction-left">"The goal is not a better prediction model. The goal is curriculum that builds students' belief in themselves, their tolerance for hard problems, and their capacity for deep learning — by design, not by accident."</p>
+      <div class="conviction-right">
+        <p>This research is a first step toward translating a decade of watching students into tools that instructors and institutions can actually use. The papers are rigorous because the problems deserve rigor. The tools are open because the students who need them most are already paying too much.</p>
+        <p>The long-term vision is project-based curriculum grounded in this research — learning experiences that activate intrinsic motivation, reward intellectual courage, and make students the authors of their own understanding.</p>
+        <div class="conviction-pillars">
+          <span class="pillar">Belief in self</span><span class="pillar">Hard problems</span><span class="pillar">Deep learning</span><span class="pillar">Intrinsic motivation</span><span class="pillar">Structural equity</span><span class="pillar">Open access</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-left">
+    <h2>About<br>the<br>Researcher</h2>
+    <p>I am a first-generation college student, McNair Scholar at San Jose State University, and Research Lead at the Foothill College Science Learning Institute. Before this research, I spent years working in student services — financial aid, counseling, tutoring, learning communities, affinity groups — watching the same students encounter the same invisible structural barriers from every angle the institution offers.</p>
+    <p>That experience is the origin of this work, not a detour from it. The questions in these papers are formalized versions of things I watched happen to real students. Pedagogical debt is the cost I watched them pay. MVC-distance is the invisible weight I watched them carry.</p>
+    <p>The long-term goal is to turn this research into project-based curriculum that builds students' belief in themselves, their tolerance for hard problems, and their capacity for deep learning — by activating intrinsic motivation and by design, not by accident.</p>
+    <p>This work is dedicated to Jeff Anderson, whose <em>Applied Linear Algebra Fundamentals</em> textbook and twelve criteria for modeling activities are the existence proof that the problem is solvable — and that solving it is worth a career.</p>
+  </div>
+  <div class="about-right">
+    <div class="contact-item"><span class="contact-label">Institution</span><span class="contact-value">San Jose State University · McNair Scholar</span></div>
+    <div class="contact-item"><span class="contact-label">Research Role</span><span class="contact-value">Foothill College Science Learning Institute · Research Lead</span></div>
+    <div class="contact-item"><span class="contact-label">Research Area</span><span class="contact-value">Computational Education · Learning Analytics · Formal Methods</span></div>
+    <div class="contact-item"><span class="contact-label">Target Conference</span><span class="contact-value">EDM · LAK · ACM Learning @ Scale · ICER · NeurIPS Education</span></div>
+    <div class="github-cta">
+      <p>// Clone this research repository</p>
+      <code>git clone https://github.com/henry-fan/computational-education-research</code>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Henry Fan · SJSU McNair Scholar · Foothill College Science Learning Institute Research Lead</p>
+  <p>All papers, code, and tools released open-source. No paywall.</p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal-content">
+    <button class="modal-close" onclick="closeModal()">Close ✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// HERO CANVAS — animated flowing nodes (light, behind quote)
+// ─────────────────────────────────────────────
+(function() {
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  function Particle() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.vx = (Math.random() - 0.5) * 0.4;
+    this.vy = (Math.random() - 0.5) * 0.4;
+    this.r = Math.random() * 3 + 1;
+    this.label = ['G=(L,D)', 'D(C)', 'MVC', '|L*|', 'τ∈𝒯', 'd_mot', '∀ℓ', 'O(|L|)', 'NP-c', 'w₁d₁'][Math.floor(Math.random()*10)];
+  }
+  Particle.prototype.update = function() {
+    this.x += this.vx; this.y += this.vy;
+    if (this.x < 0 || this.x > W) this.vx *= -1;
+    if (this.y < 0 || this.y > H) this.vy *= -1;
+  };
+  function init() {
+    resize();
+    particles = Array.from({length: 22}, () => new Particle());
+  }
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    // draw edges between close particles
+    for (let i=0; i<particles.length; i++) {
+      for (let j=i+1; j<particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx+dy*dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(180,160,130,${0.35*(1-dist/120)})`;
+          ctx.lineWidth = 0.8;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    // draw nodes + labels
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(180,74,46,0.5)';
+      ctx.fill();
+      ctx.font = '9px JetBrains Mono, monospace';
+      ctx.fillStyle = 'rgba(120,100,80,0.7)';
+      ctx.fillText(p.label, p.x+5, p.y-5);
+      p.update();
+    });
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize', () => { resize(); });
+  init(); draw();
+})();
+
+// ─────────────────────────────────────────────
+// TDG GRAPH — D3 force-directed
+// ─────────────────────────────────────────────
+const tdgNodes = [
+  {id:'vectors', label:'Vectors & Scalars', type:'entry', level:'apply', desc:'Foundational objects of linear algebra. Students work with concrete vector examples before abstraction.'},
+  {id:'linear_comb', label:'Linear Combinations', type:'entry', level:'apply', desc:'Building new vectors from existing ones. Requires vector addition and scalar multiplication.'},
+  {id:'span', label:'Span', type:'intermediate', level:'analyze', desc:'The set of all possible linear combinations. First encounter with infinite sets defined by operations.'},
+  {id:'lin_indep', label:'Linear Independence', type:'intermediate', level:'analyze', desc:'When no vector in a set can be written as a combination of the others. Critical for understanding bases.'},
+  {id:'basis', label:'Basis', type:'intermediate', level:'analyze', desc:'A minimal spanning set. The concept that gives dimension its meaning.'},
+  {id:'matrix_mult', label:'Matrix Multiplication', type:'entry', level:'apply', desc:'Composition of linear transformations. Students benefit from the transformation interpretation before the formula.'},
+  {id:'lin_transform', label:'Linear Transformations', type:'intermediate', level:'analyze', desc:'Functions that preserve structure. The conceptual heart of linear algebra.'},
+  {id:'eigenvalues', label:'Eigenvalues', type:'advanced', level:'create', desc:'Scalars that encode how a transformation stretches space. Requires both linear transformations and determinants.'},
+  {id:'determinants', label:'Determinants', type:'intermediate', level:'apply', desc:'Signed volume scaling factor of a linear transformation.'},
+  {id:'nodal_analysis', label:'Circuit Nodal Analysis', type:'application', level:'create', desc:'Jeff Anderson\'s PRIMUS application: real circuit analysis as the motivating context for linear systems.'},
+  {id:'lin_systems', label:'Linear Systems', type:'intermediate', level:'apply', desc:'Systems of equations encoded as matrix equations Ax = b.'},
+  {id:'dimension', label:'Dimension', type:'advanced', level:'analyze', desc:'The number of vectors in any basis for a space. Requires basis and linear independence.'},
+];
+
+const tdgEdges = [
+  {source:'vectors', target:'linear_comb', type:'conceptual'},
+  {source:'vectors', target:'matrix_mult', type:'procedural'},
+  {source:'linear_comb', target:'span', type:'conceptual'},
+  {source:'span', target:'lin_indep', type:'conceptual'},
+  {source:'lin_indep', target:'basis', type:'conceptual'},
+  {source:'basis', target:'dimension', type:'conceptual'},
+  {source:'matrix_mult', target:'lin_transform', type:'motivational'},
+  {source:'lin_transform', target:'eigenvalues', type:'conceptual'},
+  {source:'determinants', target:'eigenvalues', type:'conceptual'},
+  {source:'lin_systems', target:'nodal_analysis', type:'motivational'},
+  {source:'matrix_mult', target:'lin_systems', type:'procedural'},
+  {source:'basis', target:'eigenvalues', type:'conceptual'},
+  {source:'nodal_analysis', target:'lin_systems', type:'motivational'},
+  {source:'vectors', target:'lin_systems', type:'procedural'},
+  {source:'lin_transform', target:'determinants', type:'motivational'},
+  {source:'lin_indep', target:'lin_transform', type:'conceptual'},
+  {source:'lin_systems', target:'span', type:'social'},
+];
+
+const edgeColors = {conceptual:'#4a9eff', procedural:'#c9963a', motivational:'#b84a2e', social:'#7aaa7a'};
+const nodeColors = {entry:'#334', intermediate:'#443', advanced:'#433', application:'#344'};
+let activeFilter = null;
+let tdgSim = null;
+
+function initTDG() {
+  const container = document.getElementById('tdg-svg-container');
+  const W = container.clientWidth, H = container.clientHeight || 480;
+  const svg = d3.select('#tdg-svg').attr('viewBox', `0 0 ${W} ${H}`);
+  svg.selectAll('*').remove();
+
+  const defs = svg.append('defs');
+  Object.entries(edgeColors).forEach(([type, color]) => {
+    defs.append('marker').attr('id', `arrow-${type}`)
+      .attr('viewBox','0 -4 8 8').attr('refX',18).attr('refY',0)
+      .attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto')
+      .append('path').attr('d','M0,-4L8,0L0,4').attr('fill', color).attr('opacity', 0.8);
+  });
+
+  const g = svg.append('g');
+
+  const link = g.append('g').selectAll('line')
+    .data(tdgEdges).enter().append('line')
+    .attr('class', d => `tdg-edge edge-${d.type}`)
+    .attr('stroke', d => edgeColors[d.type])
+    .attr('stroke-width', 1.5)
+    .attr('stroke-opacity', 0.7)
+    .attr('marker-end', d => `url(#arrow-${d.type})`);
+
+  const node = g.append('g').selectAll('g')
+    .data(tdgNodes).enter().append('g')
+    .attr('class', 'tdg-node')
+    .style('cursor', 'pointer')
+    .call(d3.drag()
+      .on('start', (event, d) => { if (!event.active) tdgSim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
+      .on('drag', (event, d) => { d.fx=event.x; d.fy=event.y; })
+      .on('end', (event, d) => { if (!event.active) tdgSim.alphaTarget(0); d.fx=null; d.fy=null; }))
+    .on('click', (event, d) => showNodeInfo(d));
+
+  node.append('circle')
+    .attr('r', d => d.type === 'application' ? 14 : d.type === 'advanced' ? 12 : 10)
+    .attr('fill', d => d.type === 'application' ? '#b84a2e' : d.type === 'advanced' ? '#c9963a' : '#1a2a3a')
+    .attr('stroke', d => edgeColors.conceptual)
+    .attr('stroke-width', d => d.type === 'advanced' || d.type === 'application' ? 2 : 1)
+    .attr('stroke-opacity', 0.5);
+
+  node.append('text')
+    .text(d => d.label)
+    .attr('dy', 22)
+    .attr('text-anchor', 'middle')
+    .attr('font-family', 'JetBrains Mono, monospace')
+    .attr('font-size', '8px')
+    .attr('fill', '#888')
+    .style('pointer-events','none');
+
+  tdgSim = d3.forceSimulation(tdgNodes)
+    .force('link', d3.forceLink(tdgEdges).id(d=>d.id).distance(80))
+    .force('charge', d3.forceManyBody().strength(-200))
+    .force('center', d3.forceCenter(W/2, H/2))
+    .force('collision', d3.forceCollide(28))
+    .on('tick', () => {
+      link.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y)
+          .attr('x2',d=>d.target.x).attr('y2',d=>d.target.y);
+      node.attr('transform', d=>`translate(${d.x},${d.y})`);
+    });
+}
+
+function filterEdges(type) {
+  activeFilter = activeFilter === type ? null : type;
+  d3.selectAll('.tdg-edge').attr('stroke-opacity', d => {
+    if (!activeFilter) return 0.7;
+    return d.type === activeFilter ? 1 : 0.06;
+  }).attr('stroke-width', d => {
+    if (!activeFilter) return 1.5;
+    return d.type === activeFilter ? 2.5 : 0.8;
+  });
+  document.querySelectorAll('.legend-item').forEach(el => el.style.background='');
+  if (activeFilter) {
+    const el = document.getElementById(`leg-${activeFilter}`);
+    if (el) el.style.background = '#111';
+  }
+}
+
+function showNodeInfo(d) {
+  const info = document.getElementById('node-info');
+  info.innerHTML = `
+    <p class="node-info-label">Selected Node</p>
+    <p class="node-info-name">${d.label}</p>
+    <p class="node-info-type">${d.type.toUpperCase()} · Cognitive Level: ${d.level}</p>
+    <p class="node-info-desc">${d.desc}</p>
+  `;
+}
+
+window.addEventListener('load', () => { setTimeout(initTDG, 100); });
+window.addEventListener('resize', () => { setTimeout(initTDG, 100); });
+
+// ─────────────────────────────────────────────
+// PEDAGOGICAL DEBT ANALYZER
+// ─────────────────────────────────────────────
+const presets = {
+  high: `Week 3: Formal Definition of the Derivative
+
+Definition 3.1. Let f: ℝ → ℝ. The derivative of f at a point x is defined as:
+f'(x) = lim_{h→0} (f(x+h) - f(x)) / h
+
+provided this limit exists. If f'(x) exists for all x in an interval, we say f is differentiable on that interval.
+
+Theorem 3.2. If f is differentiable at x, then f is continuous at x.
+
+Proof. We show that lim_{x→a} f(x) = f(a). By hypothesis, f'(a) exists...
+
+Students should memorize the formal definition and be prepared to apply it to compute derivatives of polynomial functions on the problem set.`,
+
+  low: `Before we define the derivative, here is a question to sit with.
+
+You are driving on a highway. Your GPS shows your position at every second. At second 10, you are at mile marker 15.2. At second 11, you are at mile marker 15.4. About how fast were you going?
+
+Now imagine you wanted to know your speed at exactly second 10 — not your average speed between seconds 10 and 11, but your speed at that precise instant. How would you get closer to that answer? What happens if you shrink the time interval?
+
+Work with your partner: try intervals of 0.5 seconds, 0.1 seconds, 0.01 seconds. What do you notice?
+
+This question — what is the speed at an instant? — is exactly the headache that the derivative was invented to solve. Now let's build the tool.`,
+
+  mixed: `Chapter 4: Matrix Multiplication
+
+Matrix multiplication is defined as follows: given an m×n matrix A and an n×p matrix B, their product C = AB is an m×p matrix where C_{ij} = Σ_{k=1}^{n} A_{ik} B_{kj}.
+
+Before working through the formal mechanics, consider: you have already seen that functions can be composed — if f and g are functions, you can apply g first and then f to get f(g(x)). Matrix multiplication is the algebraic representation of composing two linear transformations. When you multiply AB, you are asking: what happens to a vector if we first apply transformation B, then transformation A?
+
+Practice: Compute the following products. Then for each one, describe what geometric transformation is being composed.`
+};
+
+function loadPreset(key) {
+  document.getElementById('peddebt-textarea').value = presets[key];
+}
+
+function analyzePedDebt() {
+  const text = document.getElementById('peddebt-textarea').value.trim();
+  if (!text) return;
+
+  // Heuristic scoring — deliberately educational, not a black box
+  const words = text.toLowerCase();
+  const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 10);
+
+  // Motivational debt: formalism before context
+  const formalFirst = /^(definition|theorem|let|given|formally|proof|denote|we say|notation)/i.test(text.trim());
+  const hasMotivation = /(why|consider|imagine|question|problem|before we|think about|here is|what happens|wonder|headache|need)/i.test(text);
+  const hasFormal = /(definition|theorem|formally|denote|proof|∀|∃|⊆|lim_|∑|ℝ|f'|≡)/i.test(text);
+  const motDebtScore = hasFormal ? (formalFirst ? 82 : hasMotivation ? 18 : 55) : (hasMotivation ? 8 : 30);
+
+  // Scaffolding debt: new concepts per unit
+  const newTerms = (text.match(/\b(definition|let|denote|we call|we say|defined as)\b/gi) || []).length;
+  const scaffoldDebtScore = Math.min(95, newTerms * 18 + (sentences.length < 4 ? 20 : 0));
+
+  // Verification debt: self-check opportunities
+  const hasVerification = /(verify|check|compare|your answer|does this match|what do you notice|work with|try|compute and|convince yourself)/i.test(text);
+  const hasQuestion = text.includes('?');
+  const verificationDebtScore = hasVerification ? 12 : hasQuestion ? 35 : 78;
+
+  const total = Math.round((motDebtScore * 0.45 + scaffoldDebtScore * 0.3 + verificationDebtScore * 0.25));
+
+  const totalLevel = total > 60 ? 'high' : total > 35 ? 'medium' : 'low';
+
+  // Generate findings
+  const findings = [];
+  if (formalFirst && hasFormal) findings.push({text: 'Formal content appears before any motivating context or problem. Violates the necessity principle (Anderson C1).', flagged: true});
+  if (!hasMotivation) findings.push({text: 'No motivating problem or question detected before content delivery. Students have no intellectual "headache" to solve.', flagged: true});
+  if (newTerms > 3) findings.push({text: `${newTerms} new formal terms introduced in this unit. Exceeds the scaffolding regularity threshold of ≤3 (Anderson C3).`, flagged: true});
+  if (!hasVerification) findings.push({text: 'No student self-verification opportunity detected. Students cannot check their own understanding without asking an authority.', flagged: true});
+  if (hasMotivation) findings.push({text: 'Motivating context or question detected. Supports intellectual need before formal content.', flagged: false});
+  if (hasVerification) findings.push({text: 'Self-check or verification prompt found. Supports student autonomy (Anderson C6).', flagged: false});
+  if (!formalFirst && hasFormal) findings.push({text: 'Formal definitions appear after some contextual framing — lower motivational debt than definition-first approaches.', flagged: false});
+
+  const resultsEl = document.getElementById('peddebt-results');
+  resultsEl.innerHTML = `
+    <div class="debt-summary-row">
+      <div class="debt-card ${motDebtScore > 60 ? 'high' : motDebtScore > 35 ? 'medium' : 'low'}">
+        <span class="debt-card-label">Motivational Debt</span>
+        <span class="debt-card-score ${motDebtScore > 60 ? 'high' : motDebtScore > 35 ? 'medium' : 'low'}">${motDebtScore}</span>
+        <span class="debt-card-desc">Formalism before intellectual need</span>
+      </div>
+      <div class="debt-card ${scaffoldDebtScore > 60 ? 'high' : scaffoldDebtScore > 35 ? 'medium' : 'low'}">
+        <span class="debt-card-label">Scaffolding Debt</span>
+        <span class="debt-card-score ${scaffoldDebtScore > 60 ? 'high' : scaffoldDebtScore > 35 ? 'medium' : 'low'}">${scaffoldDebtScore}</span>
+        <span class="debt-card-desc">Simultaneous concept load</span>
+      </div>
+      <div class="debt-card ${verificationDebtScore > 60 ? 'high' : verificationDebtScore > 35 ? 'medium' : 'low'}">
+        <span class="debt-card-label">Verification Debt</span>
+        <span class="debt-card-score ${verificationDebtScore > 60 ? 'high' : verificationDebtScore > 35 ? 'medium' : 'low'}">${verificationDebtScore}</span>
+        <span class="debt-card-desc">Missing self-check opportunities</span>
+      </div>
+    </div>
+    <div>
+      <p class="debt-bar-label" style="margin-bottom:0.75rem;font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted)">Debt Profile</p>
+      <div class="debt-bar-section">
+        <div class="debt-bar-label">Motivational</div>
+        <div class="debt-bar-track"><div class="debt-bar-fill" style="width:0%" data-target="${motDebtScore}%"></div></div>
+        <div class="debt-bar-label">Scaffolding</div>
+        <div class="debt-bar-track"><div class="debt-bar-fill gold" style="width:0%" data-target="${scaffoldDebtScore}%"></div></div>
+        <div class="debt-bar-label">Verification</div>
+        <div class="debt-bar-track"><div class="debt-bar-fill green" style="width:0%" data-target="${verificationDebtScore}%"></div></div>
+      </div>
+    </div>
+    <div class="debt-findings">
+      <p style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem">Findings</p>
+      ${findings.map(f => `<div class="debt-finding ${f.flagged ? 'flagged' : 'ok'}">${f.flagged ? '⚠ ' : '✓ '}${f.text}</div>`).join('')}
+    </div>
+    <div style="font-family:var(--mono);font-size:0.62rem;color:var(--muted);padding-top:0.5rem;border-top:1px solid var(--rule)">Total D(C) = ${total}/100 · ${totalLevel === 'high' ? '⚠ High debt — significant instructional shortcuts detected' : totalLevel === 'medium' ? '~ Medium debt — some structural concerns' : '✓ Low debt — well-structured instructional design'}</div>
+  `;
+
+  // Animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.debt-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.target;
+    });
+  }, 50);
+}
+
+// ─────────────────────────────────────────────
+// MVC ALGORITHM VISUALIZER
+// ─────────────────────────────────────────────
+const mvcCurriculum = [
+  {id:0, label:'Number Systems',      x:80,  y:60,  terminal:false, prereqs:[]},
+  {id:1, label:'Variables',           x:200, y:55,  terminal:false, prereqs:[0]},
+  {id:2, label:'Functions',           x:330, y:60,  terminal:false, prereqs:[1]},
+  {id:3, label:'Limits (Informal)',   x:90,  y:160, terminal:false, prereqs:[1]},
+  {id:4, label:'Limit Definition',    x:230, y:165, terminal:false, prereqs:[3]},
+  {id:5, label:'Continuity',          x:360, y:170, terminal:false, prereqs:[4,2]},
+  {id:6, label:'Derivative Defn',     x:120, y:275, terminal:false, prereqs:[4]},
+  {id:7, label:'Diff. Rules',         x:270, y:280, terminal:false, prereqs:[6]},
+  {id:8, label:'Chain Rule',          x:400, y:280, terminal:true,  prereqs:[7]},
+  {id:9, label:'Related Rates',       x:180, y:380, terminal:true,  prereqs:[7,5]},
+  {id:10,label:'Optimization',        x:330, y:385, terminal:true,  prereqs:[7,5]},
+  {id:11,label:'Epsilon-Delta',       x:50,  y:390, terminal:false, prereqs:[4]},
+  {id:12,label:'Formal Limits',       x:490, y:160, terminal:false, prereqs:[11]},
+  {id:13,label:'Riemann Sums',        x:490, y:330, terminal:false, prereqs:[4,2]},
+];
+
+const mvcTerminals = [8, 9, 10]; // what students need to be able to do
+
+// Greedy MVC steps
+const mvcSteps = [
+  { action: 'init', mvc: [], covered: [], message: 'The full curriculum has 14 nodes. Red nodes are the 3 terminal objectives (Chain Rule, Related Rates, Optimization) — what students must be able to do. Gray nodes are the full curriculum content.', theorem: 'MVC is NP-complete in general.\nReduction: Set Cover → MVC.\n\nThis greedy algorithm gives a\nln|T|-approximation.' },
+  { action: 'add', node: 7, mvc: [7], covered: [], message: 'Greedy step 1: "Differentiation Rules" (node 7) covers the most terminal objectives. Add it to the MVC. It is a prerequisite for all three terminals.', theorem: 'Greedy selection: find the unit\nthat covers the most uncovered\nterminal objectives.' },
+  { action: 'add', node: 6, mvc: [7,6], covered: [], message: 'Step 2: "Derivative Definition" (node 6) is a conceptual prerequisite for Differentiation Rules. Required for well-formedness. Add it.', theorem: 'Well-formed closure: add dependencies\nrequired for conceptual acyclicity\nand motivational reachability.' },
+  { action: 'add', node: 4, mvc: [7,6,4], covered: [], message: 'Step 3: "Limit Definition" (node 4) is required for Derivative Definition. The chain of conceptual dependencies forces its inclusion.', theorem: 'The MVC is not just the terminal\nnodes — it includes the minimum\npath of dependencies.' },
+  { action: 'add', node: 3, mvc: [7,6,4,3], covered: [], message: 'Step 4: "Limits (Informal)" — a motivational dependency. Satisfies motivational reachability: students need the informal headache before the formal limit definition.', theorem: 'Motivational reachability requires\nat least one motivational path\nto each advanced objective.' },
+  { action: 'add', node: 5, mvc: [7,6,4,3,5], covered: [9,10], message: 'Step 5: "Continuity" (node 5) is required for Related Rates and Optimization. Adding it covers 2 more terminal objectives. Also requires Functions and the limit chain.', theorem: 'After adding Continuity, terminals\n9 and 10 are now covered.\nOnly Chain Rule remains.' },
+  { action: 'add', node: 8, mvc: [7,6,4,3,5,8], covered: [8,9,10], message: 'Step 6: Chain Rule (terminal 8) is itself a terminal. All 3 terminals are now covered. The MVC = {3,4,5,6,7,8} — 6 nodes out of 14. MVC-Distance = 8.', theorem: 'MVC found: 6 nodes cover all\n3 terminal objectives.\nMVC-Distance = 14 − 6 = 8.\n\nNodes 0,1,2,11,12,13 are excess.' },
+  { action: 'complete', mvc: [3,4,5,6,7,8], covered: [8,9,10], message: '✓ Complete. The MVC is {Limits (Informal), Limit Definition, Continuity, Derivative Definition, Diff. Rules, Chain Rule}. Nodes 11 (Epsilon-Delta), 12, 13 (Riemann Sums) and the number/variable nodes are not on any path to the terminal objectives.', theorem: 'MVC-Distance = 8 means 8 units\nof content impose cost on students\nwithout contributing to stated goals.\n\nThis is measurable pedagogical\noverhead.' },
+];
+
+let mvcCurrentStep = 0;
+
+function initMVC() {
+  const container = document.getElementById('mvc-canvas-container');
+  const W = container.clientWidth || 600;
+  const H = 440;
+  const svg = d3.select('#mvc-svg').attr('viewBox', `0 0 ${W} ${H}`);
+  svg.selectAll('*').remove();
+
+  const scaleX = W / 560, scaleY = H / 460;
+
+  const defs = svg.append('defs');
+  defs.append('marker').attr('id','mvc-arrow').attr('viewBox','0 -3 6 6').attr('refX',16).attr('refY',0)
+    .attr('markerWidth',5).attr('markerHeight',5).attr('orient','auto')
+    .append('path').attr('d','M0,-3L6,0L0,3').attr('fill','#555');
+
+  // Draw edges
+  mvcCurriculum.forEach(node => {
+    node.prereqs.forEach(pid => {
+      const src = mvcCurriculum[pid];
+      svg.append('line')
+        .attr('class', `mvc-edge mvc-edge-${node.id}-${pid}`)
+        .attr('x1', src.x * scaleX).attr('y1', src.y * scaleY)
+        .attr('x2', node.x * scaleX).attr('y2', node.y * scaleY)
+        .attr('stroke','#555').attr('stroke-width',1.5).attr('stroke-opacity',0.4)
+        .attr('marker-end','url(#mvc-arrow)');
+    });
+  });
+
+  // Draw nodes
+  mvcCurriculum.forEach(node => {
+    const g = svg.append('g').attr('transform', `translate(${node.x*scaleX},${node.y*scaleY})`);
+    g.append('circle')
+      .attr('class', `mvc-node mvc-node-${node.id}`)
+      .attr('r', node.terminal ? 13 : 10)
+      .attr('fill', node.terminal ? '#b84a2e' : '#1c2c3c')
+      .attr('stroke', node.terminal ? '#e07a5a' : '#334')
+      .attr('stroke-width', node.terminal ? 2 : 1)
+      .attr('opacity', 0.85);
+    g.append('text')
+      .attr('dy', node.terminal ? 26 : 23)
+      .attr('text-anchor','middle')
+      .attr('font-family','JetBrains Mono, monospace')
+      .attr('font-size', '7.5px')
+      .attr('fill', node.terminal ? '#e07a5a' : '#667')
+      .style('pointer-events','none')
+      .text(node.label);
+  });
+
+  document.getElementById('mvc-total-nodes').textContent = mvcCurriculum.length;
+  document.getElementById('mvc-mvc-nodes').textContent = '—';
+  document.getElementById('mvc-covered').textContent = '0';
+  document.getElementById('mvc-distance').textContent = '—';
+}
+
+function mvcApplyStep(stepIdx) {
+  const step = mvcSteps[stepIdx];
+  if (!step) return;
+
+  const container = document.getElementById('mvc-canvas-container');
+  const W = container.clientWidth || 600, H = 440;
+  const scaleX = W/560, scaleY = H/460;
+
+  // Reset all nodes to base style
+  mvcCurriculum.forEach(node => {
+    d3.select(`.mvc-node-${node.id}`)
+      .attr('fill', node.terminal ? '#b84a2e' : '#1c2c3c')
+      .attr('stroke', node.terminal ? '#e07a5a' : '#334')
+      .attr('stroke-width', node.terminal ? 2 : 1)
+      .attr('opacity', 0.85)
+      .attr('r', node.terminal ? 13 : 10);
+  });
+
+  // Highlight MVC nodes
+  step.mvc.forEach(nid => {
+    d3.select(`.mvc-node-${nid}`)
+      .attr('fill', '#c9963a')
+      .attr('stroke', '#f0c070')
+      .attr('stroke-width', 2.5)
+      .attr('opacity', 1)
+      .attr('r', 13);
+  });
+
+  // Dim non-MVC, non-terminal nodes in complete step
+  if (step.action === 'complete') {
+    mvcCurriculum.forEach(node => {
+      if (!step.mvc.includes(node.id) && !node.terminal) {
+        d3.select(`.mvc-node-${node.id}`)
+          .attr('fill', '#111').attr('stroke','#222').attr('opacity', 0.25);
+      }
+    });
+  }
+
+  document.getElementById('mvc-status').textContent = step.message;
+  document.getElementById('mvc-theorem').textContent = step.theorem;
+  document.getElementById('mvc-mvc-nodes').textContent = step.mvc.length || '—';
+  document.getElementById('mvc-covered').textContent = step.covered.length;
+  document.getElementById('mvc-distance').textContent = step.mvc.length > 0 ? (mvcCurriculum.length - step.mvc.length) : '—';
+  document.getElementById('mvc-step-label').textContent = `Step ${stepIdx} of ${mvcSteps.length-1}`;
+}
+
+function mvcStep() {
+  if (mvcCurrentStep < mvcSteps.length - 1) {
+    mvcCurrentStep++;
+    mvcApplyStep(mvcCurrentStep);
+  }
+}
+
+function mvcReset() {
+  mvcCurrentStep = 0;
+  initMVC();
+  mvcApplyStep(0);
+}
+
+function mvcRunAll() {
+  let i = mvcCurrentStep;
+  const run = () => {
+    if (i < mvcSteps.length - 1) {
+      i++; mvcCurrentStep = i;
+      mvcApplyStep(i);
+      setTimeout(run, 900);
+    }
+  };
+  run();
+}
+
+window.addEventListener('load', () => {
+  setTimeout(() => { initMVC(); mvcApplyStep(0); }, 150);
+});
+
+// ─────────────────────────────────────────────
+// SHARED UTILS
+// ─────────────────────────────────────────────
+function togglePaper(card) {
+  const wasOpen = card.classList.contains('open');
+  document.querySelectorAll('.paper-card').forEach(c => c.classList.remove('open'));
+  if (!wasOpen) card.classList.add('open');
+}
+
+const concepts = {
+  tdg: { title:'Typed Dependency Grammar', tag:'Paper 01 · Core Formalism', body:`<p>A <strong>Typed Dependency Grammar</strong> is a directed graph G = (L, D) where L is a set of learning objectives and D ⊆ L × 𝒯 × L, with 𝒯 = {conceptual, procedural, motivational, social}.</p><p>The four dependency types encode distinct learning relationships. A conceptual dependency means understanding A is logically necessary to understand B. A motivational dependency means encountering A creates intellectual need for B — formalizing Harel's necessity principle. A procedural dependency means fluency with A is required to perform tasks in B. A social dependency means collaboration around A creates the context required for B.</p><p>The key insight: these four types are not interchangeable. A curriculum that confuses motivational and conceptual dependencies makes structural errors undetectable without a type system.</p>` },
+  motreach: { title:'Motivational Reachability', tag:'Paper 01 · Well-Formedness Condition', body:`<p>A TDG satisfies <strong>motivational reachability</strong> if for every learning objective at cognitive levels analyze or create, there exists at least one path of motivational edges from some prior objective to it.</p><p>This formalizes Harel's necessity principle and Jeff Anderson's Criterion 1. Any objective requiring higher-order cognition must be reachable by a chain of motivational dependencies. A curriculum that introduces advanced formalisms with no motivational pathway — presenting a theorem before any problem that requires it — fails this condition.</p><p>The number of motivational reachability violations in a curriculum's TDG is one of the primary predictors of student attrition in our empirical study.</p>` },
+  necessity: { title:'The Necessity Principle', tag:'All Papers · Foundational Concept', body:`<p>Guershon Harel's <strong>necessity principle</strong> states that for students to learn mathematics, they must first experience an intellectual need for it. In Dan Meyer's formulation: "if math is the medicine, what is the headache?"</p><p>Jeff Anderson operationalizes this as Criterion 1: design activities that expose students to problematic situations that result in the learner experiencing disequilibrium and the intellectual/psychological need for learning.</p><p>This principle appears in all three papers. In Paper 1, it becomes the formal condition of motivational reachability. In Paper 2, its violation becomes motivational debt. In Paper 3, it drives the student activity design: students experience the headache before the MVC framework is introduced as the answer.</p>` },
+  peddebt: { title:'Pedagogical Debt', tag:'Paper 02 · Core Concept', body:`<p><strong>Pedagogical debt</strong> is the accumulated cost to student understanding of instructional shortcuts. The concept is borrowed by deliberate analogy from Ward Cunningham's technical debt in software engineering.</p><p>Three types: <em>motivational debt</em> (formal objects introduced before any problem establishes need), <em>scaffolding debt</em> (too many new conceptual dependencies simultaneously), and <em>verification debt</em> (no opportunity for students to self-check).</p><p>Like technical debt, most pedagogical debt is inadvertent. The PedDebt tool surfaces problems without assigning blame. Instructors who use it typically already know something feels off — the tool helps them see it structurally.</p>` },
+  static: { title:'Static Analysis of Course Materials', tag:'Paper 02 · Technical Approach', body:`<p>The term <strong>static analysis</strong> is borrowed from programming language theory: analysis of source code without executing it. A type checker examines a program's structure and flags inconsistencies without running the program.</p><p>PedDebt is the educational analog: it examines course materials and flags structural inconsistencies without requiring student outcome data. The ethical implication: by analyzing materials rather than students, PedDebt avoids the surveillance concerns of student-monitoring NLP systems entirely.</p><p>If a course has high pedagogical debt, the problem is in the course, not the students. The tool reflects that.</p>` },
+  mvc: { title:'Minimum Viable Curriculum', tag:'Paper 03 · Core Concept', body:`<p>The <strong>Minimum Viable Curriculum</strong> (MVC) for a terminal objective set T is the instructionally sufficient TDG G* ⊆ 𝓑 with T ⊆ L(G*) that minimizes |L(G*)|.</p><p>In plain language: the smallest set of instructional units that is both well-formed and sufficient to produce the stated competencies. Every other unit is, by definition, not necessary for the stated goals.</p><p>The concept is borrowed from lean startup methodology: Eric Ries's minimum viable product is the smallest product that verifiably delivers value. The MVC is the smallest curriculum that verifiably produces understanding.</p>` },
+  nphard: { title:'NP-Hardness of MVC', tag:'Paper 03 · Theoretical Result', body:`<p>Finding the optimal MVC is <strong>NP-complete</strong>, proved by polynomial reduction from Set Cover. Given a universe U and collection 𝒮 of subsets, construct a background knowledge graph in which U corresponds to terminal objectives and each S_i corresponds to an instructional unit. Finding an MVC of size ≤ k is equivalent to finding a set cover of size ≤ k.</p><p>By Feige's inapproximability result, there is no polynomial-time algorithm approximating MVC within (1−ε)ln|T| unless P = NP.</p><p>Tractable case: when conceptual dependencies form a forest, MVC is solvable in O(|L(𝓑)| · |T|) by bottom-up DP — practically important since many introductory STEM courses have approximately tree-structured conceptual dependencies.</p>` },
+  mvcdist: { title:'MVC-Distance', tag:'Paper 03 · Empirical Measure', body:`<p><strong>MVC-distance</strong> = |L(C)| − |MVC(C, 𝓑)|. It measures excess content beyond what is minimally necessary to produce the terminal objectives.</p><p>High MVC-distance means substantial content that does not appear on any path between entry knowledge and terminal objectives. This content imposes costs that fall disproportionately on students with less time and fewer resources.</p><p>Our empirical study finds that MVC-distance predicts lower student persistence and self-efficacy after controlling for demographics — consistent with the hypothesis that excess curricular complexity is a structural burden, not a neutral addition.</p>` },
+  keystone: { title:'The Roman Keystone Principle', tag:'All Papers · Design Principle', body:`<p>Jeff Anderson's <strong>roman keystone principle</strong> (Criterion 5): choose models that have the capacity to be extremely relevant in students' lives for years and decades to come. A roman keystone holds an arch together — remove it and everything collapses.</p><p>Each concept in this research series is designed as a roman keystone. The TDG is a keystone for formal education research. The MVC problem opens simultaneously into complexity theory, programming language theory, and learning science.</p><p>The principle also governs the Paper 3 student activity. A student who gets genuinely excited about the MVC problem has a natural pathway into three different academic fields. The low-floor/high-ceiling design ensures the same activity is accessible to a first-year student and generative for a PhD student.</p>` }
+};
+
+function openModal(key) {
+  const c = concepts[key]; if (!c) return;
+  document.getElementById('modal-body').innerHTML = `<h3>${c.title}</h3><p class="modal-tag">${c.tag}</p>${c.body}`;
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modal-overlay') && !e.target.classList.contains('modal-close')) return;
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal({}); });
+
+// INTERSECTION OBSERVER
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      if (el.classList.contains('service-role') || el.classList.contains('timeline-item')) {
+        el.classList.add('visible');
+      } else {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      }
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.agenda-item, .concept-node').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(12px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+document.querySelectorAll('.service-role, .timeline-item').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
