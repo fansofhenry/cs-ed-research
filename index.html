@@ -468,6 +468,7 @@ footer p { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; 
     <li><a href="#demo-peddebt">Debt Analyzer</a></li>
     <li><a href="#demo-mvc">MVC Demo</a></li>
     <li><a href="#papers">Papers</a></li>
+    <li><a href="#cs-projects">CS Projects</a></li>
     <li><a href="#origin">Origin</a></li>
     <li><a href="#about">About</a></li>
   </ul>
@@ -857,7 +858,121 @@ footer p { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; 
     </div>
   </div>
 </section>
+<!-- CS ED PROJECTS -->
+<section id="cs-projects" style="padding: 7rem 5vw; background: var(--ink); color: var(--paper); border-bottom: 2px solid var(--ink);">
+  <div class="section-header">
+    <span class="section-number" style="color:var(--gold);">06b</span>
+    <div class="section-rule" style="background:#333;"></div>
+    <span class="section-title" style="color:#555;">Applied Curriculum · Community College CS</span>
+  </div>
 
+  <p class="papers-intro">Three project designs for an introductory CS course — grounded in Jeff Anderson's necessity principle, applied locally, and built so students are authors rather than consumers.</p>
+
+  <div class="paper-card" onclick="togglePaper(this)">
+    <div class="paper-number-col"><span class="paper-num">Proj 01</span></div>
+    <div class="paper-main">
+      <div class="paper-meta">
+        <span class="paper-tag">HTML · CSS · JS · Community</span>
+        <span class="paper-conference">Intro CS · 4–6 weeks</span>
+      </div>
+      <h2 class="paper-title">Community Resource Aggregator</h2>
+      <p class="paper-subtitle">Students build a searchable map of local support resources for their own campus or city</p>
+      <p class="paper-abstract-preview">Students interview peers about resources they have struggled to find — food pantries, mental health services, housing aid, financial assistance — then build a web app that surfaces that information. The technical stack is accessible (HTML/CSS/JS with a Google Sheets or Airtable backend), but the research, design, and empathy work is where the depth lives. Motivated directly by the campus resources section of Anderson's syllabus: the headache precedes the tool.</p>
+      <div class="paper-expand"><span class="expand-arrow">▶</span> Expand project details</div>
+    </div>
+    <div class="paper-detail">
+      <div class="detail-inner">
+        <div class="detail-theorems">
+          <div class="theorem-box">
+            <p class="theorem-label">Necessity Hook</p>
+            <p class="theorem-text">Students first survey<br>3 peers about resource<br>gaps they've experienced.<br><br>The search problem<br>exists before a line<br>of code is written.</p>
+          </div>
+          <div class="theorem-box" style="border-color:var(--gold)">
+            <p class="theorem-label">Anderson Criteria Met</p>
+            <p class="theorem-text">Necessity · Authenticity<br>Active Learning<br>Low-floor / High-ceiling<br>No Paywall (all open APIs)</p>
+          </div>
+        </div>
+        <div class="detail-right">
+          <div class="detail-grid">
+            <div class="detail-section"><h4>Technical Scope</h4><ul><li>HTML forms and DOM manipulation</li><li>Fetch API for reading a Google Sheet as JSON</li><li>Leaflet.js or Google Maps embed for map display</li><li>Basic search/filter logic in vanilla JS</li></ul></div>
+            <div class="detail-section"><h4>The Deep Learning Layer</h4><ul><li>Students write a 1-page research memo before coding</li><li>Design decisions are documented and defended</li><li>Peer testing session mid-project with real users</li><li>Final reflection: what did the data reveal vs. what you assumed?</li></ul></div>
+            <div class="detail-section"><h4>Why This Works</h4><ul><li>Product is immediately useful to classmates</li><li>Students shift from consumer to creator</li><li>Stakes are real — bad UX affects real people</li><li>Connects CS to anti-oppressive community values without being preachy</li></ul></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="paper-card" onclick="togglePaper(this)" style="margin-top: 2px;">
+    <div class="paper-number-col"><span class="paper-num">Proj 02</span></div>
+    <div class="paper-main">
+      <div class="paper-meta">
+        <span class="paper-tag">JavaScript · LocalStorage · Meta-Learning</span>
+        <span class="paper-conference">Intro CS · 3–5 weeks</span>
+      </div>
+      <h2 class="paper-title">Personal Learning System Builder</h2>
+      <p class="paper-subtitle">Students build a digital tool that operationalizes Anderson's conquering college framework</p>
+      <p class="paper-abstract-preview">Students build a scheduling app, habit tracker, or question-capture system — tools that mirror the conquering college assignments in Anderson's own class. The meta dimension is the point: students are simultaneously learning to code and reflecting on how they learn. This mirrors Anderson's Rule 2 (deep learning over shallow learning) and his insistence that meta-learning is the most important part of any course. The artifact is highly portfolio-worthy and personally useful, which dramatically increases intrinsic motivation.</p>
+      <div class="paper-expand"><span class="expand-arrow">▶</span> Expand project details</div>
+    </div>
+    <div class="paper-detail">
+      <div class="detail-inner">
+        <div class="detail-theorems">
+          <div class="theorem-box">
+            <p class="theorem-label">Necessity Hook</p>
+            <p class="theorem-text">Week 1: students audit<br>their current study system.<br><br>The gaps they find<br>become the spec for<br>what they build.</p>
+          </div>
+          <div class="theorem-box" style="border-color:var(--rust)">
+            <p class="theorem-label">Connection to Research</p>
+            <p class="theorem-text">Motivational debt ↓<br>when students build tools<br>they actually need.<br><br>Self-efficacy measured<br>before and after.</p>
+          </div>
+        </div>
+        <div class="detail-right">
+          <div class="detail-grid">
+            <div class="detail-section"><h4>Technical Scope</h4><ul><li>HTML/CSS layout and responsive design</li><li>JS event handling and DOM updates</li><li>LocalStorage for data persistence</li><li>Optional: export to JSON or Google Sheets sync</li></ul></div>
+            <div class="detail-section"><h4>The Deep Learning Layer</h4><ul><li>Students read one chapter of Ultralearning before building</li><li>They write a feature spec: what does this tool need to do and why?</li><li>Mid-project: use your own tool for one week, then refactor</li><li>Final: present the delta between v1 and v2 to the class</li></ul></div>
+            <div class="detail-section"><h4>Why This Works</h4><ul><li>Students are the primary user — feedback loop is immediate</li><li>Iterative design mirrors professional software development</li><li>Forces students to articulate their own learning needs</li><li>Directly applicable to every other class they take</li></ul></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="paper-card" onclick="togglePaper(this)" style="margin-top: 2px;">
+    <div class="paper-number-col"><span class="paper-num">Proj 03</span></div>
+    <div class="paper-main">
+      <div class="paper-meta">
+        <span class="paper-tag">Data · APIs · Civic Tech · D3 or Chart.js</span>
+        <span class="paper-conference">Intro CS · 5–7 weeks</span>
+      </div>
+      <h2 class="paper-title">Neighborhood Data Story</h2>
+      <p class="paper-subtitle">Students pick a local issue, collect or find public data, and build a visualization with a written narrative</p>
+      <p class="paper-abstract-preview">Students pick an issue they care about — rent increases, transit deserts, school funding disparities — find or collect public data on it, then build a simple data visualization and written narrative explaining what the numbers mean to real people. This teaches APIs, CSV parsing, and basic charting libraries while forcing students to practice the modeling-to-communication pipeline Anderson emphasizes in his applied linear algebra labs. The "abuelita language" concept from Anderson's syllabus is directly applicable: can you explain your findings to someone who doesn't speak data?</p>
+      <div class="paper-expand"><span class="expand-arrow">▶</span> Expand project details</div>
+    </div>
+    <div class="paper-detail">
+      <div class="detail-inner">
+        <div class="detail-theorems">
+          <div class="theorem-box">
+            <p class="theorem-label">Necessity Hook</p>
+            <p class="theorem-text">Students write a 1-paragraph<br>argument about their issue<br>using only their intuition.<br><br>Then they find the data.<br>The gap between the two<br>is the whole course.</p>
+          </div>
+          <div class="theorem-box" style="border-color:#7aaa7a">
+            <p class="theorem-label">Abuelita Test</p>
+            <p class="theorem-text">Final deliverable must<br>include an explanation<br>a non-technical family<br>member could read.<br><br>If they can't explain it,<br>they don't understand it.</p>
+          </div>
+        </div>
+        <div class="detail-right">
+          <div class="detail-grid">
+            <div class="detail-section"><h4>Technical Scope</h4><ul><li>Fetch API with a public dataset (Census, data.gov, local open data portals)</li><li>CSV or JSON parsing</li><li>Chart.js or D3.js for visualization</li><li>HTML/CSS narrative layout wrapping the charts</li></ul></div>
+            <div class="detail-section"><h4>The Deep Learning Layer</h4><ul><li>Students must justify their data source selection in writing</li><li>At least one visualization must be revised after peer feedback</li><li>Written narrative required: what does this mean for real people?</li><li>Presentation to the class with Q&amp;A — defend your choices</li></ul></div>
+            <div class="detail-section"><h4>Why This Works</h4><ul><li>Students choose the issue — intrinsic motivation built in</li><li>Teaches the full modeling pipeline: question → data → code → communication</li><li>Mirrors Anderson's LANA and applied lab projects structurally</li><li>Connects CS directly to system navigation and transformation</li></ul></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 <!-- CONCEPTS -->
 <section id="concepts">
   <div class="section-header">
