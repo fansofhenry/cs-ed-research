@@ -307,17 +307,39 @@ nav {
 .paper-card:hover .paper-expand { color: var(--gold); }
 .expand-arrow { display: inline-block; transition: transform 0.3s; }
 .paper-card.open .expand-arrow { transform: rotate(90deg); }
-.paper-detail { display: none; padding: 0 3rem 2.5rem 3rem; border-top: 1px solid #1a1a1a; }
+.paper-detail { display: none; padding: 1.5rem 3rem 2rem 3rem; border-top: 1px solid #1a1a1a; }
 .paper-card.open .paper-detail { display: block; }
-.detail-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; margin-top: 2rem; }
-.detail-section h4 { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rust); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #222; }
-.detail-section ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
-.detail-section li { font-family: var(--serif); font-size: 0.85rem; color: #888; font-weight: 300; line-height: 1.5; padding-left: 1rem; position: relative; }
-.detail-section li::before { content: '—'; position: absolute; left: 0; color: #444; }
-.theorem-box { margin-top: 2rem; padding: 1.5rem; background: #0a0a0a; border-left: 2px solid var(--gold); }
-.theorem-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
-.theorem-text { font-family: var(--mono); font-size: 0.78rem; color: #bbb; line-height: 1.8; }
-.paper-cta { margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+
+/* Horizontal two-panel layout */
+.detail-inner {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+.detail-theorems {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.detail-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+.detail-section h4 { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rust); margin-bottom: 0.6rem; padding-bottom: 0.4rem; border-bottom: 1px solid #1e1e1e; }
+.detail-section ul { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
+.detail-section li { font-family: var(--serif); font-size: 0.82rem; color: #888; font-weight: 300; line-height: 1.45; padding-left: 0.9rem; position: relative; }
+.detail-section li::before { content: '—'; position: absolute; left: 0; color: #333; }
+.theorem-box { padding: 1rem 1.1rem; background: #0a0a0a; border-left: 2px solid var(--gold); }
+.theorem-label { font-family: var(--mono); font-size: 0.54rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
+.theorem-text { font-family: var(--mono); font-size: 0.7rem; color: #bbb; line-height: 1.7; }
+.paper-cta { display: flex; gap: 0.75rem; flex-wrap: wrap; }
 .btn { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.75rem 1.5rem; text-decoration: none; border: 1px solid; transition: all 0.25s; display: inline-flex; align-items: center; gap: 0.5rem; }
 .btn-primary { background: var(--rust); border-color: var(--rust); color: var(--paper); }
 .btn-primary:hover { background: transparent; color: var(--rust); }
@@ -422,7 +444,7 @@ footer p { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; 
   .hero { grid-template-columns: 1fr; }
   .hero-right { display: none; }
   .agenda-grid, .origin-grid, #about { grid-template-columns: 1fr; gap: 3rem; }
-  .detail-grid, .mvc-stage, .peddebt-wrapper, .tdg-wrapper { grid-template-columns: 1fr; }
+  .detail-grid, .detail-inner, .mvc-stage, .peddebt-wrapper, .tdg-wrapper { grid-template-columns: 1fr; }
   .concept-map { grid-template-columns: repeat(2, 1fr); }
   .origin-conviction { grid-template-columns: 1fr; }
   nav { padding: 1rem 1.5rem; }
@@ -669,16 +691,22 @@ footer p { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; 
       <div class="paper-expand"><span class="expand-arrow">▶</span> Expand full paper details</div>
     </div>
     <div class="paper-detail">
-      <div class="theorem-box"><p class="theorem-label">Core Definition</p><p class="theorem-text">A Typed Dependency Grammar is G = (L, D) where L is a set<br>of learning objectives and D ⊆ L × 𝒯 × L, with<br>𝒯 = {conceptual, procedural, motivational, social}.</p></div>
-      <div class="theorem-box" style="margin-top:1rem;border-color:var(--rust)"><p class="theorem-label">Theorem 1 (Decidability)</p><p class="theorem-text">Determining whether a TDG G is well-formed is<br>decidable in O(|L| + |D|) — polynomial time.</p></div>
-      <div class="detail-grid">
-        <div class="detail-section"><h4>Key Contributions</h4><ul><li>First formal type system for curriculum dependency structures</li><li>Motivational reachability encodes Harel's necessity principle</li><li>Polynomial-time well-formedness checking algorithm</li><li>Preliminary correlation: violations predict attrition (r = −0.62)</li></ul></div>
-        <div class="detail-section"><h4>Technical Stack</h4><ul><li>Graph theory: DAG properties, BFS/DFS traversal</li><li>NLP: Fine-tuned BERT for dependency classification</li><li>Data: IPEDS public institutional data</li><li>Validation: Expert annotation on 5 curricula</li></ul></div>
-        <div class="detail-section"><h4>Why It Matters</h4><ul><li>Shannon's information theory analogy: not a better tool, a shared language</li><li>Every subsequent researcher can use the grammar</li><li>Foundation for Projects 2 and 3 in this series</li><li>No paywall: full open-source release</li></ul></div>
-      </div>
-      <div class="paper-cta">
-        <a href="papers/project1_curriculum_grammar.pdf" class="btn btn-primary" target="_blank">↓ Download PDF</a>
-        <a href="papers/project1_curriculum_grammar.tex" class="btn btn-secondary" target="_blank">View LaTeX Source</a>
+      <div class="detail-inner">
+        <div class="detail-theorems">
+          <div class="theorem-box"><p class="theorem-label">Core Definition</p><p class="theorem-text">G = (L, D)<br>D ⊆ L × 𝒯 × L<br>𝒯 = {conceptual,<br>procedural,<br>motivational, social}</p></div>
+          <div class="theorem-box" style="border-color:var(--rust)"><p class="theorem-label">Theorem 1 · Decidability</p><p class="theorem-text">Well-formedness check<br>runs in O(|L| + |D|)<br>— polynomial time.</p></div>
+          <div class="paper-cta">
+            <a href="papers/project1_curriculum_grammar.pdf" class="btn btn-primary" target="_blank">↓ PDF</a>
+            <a href="papers/project1_curriculum_grammar.tex" class="btn btn-secondary" target="_blank">LaTeX</a>
+          </div>
+        </div>
+        <div class="detail-right">
+          <div class="detail-grid">
+            <div class="detail-section"><h4>Key Contributions</h4><ul><li>First formal type system for curriculum dependency structures</li><li>Motivational reachability encodes Harel's necessity principle</li><li>Polynomial-time well-formedness algorithm</li><li>Violations predict attrition (r = −0.62)</li></ul></div>
+            <div class="detail-section"><h4>Technical Stack</h4><ul><li>Graph theory: DAG properties, BFS/DFS</li><li>NLP: Fine-tuned BERT for dependency classification</li><li>Data: IPEDS public institutional data</li><li>Validation: Expert annotation on 5 curricula</li></ul></div>
+            <div class="detail-section"><h4>Why It Matters</h4><ul><li>Shannon analogy: not a better tool, a shared language</li><li>Every subsequent researcher can use the grammar</li><li>Foundation for Projects 2 and 3</li><li>No paywall: full open-source release</li></ul></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -695,15 +723,22 @@ footer p { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; 
       <div class="paper-expand"><span class="expand-arrow">▶</span> Expand full paper details</div>
     </div>
     <div class="paper-detail">
-      <div class="theorem-box"><p class="theorem-label">Core Definition</p><p class="theorem-text">Total Pedagogical Debt: D(C) = Σᵢ [w₁·d_mot(mᵢ) + w₂·d_scaf(mᵢ) + w₃·d_ver(mᵢ)]<br>where weights are estimated from expert annotation.</p></div>
-      <div class="detail-grid">
-        <div class="detail-section"><h4>Three Debt Types</h4><ul><li>Motivational debt: formalism before need</li><li>Scaffolding debt: too many simultaneous dependencies</li><li>Verification debt: no student self-check opportunity</li></ul></div>
-        <div class="detail-section"><h4>The PedDebt Tool</h4><ul><li>Input: PDF, LaTeX, Markdown course materials</li><li>Output: structured JSON debt report</li><li>Four stages: segment → extract → score → report</li><li>Web interface: free upload and analysis</li></ul></div>
-        <div class="detail-section"><h4>Ethical Position</h4><ul><li>Audits materials, not students</li><li>No surveillance or individual monitoring</li><li>Empowers instructors, not administrators</li><li>100% open-source, no paywall</li></ul></div>
-      </div>
-      <div class="paper-cta">
-        <a href="papers/project2_pedagogical_debt.pdf" class="btn btn-primary" target="_blank">↓ Download PDF</a>
-        <a href="papers/project2_pedagogical_debt.tex" class="btn btn-secondary" target="_blank">View LaTeX Source</a>
+      <div class="detail-inner">
+        <div class="detail-theorems">
+          <div class="theorem-box"><p class="theorem-label">Total Debt Formula</p><p class="theorem-text">D(C) = Σᵢ [w₁·d_mot(mᵢ)<br>+ w₂·d_scaf(mᵢ)<br>+ w₃·d_ver(mᵢ)]<br><br>Weights from expert<br>annotation.</p></div>
+          <div class="theorem-box" style="border-color:#7aaa7a"><p class="theorem-label">Validation</p><p class="theorem-text">Cohen's κ = 0.71<br>vs. expert instructors<br>across 15 courses.</p></div>
+          <div class="paper-cta">
+            <a href="papers/project2_pedagogical_debt.pdf" class="btn btn-primary" target="_blank">↓ PDF</a>
+            <a href="papers/project2_pedagogical_debt.tex" class="btn btn-secondary" target="_blank">LaTeX</a>
+          </div>
+        </div>
+        <div class="detail-right">
+          <div class="detail-grid">
+            <div class="detail-section"><h4>Three Debt Types</h4><ul><li>Motivational: formalism before need</li><li>Scaffolding: too many simultaneous dependencies</li><li>Verification: no student self-check opportunity</li></ul></div>
+            <div class="detail-section"><h4>The PedDebt Tool</h4><ul><li>Input: PDF, LaTeX, Markdown materials</li><li>Output: structured JSON debt report</li><li>4 stages: segment → extract → score → report</li><li>Web interface: free upload and analysis</li></ul></div>
+            <div class="detail-section"><h4>Ethical Position</h4><ul><li>Audits materials, not students</li><li>No surveillance or individual monitoring</li><li>Empowers instructors, not administrators</li><li>100% open-source, no paywall</li></ul></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -720,16 +755,22 @@ footer p { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; 
       <div class="paper-expand"><span class="expand-arrow">▶</span> Expand full paper details</div>
     </div>
     <div class="paper-detail">
-      <div class="theorem-box"><p class="theorem-label">Theorem 1 (NP-hardness of MVC)</p><p class="theorem-text">The decision version of MVC is NP-complete.<br>Proof: polynomial reduction from Set Cover.<br>Inapproximability: no (1−ε)ln|T| approximation unless P=NP.</p></div>
-      <div class="theorem-box" style="margin-top:1rem;border-color:var(--gold)"><p class="theorem-label">Theorem 2 (Tractable Case)</p><p class="theorem-text">When conceptual dependencies form a forest,<br>MVC is solvable in O(|L(𝓑)| · |T|) by bottom-up DP.</p></div>
-      <div class="detail-grid">
-        <div class="detail-section"><h4>Key Results</h4><ul><li>MVC is NP-complete (Set Cover reduction)</li><li>Polynomial for tree-structured dependencies</li><li>Greedy ln|T|-approximation algorithm</li><li>MVC-distance predicts persistence outcomes</li></ul></div>
-        <div class="detail-section"><h4>Student Activity</h4><ul><li>Students compute MVC for a topic they just studied</li><li>Designed against all 12 of Anderson's criteria</li><li>Low-floor: accessible with basic graph drawing</li><li>High-ceiling: extends to proving NP-hardness</li></ul></div>
-        <div class="detail-section"><h4>Equity Implication</h4><ul><li>High MVC-distance imposes invisible costs on students</li><li>Excess content disproportionately burdens under-resourced students</li><li>MVC analysis tool released free and open-source</li><li>Students can audit their own curriculum</li></ul></div>
-      </div>
-      <div class="paper-cta">
-        <a href="papers/project3_mvc.pdf" class="btn btn-primary" target="_blank">↓ Download PDF</a>
-        <a href="papers/project3_mvc.tex" class="btn btn-secondary" target="_blank">View LaTeX Source</a>
+      <div class="detail-inner">
+        <div class="detail-theorems">
+          <div class="theorem-box"><p class="theorem-label">Theorem 1 · NP-hardness</p><p class="theorem-text">MVC is NP-complete.<br>Reduction: Set Cover.<br>No (1−ε)ln|T| approx<br>unless P = NP.</p></div>
+          <div class="theorem-box" style="border-color:var(--gold)"><p class="theorem-label">Theorem 2 · Tractable</p><p class="theorem-text">Tree-structured deps:<br>MVC in O(|L(𝓑)|·|T|)<br>via bottom-up DP.</p></div>
+          <div class="paper-cta">
+            <a href="papers/project3_mvc.pdf" class="btn btn-primary" target="_blank">↓ PDF</a>
+            <a href="papers/project3_mvc.tex" class="btn btn-secondary" target="_blank">LaTeX</a>
+          </div>
+        </div>
+        <div class="detail-right">
+          <div class="detail-grid">
+            <div class="detail-section"><h4>Key Results</h4><ul><li>MVC is NP-complete (Set Cover reduction)</li><li>Polynomial for tree-structured dependencies</li><li>Greedy ln|T|-approximation algorithm</li><li>MVC-distance predicts persistence outcomes</li></ul></div>
+            <div class="detail-section"><h4>Student Activity</h4><ul><li>Students compute MVC for a topic they just studied</li><li>Designed against all 12 of Anderson's criteria</li><li>Low-floor: accessible with basic graph drawing</li><li>High-ceiling: extends to proving NP-hardness</li></ul></div>
+            <div class="detail-section"><h4>Equity Implication</h4><ul><li>High MVC-distance imposes invisible costs on students</li><li>Excess content burdens under-resourced students most</li><li>MVC analysis tool released free and open-source</li><li>Students can audit their own curriculum</li></ul></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
