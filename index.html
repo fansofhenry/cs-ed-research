@@ -457,948 +457,843 @@ footer p { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; 
   .debt-summary-row, .mvc-stats { grid-template-columns: 1fr 1fr; }
 }
 </style>
-</head>
+<!-- ═══════════════════════════════════════════════════════════════
+     HENRY FAN — RESEARCH PORTFOLIO
+     Revised structure: honest research framing, proper status labels,
+     grounded in actual interests (help-seeking, persistence, CS Ed)
+     ═══════════════════════════════════════════════════════════════ -->
 <body>
 
 <nav>
   <span class="nav-brand">Henry Fan — Research Portfolio</span>
   <ul class="nav-links">
-    <li><a href="#agenda">Agenda</a></li>
-    <li><a href="#demo-tdg">TDG Demo</a></li>
-    <li><a href="#demo-peddebt">Debt Analyzer</a></li>
-    <li><a href="#demo-mvc">MVC Demo</a></li>
-    <li><a href="#papers">Papers</a></li>
-    <li><a href="#cs-projects">CS Projects</a></li>
-    <li><a href="#linear-algebra-lab">Linear Algebra Lab</a></li>
+    <li><a href="#research-questions">Research</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#tools">Prototype Tools</a></li>
     <li><a href="#origin">Origin</a></li>
+    <li><a href="#cs-projects">Teaching</a></li>
     <li><a href="#about">About</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
+<!-- ══════════════════════════════════════════════════════════════
+     HERO
+     ══════════════════════════════════════════════════════════════ -->
 <section class="hero">
   <div class="hero-left">
-    <p class="hero-eyebrow">Independent Research Series · 2025–2026</p>
+    <p class="hero-eyebrow">CS Education Research · McNair Scholar · 2025–2026</p>
     <h1 class="hero-name">Henry<br>Fan</h1>
-    <p class="hero-title">Computational Education Researcher</p>
-    <p class="hero-thesis">Building the formal vocabulary STEM education has always lacked — precise enough to be computed, human enough to matter.</p>
+    <p class="hero-title">CS Education Researcher</p>
+    <p class="hero-thesis">I study why students leave STEM — and what computational tools can do about it. My work focuses on help-seeking behavior, persistence, and the structural features of introductory CS courses that shape whether students believe the field is for them.</p>
     <div class="hero-affiliations">
       <span class="affil-tag">SJSU McNair Scholar</span>
       <span class="affil-tag">Foothill College Science Learning Institute · Research Lead</span>
+      <span class="affil-tag">Applying to PhD programs · Fall 2026</span>
     </div>
   </div>
   <div class="hero-right">
     <canvas id="hero-canvas"></canvas>
     <div class="hero-right-content">
-      <p class="hero-research-label">Central Research Question</p>
+      <p class="hero-research-label">Central Research Questions</p>
       <div class="mission-statement">
-        <blockquote>"What is the minimum structure needed to transmit an idea — and what accumulated cost do we impose on students when we exceed it?"</blockquote>
-        <cite>Henry Fan · Research Agenda 2025–2026</cite>
+        <blockquote>"What structural features of introductory CS courses predict whether students ask for help when they need it — and how does that vary by student background?"</blockquote>
+        <cite>Research focus · 2025–2026</cite>
+      </div>
+      <div style="margin-top:2.5rem;display:flex;flex-direction:column;gap:0.75rem;">
+        <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);padding-bottom:0.75rem;border-bottom:1px solid var(--rule);">Intellectual Influences</div>
+        <div style="font-family:var(--serif);font-size:0.85rem;color:var(--muted);line-height:1.7;font-weight:300;">Seymour &amp; Hunter, <em>Talking About Leaving Revisited</em></div>
+        <div style="font-family:var(--serif);font-size:0.85rem;color:var(--muted);line-height:1.7;font-weight:300;">Learning analytics · Educational data mining</div>
+        <div style="font-family:var(--serif);font-size:0.85rem;color:var(--muted);line-height:1.7;font-weight:300;">Human-centered computing · SIGCSE · ICER</div>
+        <div style="font-family:var(--serif);font-size:0.85rem;color:var(--muted);line-height:1.7;font-weight:300;">Harel's necessity principle · Jeff Anderson</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- AGENDA -->
-<section id="agenda">
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 01 — RESEARCH QUESTIONS
+     ══════════════════════════════════════════════════════════════ -->
+<section id="research-questions" style="padding: 7rem 5vw; border-bottom: 1px solid var(--rule);">
   <div class="section-header">
     <span class="section-number">01</span>
     <div class="section-rule"></div>
     <span class="section-title">Research Agenda</span>
   </div>
+
   <div class="agenda-grid">
     <div class="agenda-sidebar">
-      <h2>A Unified Theory of Curriculum Structure</h2>
-      <p>Four projects. One mission-critical bottleneck. The absence of a shared formal language for what curricula do to students — and what they could do instead.</p>
+      <h2>Three Questions. One Thread.</h2>
+      <p>My research sits at the intersection of CS education, learning analytics, and human-centered computing. The connecting thread is structural equity: the idea that students don't leave STEM because they can't do the work, but because the structures around them were not designed with them in mind.</p>
+      <p style="margin-top:1rem;">I'm building toward a research program that combines qualitative methods (interview studies grounded in Seymour &amp; Hunter), quantitative learning analytics, and computational tool-building. These are early-stage questions — they need data, methods, and collaboration to answer well.</p>
+      <p style="margin-top:1rem;font-family:var(--mono);font-size:0.65rem;letter-spacing:0.08em;color:var(--rust);">Target venues: SIGCSE · ICER · EDM · LAK · Learning @ Scale</p>
     </div>
+
     <div class="agenda-body">
+
       <div class="agenda-item">
-        <span class="agenda-glyph">G</span>
+        <div class="agenda-glyph">Q1</div>
         <div>
-          <h3>The Language Problem</h3>
-          <p>Instructors and departments make consequential structural decisions without a shared vocabulary precise enough to reason about. Every intervention study starts from scratch. Every finding is trapped in one institution's context. The bottleneck is not data — it is the absence of a formal language.</p>
+          <h3>Help-Seeking and Course Structure</h3>
+          <p>What observable features of introductory CS course design — assignment framing, office hours culture, peer collaboration norms — predict whether students seek help when stuck? Do these predictors differ across demographic groups, and can they be measured from LMS and discussion forum data?</p>
+          <p style="margin-top:0.6rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;color:var(--rust);">Methods: Learning analytics · LMS log analysis · Qualitative coding (Seymour &amp; Hunter taxonomy)</p>
         </div>
       </div>
+
       <div class="agenda-item">
-        <span class="agenda-glyph">D</span>
+        <div class="agenda-glyph">Q2</div>
         <div>
-          <h3>The Cost Problem</h3>
-          <p>Every instructional shortcut — introducing notation before intuition, coverage before comprehension — imposes a cost on student understanding that is currently invisible. Software engineering named this phenomenon two decades ago. Education has not.</p>
+          <h3>Curriculum Structure and Student Departure</h3>
+          <p>Can a graph-based representation of CS curriculum structure reveal which dependency patterns create avoidable confusion bottlenecks? Do community college CS curricula show structural features that research university curricula don't — and do those features predict DFW rates?</p>
+          <p style="margin-top:0.6rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;color:var(--rust);">Methods: Curriculum graph analysis · Institutional data · NLP analysis of syllabi</p>
         </div>
       </div>
+
       <div class="agenda-item">
-        <span class="agenda-glyph">β</span>
+        <div class="agenda-glyph">Q3</div>
         <div>
-          <h3>The Stakes Problem</h3>
-          <p>A student who crosses from "this is hard but I'm in it" to "this isn't for people like me" rarely reverses that belief. That transition has a formal mathematical structure — a separatrix in a bistable dynamical system. It is not inevitable. It is a design choice. Paper 4 proves it.</p>
+          <h3>Replicating Seymour &amp; Hunter at Community Colleges</h3>
+          <p>Do the departure reasons documented in <em>Talking About Leaving Revisited</em> — teaching quality, weed-out culture, belonging, help-seeking suppression — replicate at community colleges? Are there CC-specific departure pathways not captured in the original taxonomy?</p>
+          <p style="margin-top:0.6rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;color:var(--rust);">Methods: Semi-structured interviews · Qualitative coding · Grounded theory · IRB study</p>
         </div>
       </div>
-          <p>We debate curricula in terms of coverage. No one asks: of everything in this curriculum, what is actually <em>necessary</em> to produce the stated competency? This is a well-defined optimization problem. Its NP-hardness has now been proved. Its implications for equity are profound.</p>
+
+      <div class="agenda-item">
+        <div class="agenda-glyph">Q4</div>
+        <div>
+          <h3>Computational Tools for Instructional Auditing</h3>
+          <p>Can NLP-based analysis of course materials reliably identify structural features associated with poor student outcomes — specifically features that suppress help-seeking or create motivational debt? Can such a tool be validated to the point of being useful to instructors?</p>
+          <p style="margin-top:0.6rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;color:var(--rust);">Methods: NLP · Annotation studies · Tool validation · Instructional design literature</p>
         </div>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- DEMO 1: TDG GRAPH EXPLORER -->
-<section id="demo-tdg">
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 02 — ORIGIN (promoted — this is the best content)
+     ══════════════════════════════════════════════════════════════ -->
+<section id="origin" style="padding: 7rem 5vw; border-bottom: 1px solid var(--rule); background: var(--paper);">
   <div class="section-header">
     <span class="section-number">02</span>
     <div class="section-rule"></div>
-    <span class="section-title">Interactive Demo · Paper 01</span>
+    <span class="section-title">Where These Questions Come From</span>
   </div>
-  <p class="demo-intro">A live Typed Dependency Grammar for an introductory linear algebra curriculum. Each node is a learning objective; each edge is a typed dependency.</p>
-  <p class="demo-instruction"><span>Drag nodes</span> to rearrange · <span>Click any node</span> to inspect it · <span>Click legend items</span> to filter by dependency type</p>
-  <div class="tdg-wrapper">
-    <div id="tdg-svg-container">
-      <svg id="tdg-svg"></svg>
+
+  <div class="origin-grid">
+    <div class="origin-left">
+      <h2>The Institution Seen from Every Angle</h2>
+      <div class="origin-pull">"The research isn't despite the student services work. The research <em>is</em> the student services work, made formal."</div>
+      <p>Most CS education researchers arrive at questions about student success from the outside — from data, from literature, from the lab. I arrived at them from inside the institution, from five different roles in which I watched the same students encounter the same invisible structural barriers from completely different vantage points.</p>
+      <p>In financial aid, I saw students leave STEM because a funding gap at the wrong moment made a hard class feel unsurvivable. In counseling, I heard students describe themselves as "not a math person" — a belief constructed from curricula that never explained why anything mattered. In the Teaching and Learning Center, I watched students spend hours on content their course objectives barely required. In learning communities and affinity groups, I saw students discover for the first time that their peers were struggling too — and that this shared knowledge was what let them stay.</p>
+      <p>The research questions I'm pursuing are not abstractions. They are formalized versions of things I watched happen to real students. I do not come to this research with the most advanced technical portfolio in my cohort. What I bring is an unusually complete picture of how students actually move through institutions — and an unusually strong conviction that the problems are structural, solvable, and worth a career.</p>
     </div>
-    <div class="tdg-legend">
-      <p class="legend-title">Dependency Types</p>
-      <div class="legend-item" onclick="filterEdges('conceptual')" id="leg-conceptual">
-        <div class="legend-dot" style="background:#4a9eff"></div>
-        <div class="legend-item-content">
-          <div class="legend-label">Conceptual</div>
-          <div class="legend-desc">Understanding A is logically necessary to understand B</div>
+
+    <div class="origin-right">
+      <div class="service-role">
+        <div class="role-bar"></div>
+        <div>
+          <div class="role-title">Financial Aid</div>
+          <div class="role-insight">Watched students withdraw from STEM not from lack of ability but because financial precarity made any obstacle feel final. Learned that structural interventions outperform individual counseling every time.</div>
+          <div class="role-research-link">→ Grounds the equity focus of Q1 and Q3</div>
         </div>
       </div>
-      <div class="legend-item" onclick="filterEdges('procedural')" id="leg-procedural">
-        <div class="legend-dot" style="background:#c9963a"></div>
-        <div class="legend-item-content">
-          <div class="legend-label">Procedural</div>
-          <div class="legend-desc">Fluency with A is needed to perform tasks in B</div>
+      <div class="service-role">
+        <div class="role-bar"></div>
+        <div>
+          <div class="role-title">Academic Counseling</div>
+          <div class="role-insight">Heard students articulate fixed beliefs about their own mathematical ability — beliefs formed from curricula that never established why the material mattered. Introduced to Harel's necessity principle not from theory but from watching what happened when it was violated.</div>
+          <div class="role-research-link">→ Motivational structure · Q2 and Q4</div>
         </div>
       </div>
-      <div class="legend-item" onclick="filterEdges('motivational')" id="leg-motivational">
-        <div class="legend-dot" style="background:#b84a2e"></div>
-        <div class="legend-item-content">
-          <div class="legend-label">Motivational</div>
-          <div class="legend-desc">Encountering A creates intellectual need for B</div>
+      <div class="service-role">
+        <div class="role-bar"></div>
+        <div>
+          <div class="role-title">Teaching &amp; Learning Center</div>
+          <div class="role-insight">Tutored students navigating content their course objectives barely required. Began asking: how much of what students are struggling with is actually necessary for where they are trying to go? This question shapes Q2 directly.</div>
+          <div class="role-research-link">→ Curriculum structure · Q2</div>
         </div>
       </div>
-      <div class="legend-item" onclick="filterEdges('social')" id="leg-social">
-        <div class="legend-dot" style="background:#7aaa7a"></div>
-        <div class="legend-item-content">
-          <div class="legend-label">Social</div>
-          <div class="legend-desc">Collaboration around A creates context for B</div>
+      <div class="service-role">
+        <div class="role-bar"></div>
+        <div>
+          <div class="role-title">Learning Communities</div>
+          <div class="role-insight">Saw peer context transform students' relationship to difficulty. A student who believes they are uniquely confused is fragile. One who learns confusion is shared and structural becomes resilient. This is the mechanism behind help-seeking suppression that Q1 aims to measure.</div>
+          <div class="role-research-link">→ Help-seeking behavior · Q1</div>
         </div>
       </div>
-      <div class="legend-item" onclick="filterEdges(null)" style="border-top: 1px solid #222; margin-top:0.5rem">
-        <div class="legend-dot" style="background:#444"></div>
-        <div class="legend-item-content">
-          <div class="legend-label">Show All</div>
-          <div class="legend-desc">Reset all filters</div>
+      <div class="service-role">
+        <div class="role-bar"></div>
+        <div>
+          <div class="role-title">Affinity Groups</div>
+          <div class="role-insight">Worked with students told in both explicit and subtle ways that STEM was not for them. Saw how belonging-based interventions changed persistence more reliably than content-based ones. This grounds the Seymour &amp; Hunter replication in Q3.</div>
+          <div class="role-research-link">→ STEM departure · Q3</div>
         </div>
-      </div>
-      <div class="tdg-node-info" id="node-info">
-        <p class="node-info-label">Selected Node</p>
-        <p class="node-info-desc" style="color:#444; font-style:italic;">Click any node in the graph to inspect its learning objective, type, and dependencies.</p>
       </div>
     </div>
+
+    <div class="origin-conviction">
+      <div class="conviction-left">"The students we lose are not students who couldn't do the work. They are students for whom the work was never designed."</div>
+      <div class="conviction-right">
+        <p>This research program takes Seymour and Hunter's landmark finding seriously: departure from STEM correlates with teaching quality and structural factors, not academic ability. The computational question is whether we can build tools that make those structural factors visible and actionable for instructors.</p>
+        <p>The goal is not a better prediction model. The goal is curriculum and institutional design that builds students' belief in themselves, their tolerance for hard problems, and their capacity for deep learning — by design, not by accident.</p>
+        <div class="conviction-pillars">
+          <span class="pillar">Help-seeking</span>
+          <span class="pillar">Structural equity</span>
+          <span class="pillar">STEM persistence</span>
+          <span class="pillar">Learning analytics</span>
+          <span class="pillar">Open science</span>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<!-- DEMO 2: PEDAGOGICAL DEBT ANALYZER -->
-<section id="demo-peddebt">
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 03 — FLAGSHIP PROJECTS
+     ══════════════════════════════════════════════════════════════ -->
+<section id="projects" style="padding: 7rem 5vw; background: var(--ink); color: var(--paper); border-bottom: 2px solid var(--ink);">
   <div class="section-header">
-    <span class="section-number">03</span>
-    <div class="section-rule"></div>
-    <span class="section-title">Interactive Demo · Paper 02 — Pedagogical Debt Analyzer</span>
+    <span class="section-number" style="color:var(--gold);">03</span>
+    <div class="section-rule" style="background:#222;"></div>
+    <span class="section-title" style="color:#555;">Flagship Projects · 2025–2027</span>
   </div>
-  <p class="demo-intro" style="color:var(--muted)">Paste any course description, syllabus excerpt, or lecture introduction below. The analyzer scores it for motivational, scaffolding, and verification debt using the PedDebt heuristics from Paper 02.</p>
-  <p class="demo-instruction" style="color:var(--muted)">Try the <span style="color:var(--rust)">preset examples</span> to see the difference between high-debt and low-debt instructional writing.</p>
-  <div class="peddebt-wrapper">
-    <div class="peddebt-input-col">
-      <label class="peddebt-label">Course Material Input</label>
-      <textarea id="peddebt-textarea" placeholder="Paste a course description, syllabus section, or lecture introduction here..."></textarea>
-      <div class="peddebt-presets">
-        <button class="preset-btn" onclick="loadPreset('high')">⚠ High-Debt Example</button>
-        <button class="preset-btn" onclick="loadPreset('low')">✓ Low-Debt Example</button>
-        <button class="preset-btn" onclick="loadPreset('mixed')">Mixed Example</button>
+
+  <p style="font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#888;max-width:65ch;margin-bottom:1.5rem;font-weight:300;">Five research projects in various stages of development. Status is shown honestly: what exists, what's in progress, what's proposed. Each targets a specific venue.</p>
+  <p style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;color:#444;margin-bottom:4rem;">
+    <span style="color:var(--gold);margin-right:1.5rem;">■ PROPOSED</span>
+    <span style="color:#7aaa7a;margin-right:1.5rem;">■ IN PROGRESS</span>
+    <span style="color:var(--rust);margin-right:1.5rem;">■ SUBMITTED</span>
+  </p>
+
+  <!-- Project cards -->
+  <div style="display:flex;flex-direction:column;gap:0;">
+
+    <!-- P1: HelpMap -->
+    <div class="paper-card" style="border-color:#1a1a1a;">
+      <div class="paper-number" style="color:var(--gold);">P1</div>
+      <div class="paper-content">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem;">
+          <div class="paper-tag-row">
+            <span class="paper-tag" style="color:var(--gold);border-color:#3a2a0a;">Learning Analytics · NLP · LMS Data</span>
+          </div>
+          <span style="font-family:var(--mono);font-size:0.55rem;letter-spacing:0.12em;padding:2px 8px;border:1px solid var(--gold);color:var(--gold);opacity:0.7;">PROPOSED · TARGET SIGCSE 2027</span>
+        </div>
+        <h3 class="paper-title">HelpMap: Detecting Help-Seeking Suppression in Introductory CS</h3>
+        <p class="paper-abstract">What behavioral signals in LMS and discussion forum data predict whether students seek help when stuck — and do these signals differ by demographic group? This project builds a validated feature set for help-seeking suppression from Canvas logs and Piazza/Ed discussion data across 3–5 intro CS sections at Foothill College and SJSU. The technical core is NLP classification of question types combined with time-series analysis of help-seeking latency. The output is an open-source instructor dashboard.</p>
+        <div class="paper-expand-btn" onclick="toggleDetail(this)">▶ &nbsp;Research design details</div>
+        <div class="paper-detail">
+          <div class="detail-grid">
+            <div class="detail-left">
+              <div class="theorem-box" style="border-color:var(--gold);">
+                <p class="theorem-label">Research Question</p>
+                <p class="theorem-text">Which LMS behavioral features predict help-seeking suppression in CS1, and does the feature importance differ across first-generation, URM, and continuing-generation students?</p>
+              </div>
+              <div class="theorem-box" style="border-color:#333;margin-top:1rem;">
+                <p class="theorem-label">Status</p>
+                <p class="theorem-text">Proposed. IRB protocol in preparation. Data access conversation with Foothill College STEM faculty underway.</p>
+              </div>
+            </div>
+            <div class="detail-right">
+              <div class="detail-grid" style="grid-template-columns:1fr 1fr;gap:1.5rem;">
+                <div class="detail-section"><h4>Methods</h4><ul><li>Retrospective LMS log analysis (Canvas)</li><li>NLP classification of Piazza/Ed posts by question type</li><li>Logistic regression + gradient boosting</li><li>Qualitative coding of stratified sample (Seymour &amp; Hunter taxonomy)</li></ul></div>
+                <div class="detail-section"><h4>Datasets</h4><ul><li>Foothill College CS course logs (IRB required)</li><li>Public PSLC DataShop CS datasets</li><li>Publicly available CS1 discussion forums</li></ul></div>
+                <div class="detail-section"><h4>Technical Stack</h4><ul><li>Python: pandas, scikit-learn, HuggingFace</li><li>D3.js instructor dashboard</li><li>R for statistical analysis</li></ul></div>
+                <div class="detail-section"><h4>Expected Contribution</h4><ul><li>Validated feature set for help-seeking suppression</li><li>Open-source dashboard for instructors</li><li>Extension of Seymour &amp; Hunter to behavioral data</li></ul></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <button class="analyze-btn" onclick="analyzePedDebt()">Analyze for Pedagogical Debt →</button>
     </div>
-    <div class="peddebt-results" id="peddebt-results">
-      <div class="results-placeholder">Analysis will appear here after you paste text and click Analyze.</div>
+
+    <!-- P2: SyllabusAudit -->
+    <div class="paper-card" style="border-color:#1a1a1a;">
+      <div class="paper-number" style="color:#7aaa7a;">P2</div>
+      <div class="paper-content">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem;">
+          <div class="paper-tag-row">
+            <span class="paper-tag" style="color:#7aaa7a;border-color:#1a3a1a;">NLP · Static Analysis · Instructional Design</span>
+          </div>
+          <span style="font-family:var(--mono);font-size:0.55rem;letter-spacing:0.12em;padding:2px 8px;border:1px solid #7aaa7a;color:#7aaa7a;opacity:0.7;">IN PROGRESS · TARGET LEARNING @ SCALE 2027</span>
+        </div>
+        <h3 class="paper-title">SyllabusAudit: NLP-Based Structural Analysis of CS Course Materials</h3>
+        <p class="paper-abstract">Can automated analysis of syllabi and assignment descriptions reliably identify structural features associated with poor student outcomes? This project builds a corpus of 100+ CS1/CS2 syllabi, develops an annotation schema grounded in Harel's necessity principle, and fine-tunes a lightweight NLP classifier on expert annotations. The "Pedagogical Debt" idea on this site is the theoretical motivation — this project is the empirical grounding. Inter-rater reliability is measured on real annotated data, not simulated.</p>
+        <div class="paper-expand-btn" onclick="toggleDetail(this)">▶ &nbsp;Research design details</div>
+        <div class="paper-detail">
+          <div class="detail-grid">
+            <div class="detail-left">
+              <div class="theorem-box" style="border-color:#7aaa7a;">
+                <p class="theorem-label">Research Question</p>
+                <p class="theorem-text">Can automated analysis of CS course materials identify motivational structure features that predict student help-seeking rates, and can this analysis be validated against instructor expert judgment (Cohen's κ ≥ 0.65)?</p>
+              </div>
+              <div class="theorem-box" style="border-color:#333;margin-top:1rem;">
+                <p class="theorem-label">Current Status</p>
+                <p class="theorem-text">In progress. Corpus construction underway (47 syllabi collected). Annotation schema drafted. Expert annotator recruitment planned for Spring 2026.</p>
+              </div>
+            </div>
+            <div class="detail-right">
+              <div class="detail-grid" style="grid-template-columns:1fr 1fr;gap:1.5rem;">
+                <div class="detail-section"><h4>Methods</h4><ul><li>Corpus: 100+ CS1/CS2 syllabi (public + IRB-approved)</li><li>Annotation schema based on necessity principle</li><li>Fine-tune BERT-class model on annotations</li><li>Validate against student outcome data</li></ul></div>
+                <div class="detail-section"><h4>Annotation Scheme</h4><ul><li>Motivational debt: formalism before need</li><li>Scaffolding regularity: dependency load per unit</li><li>Verification opportunities: self-check affordances</li><li>Belonging signals: framing and example selection</li></ul></div>
+                <div class="detail-section"><h4>Technical Stack</h4><ul><li>HuggingFace Transformers</li><li>Label Studio for annotation</li><li>Python NLP pipeline</li><li>R for inter-rater reliability</li></ul></div>
+                <div class="detail-section"><h4>Open Science Plan</h4><ul><li>Annotation schema released as open standard</li><li>Annotated corpus released (IRB-permitting)</li><li>Model weights open-source</li><li>Web tool for instructor upload</li></ul></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- P3: WhyTheyLeft -->
+    <div class="paper-card" style="border-color:#1a1a1a;">
+      <div class="paper-number" style="color:var(--rust);">P3</div>
+      <div class="paper-content">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem;">
+          <div class="paper-tag-row">
+            <span class="paper-tag" style="color:var(--rust);border-color:#3a1a0a;">Qualitative Research · Interview Study · STEM Departure</span>
+          </div>
+          <span style="font-family:var(--mono);font-size:0.55rem;letter-spacing:0.12em;padding:2px 8px;border:1px solid var(--rust);color:var(--rust);opacity:0.7;">PROPOSED · TARGET ICER 2027</span>
+        </div>
+        <h3 class="paper-title">Why They Left: A Seymour &amp; Hunter Replication at Community Colleges</h3>
+        <p class="paper-abstract">Seymour and Hunter documented that students who leave STEM are not academically weaker than those who stay — they leave for structural reasons: teaching quality, weed-out culture, help-seeking suppression, belonging. Their landmark studies were conducted at research universities. This project asks whether those findings replicate at community colleges, which serve a demographically different population and a different institutional structure. 20–30 semi-structured interviews, qualitative coding against the S&amp;H taxonomy, open coding for CC-specific themes.</p>
+        <div class="paper-expand-btn" onclick="toggleDetail(this)">▶ &nbsp;Research design details</div>
+        <div class="paper-detail">
+          <div class="detail-grid">
+            <div class="detail-left">
+              <div class="theorem-box" style="border-color:var(--rust);">
+                <p class="theorem-label">Research Question</p>
+                <p class="theorem-text">Do the departure reasons documented by Seymour &amp; Hunter at research universities replicate at community colleges, and are there CC-specific structural departure pathways not captured in the original taxonomy?</p>
+              </div>
+              <div class="theorem-box" style="border-color:#333;margin-top:1rem;">
+                <p class="theorem-label">Why This First</p>
+                <p class="theorem-text">This is the empirical foundation the other projects need. Before building computational tools to address structural problems, we need to confirm which structural problems actually exist in this context. This is also the most IRB-feasible first study.</p>
+              </div>
+            </div>
+            <div class="detail-right">
+              <div class="detail-grid" style="grid-template-columns:1fr 1fr;gap:1.5rem;">
+                <div class="detail-section"><h4>Methods</h4><ul><li>20–30 semi-structured interviews</li><li>Participants: students who left STEM at Foothill within 2 years</li><li>Coding against S&amp;H taxonomy (deductive)</li><li>Open coding for emergent themes (inductive)</li><li>Grounded theory analysis + member-checking</li></ul></div>
+                <div class="detail-section"><h4>Key Literature</h4><ul><li>Seymour &amp; Hunter (1997, 2019)</li><li>Margolis &amp; Fisher, <em>Unlocking the Clubhouse</em></li><li>Walton &amp; Brady on belonging</li><li>SEISMIC Consortium data</li><li>PERTS Mindset Meter</li></ul></div>
+                <div class="detail-section"><h4>IRB Requirements</h4><ul><li>Full IRB protocol (not exempt)</li><li>Informed consent for recording</li><li>Participant confidentiality procedures</li><li>Deidentification before analysis</li></ul></div>
+                <div class="detail-section"><h4>Expected Contribution</h4><ul><li>CC-specific extension of S&amp;H taxonomy</li><li>Open coding manual for replication</li><li>Empirical grounding for P1 feature selection</li><li>Public dataset (deidentified transcripts, IRB-permitting)</li></ul></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P4: CurriculumGraph -->
+    <div class="paper-card" style="border-color:#1a1a1a;">
+      <div class="paper-number" style="color:#6a9ed4;">P4</div>
+      <div class="paper-content">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem;">
+          <div class="paper-tag-row">
+            <span class="paper-tag" style="color:#6a9ed4;border-color:#0a1a3a;">Graph Theory · Curriculum Design · Tool Development</span>
+          </div>
+          <span style="font-family:var(--mono);font-size:0.55rem;letter-spacing:0.12em;padding:2px 8px;border:1px solid #6a9ed4;color:#6a9ed4;opacity:0.7;">PROPOSED · TARGET SIGCSE 2027</span>
+        </div>
+        <h3 class="paper-title">CurriculumGraph: Mapping and Analyzing CS Dependency Structures</h3>
+        <p class="paper-abstract">A graph-based representation of CS curriculum structure, built as an annotation tool for instructors. The theoretical motivation is the Typed Dependency Grammar framework developed in this research agenda — but this project approaches it empirically, not formally. Instructors annotate their curriculum; the tool computes structural statistics (longest path, fan-in/fan-out, cycle detection); preliminary correlations with DFW rates are examined. This is the empirical version of the TDG idea.</p>
+        <div class="paper-expand-btn" onclick="toggleDetail(this)">▶ &nbsp;Research design details</div>
+        <div class="paper-detail">
+          <div class="detail-grid">
+            <div class="detail-left">
+              <div class="theorem-box" style="border-color:#6a9ed4;">
+                <p class="theorem-label">Research Question</p>
+                <p class="theorem-text">Can a graph-based representation of CS curriculum dependency structure reveal bottleneck patterns that predict student confusion and DFW rates, and do these patterns vary between community colleges and research universities?</p>
+              </div>
+            </div>
+            <div class="detail-right">
+              <div class="detail-grid" style="grid-template-columns:1fr 1fr;gap:1.5rem;">
+                <div class="detail-section"><h4>Methods</h4><ul><li>Annotation tool: React-based graph builder</li><li>Pilot with 5–10 instructors at Foothill and SJSU</li><li>Graph structural analysis (NetworkX)</li><li>Correlation with grade distribution and DFW rates</li></ul></div>
+                <div class="detail-section"><h4>Technical Stack</h4><ul><li>React annotation interface</li><li>Python NetworkX for analysis</li><li>D3.js for visualization</li><li>Statistical analysis in R</li></ul></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- P5: BelongingSignals -->
+    <div class="paper-card" style="border-color:#1a1a1a;">
+      <div class="paper-number" style="color:#c9963a;">P5</div>
+      <div class="paper-content">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:0.5rem;">
+          <div class="paper-tag-row">
+            <span class="paper-tag" style="color:#c9963a;border-color:#3a2a0a;">Belonging · Course Design · Survey Methods</span>
+          </div>
+          <span style="font-family:var(--mono);font-size:0.55rem;letter-spacing:0.12em;padding:2px 8px;border:1px solid #c9963a;color:#c9963a;opacity:0.7;">PROPOSED · TARGET ICER 2027</span>
+        </div>
+        <h3 class="paper-title">BelongingSignals: Coding Course Materials for Structural Belonging Features</h3>
+        <p class="paper-abstract">Which observable features of introductory CS course design predict students' sense of belonging — and can those features be reliably coded from course materials alone? This project develops a coding scheme grounded in Walton &amp; Brady's belonging literature and Margolis &amp; Fisher's <em>Unlocking the Clubhouse</em>, applies it to a corpus of CS1 materials, and validates coding against belonging survey data from an IRB-approved prospective study.</p>
+        <div class="paper-expand-btn" onclick="toggleDetail(this)">▶ &nbsp;Research design details</div>
+        <div class="paper-detail">
+          <div class="detail-grid">
+            <div class="detail-left">
+              <div class="theorem-box" style="border-color:#c9963a;">
+                <p class="theorem-label">Research Question</p>
+                <p class="theorem-text">Which codeable features of CS1 course design predict student belonging scores (Walton 3-item scale), and can a reliable coding instrument be developed that instructors can use to audit their own materials?</p>
+              </div>
+            </div>
+            <div class="detail-right">
+              <div class="detail-grid" style="grid-template-columns:1fr 1fr;gap:1.5rem;">
+                <div class="detail-section"><h4>Methods</h4><ul><li>Coding scheme development (Walton + Margolis &amp; Fisher)</li><li>Corpus: CS1 materials from willing instructors</li><li>Prospective belonging survey (IRB-approved)</li><li>Validate coding against survey outcomes</li></ul></div>
+                <div class="detail-section"><h4>Expected Output</h4><ul><li>Open coding instrument</li><li>Validated belonging feature set</li><li>Actionable instructor guidance</li><li>Connection to P1 (help-seeking) and P3 (departure)</li></ul></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<!-- DEMO 3: MVC ALGORITHM -->
-<section id="demo-mvc">
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 04 — PROTOTYPE TOOLS
+     (demos reframed as "research tools in development")
+     ══════════════════════════════════════════════════════════════ -->
+<section id="tools" style="padding: 7rem 5vw; background: var(--ink); color: var(--paper); border-bottom: 2px solid var(--ink);">
   <div class="section-header">
-    <span class="section-number">04</span>
-    <div class="section-rule"></div>
-    <span class="section-title">Interactive Demo · Paper 03 — MVC Algorithm Visualizer</span>
+    <span class="section-number" style="color:var(--gold);">04</span>
+    <div class="section-rule" style="background:#222;"></div>
+    <span class="section-title" style="color:#555;">Prototype Tools · Under Development</span>
   </div>
-  <p class="demo-intro" style="color:var(--muted)">Watch the greedy MVC approximation algorithm run step by step on a sample curriculum graph. Gray nodes are the full curriculum; the algorithm finds the minimum subset that covers all terminal objectives (shown in red).</p>
-  <div class="mvc-wrapper">
-    <div class="mvc-controls">
-      <button class="mvc-btn mvc-btn-primary" onclick="mvcStep()">Step Forward →</button>
-      <button class="mvc-btn mvc-btn-secondary" onclick="mvcReset()">Reset</button>
-      <button class="mvc-btn mvc-btn-secondary" onclick="mvcRunAll()">Run All</button>
-      <span class="mvc-step-label" id="mvc-step-label">Step 0 of 7</span>
-    </div>
-    <div class="mvc-stage">
-      <div id="mvc-canvas-container">
-        <svg id="mvc-svg" width="100%" height="100%"></svg>
-      </div>
-      <div class="mvc-sidebar">
-        <div class="mvc-status-box">
-          <p class="mvc-status-title">Algorithm State</p>
-          <p class="mvc-status-text" id="mvc-status">Press "Step Forward" to begin the Minimum Viable Curriculum greedy algorithm. The red nodes are terminal objectives — what students must be able to do by the end.</p>
-        </div>
-        <div class="mvc-stats">
-          <div class="mvc-stat">
-            <div class="mvc-stat-num" id="mvc-total-nodes">14</div>
-            <div class="mvc-stat-label">Full Curriculum</div>
-          </div>
-          <div class="mvc-stat">
-            <div class="mvc-stat-num highlight" id="mvc-mvc-nodes">—</div>
-            <div class="mvc-stat-label">MVC Size</div>
-          </div>
-          <div class="mvc-stat">
-            <div class="mvc-stat-num" id="mvc-covered">0</div>
-            <div class="mvc-stat-label">Objectives Covered</div>
-          </div>
-          <div class="mvc-stat">
-            <div class="mvc-stat-num highlight" id="mvc-distance">—</div>
-            <div class="mvc-stat-label">MVC-Distance</div>
-          </div>
-        </div>
-        <div class="mvc-theorem-box">
-          <p class="mvc-theorem-label">Theorem (Paper 03)</p>
-          <p class="mvc-theorem-text" id="mvc-theorem">MVC is NP-complete in general.<br>Reduction: Set Cover → MVC.<br><br>This greedy algorithm gives a ln|T|-approximation, matching the inapproximability lower bound.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- PAPERS -->
-<section id="papers">
-  <div class="section-header">
-    <span class="section-number">05</span>
-    <div class="section-rule"></div>
-    <span class="section-title">Research Papers</span>
-  </div>
-  <p class="papers-intro">Four independent papers constituting a unified research agenda. Click any paper to expand the full technical detail.</p>
-  <div class="paper-card" onclick="togglePaper(this)">
-    <div class="paper-number-col"><span class="paper-num">Paper 01</span></div>
-    <div class="paper-main">
-      <div class="paper-meta">
-        <span class="paper-tag">Formal Methods · Learning Analytics</span>
-        <span class="paper-conference">Target: EDM 2026 · LAK 2026</span>
-      </div>
-      <h2 class="paper-title">Toward a Typed Dependency Grammar for Undergraduate Curricula</h2>
-      <p class="paper-subtitle">A formal language for describing what curricula actually teach</p>
-      <p class="paper-abstract-preview">We introduce the Typed Dependency Grammar (TDG) — a directed graph in which learning objectives are nodes and typed edges encode four classes of dependency: conceptual, procedural, motivational, and social. We prove well-formedness is decidable in polynomial time and provide preliminary empirical evidence that structural violations predict student attrition.</p>
-      <div class="paper-expand"><span class="expand-arrow">▶</span> Expand full paper details</div>
-    </div>
-    <div class="paper-detail">
-      <div class="detail-inner">
-        <div class="detail-theorems">
-          <div class="theorem-box"><p class="theorem-label">Core Definition</p><p class="theorem-text">G = (L, D)<br>D ⊆ L × 𝒯 × L<br>𝒯 = {conceptual,<br>procedural,<br>motivational, social}</p></div>
-          <div class="theorem-box" style="border-color:var(--rust)"><p class="theorem-label">Theorem 1 · Decidability</p><p class="theorem-text">Well-formedness check<br>runs in O(|L| + |D|)<br>— polynomial time.</p></div>
-          <div class="paper-cta">
-            <a href="papers/project1_curriculum_grammar.pdf" class="btn btn-primary" target="_blank">↓ PDF</a>
-            <a href="papers/project1_curriculum_grammar.tex" class="btn btn-secondary" target="_blank">LaTeX</a>
-          </div>
-        </div>
-        <div class="detail-right">
-          <div class="detail-grid">
-            <div class="detail-section"><h4>Key Contributions</h4><ul><li>First formal type system for curriculum dependency structures</li><li>Motivational reachability encodes Harel's necessity principle</li><li>Polynomial-time well-formedness algorithm</li><li>Violations predict attrition (r = −0.62)</li></ul></div>
-            <div class="detail-section"><h4>Technical Stack</h4><ul><li>Graph theory: DAG properties, BFS/DFS</li><li>NLP: Fine-tuned BERT for dependency classification</li><li>Data: IPEDS public institutional data</li><li>Validation: Expert annotation on 5 curricula</li></ul></div>
-            <div class="detail-section"><h4>Why It Matters</h4><ul><li>Shannon analogy: not a better tool, a shared language</li><li>Every subsequent researcher can use the grammar</li><li>Foundation for Projects 2 and 3</li><li>No paywall: full open-source release</li></ul></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="paper-card" onclick="togglePaper(this)">
-    <div class="paper-number-col"><span class="paper-num">Paper 02</span></div>
-    <div class="paper-main">
-      <div class="paper-meta">
-        <span class="paper-tag">NLP · Static Analysis · Pedagogy</span>
-        <span class="paper-conference">Target: ACM Learning @ Scale · ICER 2026</span>
-      </div>
-      <h2 class="paper-title">Pedagogical Debt: Formalizing and Auditing Accumulated Instructional Shortcuts</h2>
-      <p class="paper-subtitle">A static analysis tool for course material quality</p>
-      <p class="paper-abstract-preview">We introduce pedagogical debt — the accumulated cost to student understanding of instructional shortcuts — grounded in Harel's necessity principle and Jeff Anderson's twelve modeling criteria. We build PedDebt, an open-source static analysis tool validated at Cohen's κ = 0.71 against expert instructors.</p>
-      <div class="paper-expand"><span class="expand-arrow">▶</span> Expand full paper details</div>
-    </div>
-    <div class="paper-detail">
-      <div class="detail-inner">
-        <div class="detail-theorems">
-          <div class="theorem-box"><p class="theorem-label">Total Debt Formula</p><p class="theorem-text">D(C) = Σᵢ [w₁·d_mot(mᵢ)<br>+ w₂·d_scaf(mᵢ)<br>+ w₃·d_ver(mᵢ)]<br><br>Weights from expert<br>annotation.</p></div>
-          <div class="theorem-box" style="border-color:#7aaa7a"><p class="theorem-label">Validation</p><p class="theorem-text">Cohen's κ = 0.71<br>vs. expert instructors<br>across 15 courses.</p></div>
-          <div class="paper-cta">
-            <a href="papers/project2_pedagogical_debt.pdf" class="btn btn-primary" target="_blank">↓ PDF</a>
-            <a href="papers/project2_pedagogical_debt.tex" class="btn btn-secondary" target="_blank">LaTeX</a>
-          </div>
-        </div>
-        <div class="detail-right">
-          <div class="detail-grid">
-            <div class="detail-section"><h4>Three Debt Types</h4><ul><li>Motivational: formalism before need</li><li>Scaffolding: too many simultaneous dependencies</li><li>Verification: no student self-check opportunity</li></ul></div>
-            <div class="detail-section"><h4>The PedDebt Tool</h4><ul><li>Input: PDF, LaTeX, Markdown materials</li><li>Output: structured JSON debt report</li><li>4 stages: segment → extract → score → report</li><li>Web interface: free upload and analysis</li></ul></div>
-            <div class="detail-section"><h4>Ethical Position</h4><ul><li>Audits materials, not students</li><li>No surveillance or individual monitoring</li><li>Empowers instructors, not administrators</li><li>100% open-source, no paywall</li></ul></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="paper-card" onclick="togglePaper(this)">
-    <div class="paper-number-col"><span class="paper-num">Paper 03</span></div>
-    <div class="paper-main">
-      <div class="paper-meta">
-        <span class="paper-tag">Algorithms · Complexity Theory · Curriculum Design</span>
-        <span class="paper-conference">Target: ICER 2026 · NeurIPS Education Workshop</span>
-      </div>
-      <h2 class="paper-title">The Minimum Viable Curriculum Problem: Complexity, Structure, and Instructional Sufficiency</h2>
-      <p class="paper-subtitle">An NP-hardness proof and tractable special cases for optimal curriculum design</p>
-      <p class="paper-abstract-preview">We introduce and formalize the MVC problem, prove its NP-hardness via reduction from Set Cover, identify polynomial special cases, provide a greedy approximation algorithm, and design a hands-on student activity meeting all twelve of Jeff Anderson's modeling criteria.</p>
-      <div class="paper-expand"><span class="expand-arrow">▶</span> Expand full paper details</div>
-    </div>
-    <div class="paper-detail">
-      <div class="detail-inner">
-        <div class="detail-theorems">
-          <div class="theorem-box"><p class="theorem-label">Theorem 1 · NP-hardness</p><p class="theorem-text">MVC is NP-complete.<br>Reduction: Set Cover.<br>No (1−ε)ln|T| approx<br>unless P = NP.</p></div>
-          <div class="theorem-box" style="border-color:var(--gold)"><p class="theorem-label">Theorem 2 · Tractable</p><p class="theorem-text">Tree-structured deps:<br>MVC in O(|L(𝓑)|·|T|)<br>via bottom-up DP.</p></div>
-          <div class="paper-cta">
-            <a href="papers/project3_mvc.pdf" class="btn btn-primary" target="_blank">↓ PDF</a>
-            <a href="papers/project3_mvc.tex" class="btn btn-secondary" target="_blank">LaTeX</a>
-          </div>
-        </div>
-        <div class="detail-right">
-          <div class="detail-grid">
-            <div class="detail-section"><h4>Key Results</h4><ul><li>MVC is NP-complete (Set Cover reduction)</li><li>Polynomial for tree-structured dependencies</li><li>Greedy ln|T|-approximation algorithm</li><li>MVC-distance predicts persistence outcomes</li></ul></div>
-            <div class="detail-section"><h4>Student Activity</h4><ul><li>Students compute MVC for a topic they just studied</li><li>Designed against all 12 of Anderson's criteria</li><li>Low-floor: accessible with basic graph drawing</li><li>High-ceiling: extends to proving NP-hardness</li></ul></div>
-            <div class="detail-section"><h4>Equity Implication</h4><ul><li>High MVC-distance imposes invisible costs on students</li><li>Excess content burdens under-resourced students most</li><li>MVC analysis tool released free and open-source</li><li>Students can audit their own curriculum</li></ul></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+  <p style="font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#888;max-width:65ch;margin-bottom:1rem;font-weight:300;">Three prototype tools that operationalize ideas from the research agenda above. These are proof-of-concept implementations — the theoretical frameworks they demonstrate need empirical validation against real data. They are offered here as interactive illustrations, not as validated instruments.</p>
+  <p style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;color:#444;margin-bottom:4rem;">Drag nodes to rearrange · Click to inspect · All data is synthetic</p>
 
-<!-- PAPER 4 PHASE PORTRAIT DEMO + CARD -->
-<section id="demo-basins" style="padding: 0; background: var(--ink);">
-  <!-- Phase portrait interactive sits between paper 3 and paper 4 card -->
-  <div style="padding: 5rem 5vw 3rem; border-top: 1px solid #222;">
-    <div style="display:grid; grid-template-columns: 1fr 380px; gap: 3rem; align-items: start;">
+  <!-- TDG DEMO (keep existing) -->
+  <div id="demo-tdg" style="padding:0;background:transparent;border-bottom:1px solid #1a1a1a;padding-bottom:4rem;margin-bottom:4rem;">
+    <div class="section-header">
+      <span class="section-number" style="color:var(--gold);">04a</span>
+      <div class="section-rule" style="background:#222;"></div>
+      <span class="section-title" style="color:#555;">Curriculum Dependency Visualizer · Prototype for P4</span>
+    </div>
+    <p class="demo-intro">A live Typed Dependency Grammar for an introductory linear algebra curriculum. Each node is a learning objective; each typed edge encodes one of four dependency relationships. This is a synthetic example — the empirical question in P4 is whether real instructor-annotated graphs show predictive patterns for student outcomes.</p>
+    <p class="demo-instruction"><span>Drag nodes</span> to rearrange · <span>Click any node</span> to inspect it · <span>Click legend items</span> to filter by dependency type</p>
+
+    <div class="tdg-wrapper">
+      <div id="tdg-svg-container">
+        <svg id="tdg-svg"></svg>
+      </div>
+      <div class="tdg-legend">
+        <div class="legend-title">Dependency Types</div>
+        <div class="legend-item" id="leg-conceptual" onclick="filterEdges('conceptual')">
+          <div class="legend-dot" style="background:#4a9eff;"></div>
+          <div class="legend-item-content">
+            <div class="legend-label">Conceptual</div>
+            <div class="legend-desc">Understanding A is logically necessary to understand B</div>
+          </div>
+        </div>
+        <div class="legend-item" id="leg-procedural" onclick="filterEdges('procedural')">
+          <div class="legend-dot" style="background:#c9963a;"></div>
+          <div class="legend-item-content">
+            <div class="legend-label">Procedural</div>
+            <div class="legend-desc">Fluency with A is needed to perform tasks in B</div>
+          </div>
+        </div>
+        <div class="legend-item" id="leg-motivational" onclick="filterEdges('motivational')">
+          <div class="legend-dot" style="background:#b84a2e;"></div>
+          <div class="legend-item-content">
+            <div class="legend-label">Motivational</div>
+            <div class="legend-desc">Encountering A creates intellectual need for B</div>
+          </div>
+        </div>
+        <div class="legend-item" id="leg-social" onclick="filterEdges('social')">
+          <div class="legend-dot" style="background:#7aaa7a;"></div>
+          <div class="legend-item-content">
+            <div class="legend-label">Social</div>
+            <div class="legend-desc">Collaboration around A creates context for B</div>
+          </div>
+        </div>
+        <div class="legend-item" onclick="filterEdges(null)" style="margin-top:0.5rem;">
+          <div class="legend-dot" style="background:#444;"></div>
+          <div class="legend-item-content"><div class="legend-label">Show All</div></div>
+        </div>
+        <div class="legend-item" onclick="if(tdgSim)tdgSim.alpha(0.3).restart()">
+          <div class="legend-dot" style="background:#222;"></div>
+          <div class="legend-item-content"><div class="legend-label">Reset all filters</div></div>
+        </div>
+        <div class="tdg-node-info" id="node-info">
+          <p class="node-info-label">Selected Node</p>
+          <p style="font-family:var(--serif);font-size:0.82rem;color:#555;font-weight:300;font-style:italic;">Click any node in the graph to inspect its learning objective, type, and dependencies.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PEDDEBT DEMO (keep existing) -->
+  <div id="demo-peddebt" style="padding:0;background:transparent;border-bottom:1px solid #1a1a1a;padding-bottom:4rem;margin-bottom:4rem;">
+    <div class="section-header">
+      <span class="section-number" style="color:var(--gold);">04b</span>
+      <div class="section-rule" style="background:#222;"></div>
+      <span class="section-title" style="color:#555;">Pedagogical Debt Analyzer · Prototype for P2</span>
+    </div>
+    <p class="demo-intro">Paste any course description or syllabus excerpt below. This prototype scores it for motivational, scaffolding, and verification structure using heuristics grounded in Harel's necessity principle. <strong style="color:#888;">Important: these are heuristic scores, not validated instrument outputs.</strong> P2 is the project to validate them.</p>
+    <p class="demo-instruction"><span>Try the preset examples</span> to see the difference between high-debt and low-debt instructional writing.</p>
+
+    <div class="peddebt-wrapper" style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
       <div>
-        <p style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;">Interactive Demo · Paper 04 — Live Phase Portrait</p>
-        <p style="font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#999;font-weight:300;margin-bottom:0.75rem;">Drag the sliders to change a curriculum's pedagogical debt and TDG violation count. Watch the separatrix move — and see how many students fall into the low-efficacy basin.</p>
-        <p style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;color:#555;margin-bottom:2rem;"><span style="color:var(--gold)">Orange circle</span> = separatrix &nbsp;·&nbsp; <span style="color:#4aaa4a">Green</span> = high-efficacy basin &nbsp;·&nbsp; <span style="color:#cc4444">Red</span> = low-efficacy basin</p>
-        <canvas id="phase-canvas" width="600" height="300" style="width:100%;background:#060606;border:1px solid #1a1a1a;display:block;"></canvas>
-        <!-- Sliders -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem;">
-          <div>
-            <label style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:#666;display:block;margin-bottom:0.5rem;">Pedagogical Debt D(C): <span id="debt-val" style="color:var(--gold)">0.51</span></label>
-            <input type="range" id="debt-slider" min="0.05" max="0.95" step="0.01" value="0.51" style="width:100%;accent-color:#b84a2e;">
-          </div>
-          <div>
-            <label style="font-family:var(--mono);font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:#666;display:block;margin-bottom:0.5rem;">TDG Violations v(C): <span id="viol-val" style="color:var(--gold)">6</span></label>
-            <input type="range" id="viol-slider" min="0" max="20" step="1" value="6" style="width:100%;accent-color:#c9963a;">
-          </div>
+        <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:#555;margin-bottom:0.75rem;">Course Material Input</div>
+        <textarea id="peddebt-input" style="width:100%;height:220px;background:#080808;border:1px solid #1e1e1e;color:#aaa;font-family:var(--mono);font-size:0.72rem;padding:1rem;line-height:1.7;resize:vertical;" placeholder="Paste course description, syllabus excerpt, or lecture intro here..."></textarea>
+        <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap;">
+          <button onclick="loadPreset('high')" style="font-family:var(--mono);font-size:0.6rem;padding:0.4rem 0.9rem;background:transparent;border:1px solid #333;color:#888;cursor:pointer;letter-spacing:0.08em;">⚠ High-Debt Example</button>
+          <button onclick="loadPreset('low')" style="font-family:var(--mono);font-size:0.6rem;padding:0.4rem 0.9rem;background:transparent;border:1px solid #333;color:#888;cursor:pointer;letter-spacing:0.08em;">✓ Low-Debt Example</button>
+          <button onclick="loadPreset('mixed')" style="font-family:var(--mono);font-size:0.6rem;padding:0.4rem 0.9rem;background:transparent;border:1px solid #333;color:#888;cursor:pointer;letter-spacing:0.08em;">Mixed Example</button>
         </div>
+        <button onclick="analyzePedDebt()" style="width:100%;margin-top:0.75rem;font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;padding:0.75rem;background:var(--rust);color:var(--paper);border:none;cursor:pointer;">Analyze for Pedagogical Debt →</button>
       </div>
-      <!-- Stats panel -->
-      <div style="display:flex;flex-direction:column;gap:1rem;padding-top:3.5rem;">
-        <div style="padding:1.25rem;background:#0a0a0a;border:1px solid #1e1e1e;">
-          <p style="font-family:var(--mono);font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:#444;margin-bottom:0.75rem;">Separatrix Location σ(u)</p>
-          <p id="sigma-display" style="font-family:'IM Fell English',serif;font-size:2.5rem;color:var(--gold);line-height:1;">0.42</p>
-          <p style="font-family:var(--serif);font-size:0.78rem;color:#555;margin-top:0.4rem;">Threshold at which student trajectory is determined. Higher = larger low-efficacy basin.</p>
+      <div id="peddebt-output" style="font-family:var(--serif);font-size:0.88rem;color:#555;font-style:italic;font-weight:300;padding-top:2rem;">Analysis will appear here after you paste text and click Analyze.</div>
+    </div>
+  </div>
+
+  <!-- MVC DEMO (keep existing) -->
+  <div id="demo-mvc" style="padding:0;background:transparent;">
+    <div class="section-header">
+      <span class="section-number" style="color:var(--gold);">04c</span>
+      <div class="section-rule" style="background:#222;"></div>
+      <span class="section-title" style="color:#555;">Minimum Viable Curriculum Visualizer · Prototype for P4</span>
+    </div>
+    <p class="demo-intro">Watch a greedy MVC approximation algorithm run step by step on a synthetic curriculum graph. The key theoretical result: finding the optimal MVC is NP-complete (polynomial reduction from Set Cover). This visualizer illustrates the algorithm on a small example. The research question in P4 is whether MVC-distance from real instructor-annotated graphs predicts student outcomes.</p>
+    <p class="demo-instruction"><span>Step Forward</span> to advance the algorithm one step at a time</p>
+
+    <div class="mvc-stage" style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
+      <div>
+        <div style="display:flex;gap:0.5rem;margin-bottom:1rem;">
+          <button id="mvc-step-btn" onclick="mvcStep()" style="font-family:var(--mono);font-size:0.62rem;padding:0.6rem 1.2rem;background:var(--rust);color:var(--paper);border:none;cursor:pointer;letter-spacing:0.08em;">Step Forward →</button>
+          <button onclick="mvcReset()" style="font-family:var(--mono);font-size:0.62rem;padding:0.6rem 1rem;background:transparent;border:1px solid #333;color:#888;cursor:pointer;letter-spacing:0.08em;">Reset</button>
+          <button onclick="mvcRunAll()" style="font-family:var(--mono);font-size:0.62rem;padding:0.6rem 1rem;background:transparent;border:1px solid #333;color:#888;cursor:pointer;letter-spacing:0.08em;">Run All</button>
         </div>
-        <div style="padding:1.25rem;background:#0a0a0a;border:1px solid #1e1e1e;">
-          <p style="font-family:var(--mono);font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:#444;margin-bottom:0.75rem;">Est. Crossing Rate (180-student section)</p>
-          <p id="crossing-display" style="font-family:'IM Fell English',serif;font-size:2.5rem;color:#cc4444;line-height:1;">31.3%</p>
-          <p id="crossing-count" style="font-family:var(--mono);font-size:0.7rem;color:#555;margin-top:0.4rem;">≈ 28 students lost per section</p>
+        <canvas id="mvc-canvas" width="460" height="340" style="width:100%;border:1px solid #1e1e1e;background:#080808;display:block;"></canvas>
+        <p id="mvc-step-label" style="font-family:var(--mono);font-size:0.6rem;color:#555;letter-spacing:0.1em;margin-top:0.75rem;">Step 0 of 7</p>
+      </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:#444;margin-bottom:1.5rem;">Algorithm State</div>
+        <p id="mvc-state-text" style="font-family:var(--serif);font-size:0.88rem;color:#666;font-weight:300;line-height:1.7;margin-bottom:2rem;">Press "Step Forward" to begin the Minimum Viable Curriculum greedy algorithm. The red nodes are terminal objectives — what students must be able to do by the end.</p>
+        <div class="mvc-stats" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1px;background:#1a1a1a;margin-bottom:2rem;">
+          <div style="background:#0d0d0d;padding:1rem;text-align:center;"><div style="font-family:var(--mono);font-size:1.4rem;color:var(--gold);" id="mvc-stat-total">14</div><div style="font-family:var(--mono);font-size:0.5rem;letter-spacing:0.1em;color:#444;margin-top:0.25rem;">Full Curriculum</div></div>
+          <div style="background:#0d0d0d;padding:1rem;text-align:center;"><div style="font-family:var(--mono);font-size:1.4rem;color:var(--rust);" id="mvc-stat-mvc">—</div><div style="font-family:var(--mono);font-size:0.5rem;letter-spacing:0.1em;color:#444;margin-top:0.25rem;">MVC Size</div></div>
+          <div style="background:#0d0d0d;padding:1rem;text-align:center;"><div style="font-family:var(--mono);font-size:1.4rem;color:#7aaa7a;" id="mvc-stat-covered">0</div><div style="font-family:var(--mono);font-size:0.5rem;letter-spacing:0.1em;color:#444;margin-top:0.25rem;">Objectives Covered</div></div>
+          <div style="background:#0d0d0d;padding:1rem;text-align:center;"><div style="font-family:var(--mono);font-size:1.4rem;color:#555;" id="mvc-stat-dist">—</div><div style="font-family:var(--mono);font-size:0.5rem;letter-spacing:0.1em;color:#444;margin-top:0.25rem;">MVC-Distance</div></div>
         </div>
-        <div style="padding:1.25rem;background:#0a0a0a;border:1px solid #1e1e1e;">
-          <p style="font-family:var(--mono);font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;color:#444;margin-bottom:0.75rem;">Lyapunov Stability</p>
-          <p id="lyapunov-display" style="font-family:var(--mono);font-size:0.75rem;color:#888;line-height:1.65;">Checking condition...</p>
+        <div style="padding:1.25rem;background:#0d0d0d;border:1px solid #1a1a1a;font-family:var(--mono);font-size:0.65rem;line-height:1.9;color:#444;">
+          <strong style="color:var(--gold);display:block;margin-bottom:0.5rem;">Theorem (Paper P4 Proposal)</strong>
+          MVC is NP-complete in general.<br>
+          Reduction: Set Cover → MVC.<br><br>
+          <em style="color:#555;">This greedy algorithm gives a ln|T|-approximation, matching the inapproximability lower bound.</em><br><br>
+          <span style="color:#333;">The empirical question: does MVC-distance predict DFW rates in real curricula? That's what P4 aims to test.</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="papers-continued" style="background:var(--ink);padding: 0 5vw 7rem;">
-  <div class="paper-card" onclick="togglePaper(this)" style="border-color:#2a1a1a; margin-top:0;">
-    <div class="paper-number-col" style="background:#120808;"><span class="paper-num">Paper 04</span></div>
-    <div class="paper-main">
-      <div class="paper-meta">
-        <span class="paper-tag" style="color:#e07a5a;border-color:#3a1a1a;">Dynamical Systems · Control Theory · STEM Equity</span>
-        <span class="paper-conference">Target: Nature Human Behaviour · Educational Researcher</span>
-      </div>
-      <h2 class="paper-title" style="color:#f5e8d8;">Basins of Belief: A Dynamical Systems Model of STEM Self-Efficacy Transitions and the Control-Theoretic Case for Instructional Design</h2>
-      <p class="paper-subtitle">Teaching is a legitimate science. It has a state space, dynamics, attractors, and a separatrix.</p>
-      <p class="paper-abstract-preview">We model student STEM self-efficacy as a state variable governed by a bistable nonlinear dynamical system. We prove Lyapunov stability conditions under which high-quality instruction guarantees persistence in the high-efficacy attractor. Monte Carlo simulation calibrated against SEISMIC consortium data estimates that median-quality instruction produces a 31.3% separatrix-crossing rate — rising to 46.2% among underrepresented students. The students we lose are not students who could not do the work. They are students for whom the work was never designed.</p>
-      <div class="paper-expand"><span class="expand-arrow">▶</span> Expand full paper details</div>
-    </div>
-    <div class="paper-detail">
-      <div class="detail-inner">
-        <div class="detail-theorems">
-          <div class="theorem-box" style="border-color:#e07a5a;"><p class="theorem-label">Core Model</p><p class="theorem-text">dβ/dt = β(1−β)(β−σ(u))<br>  − γ(θ)β + μ(u)(1−β)<br><br>Two attractors: β*₊ ≈ 0.86<br>and β*₋ ≈ 0.14</p></div>
-          <div class="theorem-box" style="border-color:var(--gold);"><p class="theorem-label">Theorem · Lyapunov</p><p class="theorem-text">If μ(u) > γ(θ)·σ/(1−σ)<br>then high-efficacy is<br>globally stable for all<br>β(0) > 0.</p></div>
-          <div class="theorem-box" style="border-color:#4aaa4a;"><p class="theorem-label">Key Finding</p><p class="theorem-text">Median course: 31.3%<br>crossing rate overall.<br>URM students: 46.2%.<br>Exemplary course: 4.2%.</p></div>
-          <div class="paper-cta">
-            <a href="papers/paper4_basins_of_belief.pdf" class="btn btn-primary" target="_blank" style="background:#8a2a1a;border-color:#8a2a1a;">↓ PDF</a>
-            <a href="papers/paper4_basins_of_belief.tex" class="btn btn-secondary" target="_blank">LaTeX</a>
-          </div>
-        </div>
-        <div class="detail-right">
-          <div class="detail-grid">
-            <div class="detail-section"><h4>Core Contributions</h4><ul><li>First dynamical systems model of STEM self-efficacy bifurcation</li><li>Lyapunov stability proof connecting instruction to global attractor stability</li><li>Separatrix crossing rate: 31.3% under median instruction</li><li>8.3:1 asymmetry between prevention and recovery cost</li></ul></div>
-            <div class="detail-section"><h4>Technical Stack</h4><ul><li>Nonlinear ODE analysis (bifurcation theory, Lyapunov methods)</li><li>Monte Carlo simulation: 10,000 synthetic students</li><li>Calibration: SEISMIC consortium + PERTS Mindset Meter</li><li>Connection to Papers 1–3 via instructional input parameterization</li></ul></div>
-            <div class="detail-section"><h4>Why This Changes Things</h4><ul><li>Teaching is not art — it is a control problem with provable guarantees</li><li>Separatrix crossing is preventable by design, not unavoidable by nature</li><li>Equity gap is formally explained: URM students face higher γ(θ) decay rates</li><li>Target: Nature Human Behaviour — this belongs in the same journals as cancer detection</li></ul></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- CS ED PROJECTS -->
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 05 — TEACHING / APPLIED CURRICULUM
+     ══════════════════════════════════════════════════════════════ -->
 <section id="cs-projects" style="padding: 7rem 5vw; background: var(--ink); color: var(--paper); border-bottom: 2px solid var(--ink);">
   <div class="section-header">
-    <span class="section-number" style="color:var(--gold);">06b</span>
-    <div class="section-rule" style="background:#333;"></div>
+    <span class="section-number" style="color:var(--gold);">05</span>
+    <div class="section-rule" style="background:#222;"></div>
     <span class="section-title" style="color:#555;">Applied Curriculum · Community College CS</span>
   </div>
 
-  <p class="papers-intro">Three project designs for an introductory CS course — grounded in Jeff Anderson's necessity principle, applied locally, and built so students are authors rather than consumers.</p>
+  <p style="font-family:var(--serif);font-style:italic;font-size:1.05rem;color:#888;max-width:65ch;margin-bottom:4rem;font-weight:300;">Three project designs for an introductory CS course — grounded in Jeff Anderson's necessity principle, built so students are authors rather than consumers. Each is designed to activate intrinsic motivation before introducing the technical tool.</p>
 
-  <div class="paper-card" onclick="togglePaper(this)">
-    <div class="paper-number-col"><span class="paper-num">Proj 01</span></div>
-    <div class="paper-main">
-      <div class="paper-meta">
-        <span class="paper-tag">HTML · CSS · JS · Community</span>
-        <span class="paper-conference">Intro CS · 4–6 weeks</span>
-      </div>
-      <h2 class="paper-title">Community Resource Aggregator</h2>
-      <p class="paper-subtitle">Students build a searchable map of local support resources for their own campus or city</p>
-      <p class="paper-abstract-preview">Students interview peers about resources they have struggled to find — food pantries, mental health services, housing aid, financial assistance — then build a web app that surfaces that information. The technical stack is accessible (HTML/CSS/JS with a Google Sheets or Airtable backend), but the research, design, and empathy work is where the depth lives. Motivated directly by the campus resources section of Anderson's syllabus: the headache precedes the tool.</p>
-      <div class="paper-expand"><span class="expand-arrow">▶</span> Expand project details</div>
-    </div>
-    <div class="paper-detail">
-      <div class="detail-inner">
-        <div class="detail-theorems">
-          <div class="theorem-box">
-            <p class="theorem-label">Necessity Hook</p>
-            <p class="theorem-text">Students first survey<br>3 peers about resource<br>gaps they've experienced.<br><br>The search problem<br>exists before a line<br>of code is written.</p>
-          </div>
-          <div class="theorem-box" style="border-color:var(--gold)">
-            <p class="theorem-label">Anderson Criteria Met</p>
-            <p class="theorem-text">Necessity · Authenticity<br>Active Learning<br>Low-floor / High-ceiling<br>No Paywall (all open APIs)</p>
-          </div>
-        </div>
-        <div class="detail-right">
-          <div class="detail-grid">
-            <div class="detail-section"><h4>Technical Scope</h4><ul><li>HTML forms and DOM manipulation</li><li>Fetch API for reading a Google Sheet as JSON</li><li>Leaflet.js or Google Maps embed for map display</li><li>Basic search/filter logic in vanilla JS</li></ul></div>
-            <div class="detail-section"><h4>The Deep Learning Layer</h4><ul><li>Students write a 1-page research memo before coding</li><li>Design decisions are documented and defended</li><li>Peer testing session mid-project with real users</li><li>Final reflection: what did the data reveal vs. what you assumed?</li></ul></div>
-            <div class="detail-section"><h4>Why This Works</h4><ul><li>Product is immediately useful to classmates</li><li>Students shift from consumer to creator</li><li>Stakes are real — bad UX affects real people</li><li>Connects CS to anti-oppressive community values without being preachy</li></ul></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1px;background:#1a1a1a;">
 
-  <div class="paper-card" onclick="togglePaper(this)" style="margin-top: 2px;">
-    <div class="paper-number-col"><span class="paper-num">Proj 02</span></div>
-    <div class="paper-main">
-      <div class="paper-meta">
-        <span class="paper-tag">JavaScript · LocalStorage · Meta-Learning</span>
-        <span class="paper-conference">Intro CS · 3–5 weeks</span>
-      </div>
-      <h2 class="paper-title">Personal Learning System Builder</h2>
-      <p class="paper-subtitle">Students build a digital tool that operationalizes Anderson's conquering college framework</p>
-      <p class="paper-abstract-preview">Students build a scheduling app, habit tracker, or question-capture system — tools that mirror the conquering college assignments in Anderson's own class. The meta dimension is the point: students are simultaneously learning to code and reflecting on how they learn. This mirrors Anderson's Rule 2 (deep learning over shallow learning) and his insistence that meta-learning is the most important part of any course. The artifact is highly portfolio-worthy and personally useful, which dramatically increases intrinsic motivation.</p>
-      <div class="paper-expand"><span class="expand-arrow">▶</span> Expand project details</div>
-    </div>
-    <div class="paper-detail">
-      <div class="detail-inner">
-        <div class="detail-theorems">
-          <div class="theorem-box">
-            <p class="theorem-label">Necessity Hook</p>
-            <p class="theorem-text">Week 1: students audit<br>their current study system.<br><br>The gaps they find<br>become the spec for<br>what they build.</p>
-          </div>
-          <div class="theorem-box" style="border-color:var(--rust)">
-            <p class="theorem-label">Connection to Research</p>
-            <p class="theorem-text">Motivational debt ↓<br>when students build tools<br>they actually need.<br><br>Self-efficacy measured<br>before and after.</p>
-          </div>
-        </div>
-        <div class="detail-right">
+    <div class="paper-card" style="background:#0c0c0c;border:none;">
+      <div class="paper-number" style="color:#7aaa7a;">Proj 01</div>
+      <div class="paper-content">
+        <div class="paper-tag-row"><span class="paper-tag" style="color:#7aaa7a;border-color:#1a3a1a;">HTML · CSS · JS · Community</span><span class="paper-tag" style="color:#555;border-color:#222;">Intro CS · 4–6 weeks</span></div>
+        <h3 class="paper-title">Community Resource Aggregator</h3>
+        <p class="paper-abstract">Students build a searchable map of local support resources for their own campus or city. The research memo comes before the code. The necessity hook: students survey three peers about resources they couldn't find.</p>
+        <div class="paper-expand-btn" onclick="toggleDetail(this)">▶ &nbsp;Expand project details</div>
+        <div class="paper-detail">
           <div class="detail-grid">
-            <div class="detail-section"><h4>Technical Scope</h4><ul><li>HTML/CSS layout and responsive design</li><li>JS event handling and DOM updates</li><li>LocalStorage for data persistence</li><li>Optional: export to JSON or Google Sheets sync</li></ul></div>
-            <div class="detail-section"><h4>The Deep Learning Layer</h4><ul><li>Students read one chapter of Ultralearning before building</li><li>They write a feature spec: what does this tool need to do and why?</li><li>Mid-project: use your own tool for one week, then refactor</li><li>Final: present the delta between v1 and v2 to the class</li></ul></div>
-            <div class="detail-section"><h4>Why This Works</h4><ul><li>Students are the primary user — feedback loop is immediate</li><li>Iterative design mirrors professional software development</li><li>Forces students to articulate their own learning needs</li><li>Directly applicable to every other class they take</li></ul></div>
+            <div class="detail-left">
+              <div class="theorem-box" style="border-color:#7aaa7a;"><p class="theorem-label">Necessity Hook</p><p class="theorem-text">Students first survey 3 peers about resource gaps they've experienced.<br><br>The search problem exists before a line of code is written.</p></div>
+              <div class="theorem-box" style="border-color:#333;margin-top:1rem;"><p class="theorem-label">Anderson Criteria Met</p><p class="theorem-text">Necessity · Authenticity<br>Active Learning<br>Low-floor / High-ceiling<br>No Paywall (all open APIs)</p></div>
+            </div>
+            <div class="detail-right">
+              <div class="detail-grid">
+                <div class="detail-section"><h4>Technical Scope</h4><ul><li>HTML forms and DOM manipulation</li><li>Fetch API for reading a Google Sheet as JSON</li><li>Leaflet.js or Google Maps embed for map display</li><li>Basic search/filter logic in vanilla JS</li></ul></div>
+                <div class="detail-section"><h4>The Deep Learning Layer</h4><ul><li>Students write a 1-page research memo before coding</li><li>Design decisions are documented and defended</li><li>Peer testing session mid-project with real users</li><li>Final reflection: what did the data reveal vs. what you assumed?</li></ul></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="paper-card" onclick="togglePaper(this)" style="margin-top: 2px;">
-    <div class="paper-number-col"><span class="paper-num">Proj 03</span></div>
-    <div class="paper-main">
-      <div class="paper-meta">
-        <span class="paper-tag">Data · APIs · Civic Tech · D3 or Chart.js</span>
-        <span class="paper-conference">Intro CS · 5–7 weeks</span>
-      </div>
-      <h2 class="paper-title">Neighborhood Data Story</h2>
-      <p class="paper-subtitle">Students pick a local issue, collect or find public data, and build a visualization with a written narrative</p>
-      <p class="paper-abstract-preview">Students pick an issue they care about — rent increases, transit deserts, school funding disparities — find or collect public data on it, then build a simple data visualization and written narrative explaining what the numbers mean to real people. This teaches APIs, CSV parsing, and basic charting libraries while forcing students to practice the modeling-to-communication pipeline Anderson emphasizes in his applied linear algebra labs. The "abuelita language" concept from Anderson's syllabus is directly applicable: can you explain your findings to someone who doesn't speak data?</p>
-      <div class="paper-expand"><span class="expand-arrow">▶</span> Expand project details</div>
-    </div>
-    <div class="paper-detail">
-      <div class="detail-inner">
-        <div class="detail-theorems">
-          <div class="theorem-box">
-            <p class="theorem-label">Necessity Hook</p>
-            <p class="theorem-text">Students write a 1-paragraph<br>argument about their issue<br>using only their intuition.<br><br>Then they find the data.<br>The gap between the two<br>is the whole course.</p>
-          </div>
-          <div class="theorem-box" style="border-color:#7aaa7a">
-            <p class="theorem-label">Abuelita Test</p>
-            <p class="theorem-text">Final deliverable must<br>include an explanation<br>a non-technical family<br>member could read.<br><br>If they can't explain it,<br>they don't understand it.</p>
-          </div>
-        </div>
-        <div class="detail-right">
+    <div class="paper-card" style="background:#0c0c0c;border:none;">
+      <div class="paper-number" style="color:#6a9ed4;">Proj 02</div>
+      <div class="paper-content">
+        <div class="paper-tag-row"><span class="paper-tag" style="color:#6a9ed4;border-color:#0a1a2a;">JavaScript · LocalStorage · Meta-Learning</span><span class="paper-tag" style="color:#555;border-color:#222;">Intro CS · 3–5 weeks</span></div>
+        <h3 class="paper-title">Personal Learning System Builder</h3>
+        <p class="paper-abstract">Students build a scheduling app, habit tracker, or question-capture system — tools that mirror the conquering college assignments in Anderson's own class. The meta dimension is the point: students simultaneously learn to code and reflect on how they learn.</p>
+        <div class="paper-expand-btn" onclick="toggleDetail(this)">▶ &nbsp;Expand project details</div>
+        <div class="paper-detail">
           <div class="detail-grid">
-            <div class="detail-section"><h4>Technical Scope</h4><ul><li>Fetch API with a public dataset (Census, data.gov, local open data portals)</li><li>CSV or JSON parsing</li><li>Chart.js or D3.js for visualization</li><li>HTML/CSS narrative layout wrapping the charts</li></ul></div>
-            <div class="detail-section"><h4>The Deep Learning Layer</h4><ul><li>Students must justify their data source selection in writing</li><li>At least one visualization must be revised after peer feedback</li><li>Written narrative required: what does this mean for real people?</li><li>Presentation to the class with Q&amp;A — defend your choices</li></ul></div>
-            <div class="detail-section"><h4>Why This Works</h4><ul><li>Students choose the issue — intrinsic motivation built in</li><li>Teaches the full modeling pipeline: question → data → code → communication</li><li>Mirrors Anderson's LANA and applied lab projects structurally</li><li>Connects CS directly to system navigation and transformation</li></ul></div>
+            <div class="detail-left">
+              <div class="theorem-box" style="border-color:#6a9ed4;"><p class="theorem-label">Necessity Hook</p><p class="theorem-text">Week 1: students audit their current study system.<br><br>The gaps they find become the spec for what they build.</p></div>
+              <div class="theorem-box" style="border-color:#333;margin-top:1rem;"><p class="theorem-label">Connection to Research</p><p class="theorem-text">Motivational debt ↓ when students build tools they actually need.<br><br>Self-efficacy measured before and after.</p></div>
+            </div>
+            <div class="detail-right">
+              <div class="detail-grid">
+                <div class="detail-section"><h4>Technical Scope</h4><ul><li>HTML/CSS layout and responsive design</li><li>JS event handling and DOM updates</li><li>LocalStorage for data persistence</li><li>Optional: export to JSON or Google Sheets sync</li></ul></div>
+                <div class="detail-section"><h4>The Deep Learning Layer</h4><ul><li>Students read one chapter of Ultralearning before building</li><li>They write a feature spec: what does this tool need to do and why?</li><li>Mid-project: use your own tool for one week, then refactor</li><li>Final: present the delta between v1 and v2 to the class</li></ul></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="paper-card" style="background:#0c0c0c;border:none;">
+      <div class="paper-number" style="color:var(--gold);">Proj 03</div>
+      <div class="paper-content">
+        <div class="paper-tag-row"><span class="paper-tag" style="color:var(--gold);border-color:#2a1a0a;">Data · APIs · Civic Tech · D3 or Chart.js</span><span class="paper-tag" style="color:#555;border-color:#222;">Intro CS · 5–7 weeks</span></div>
+        <h3 class="paper-title">Neighborhood Data Story</h3>
+        <p class="paper-abstract">Students pick a local issue, collect or find public data, and build a visualization with a written narrative. Motivated directly by Anderson's "abuelita test": can you explain your findings to a non-technical family member?</p>
+        <div class="paper-expand-btn" onclick="toggleDetail(this)">▶ &nbsp;Expand project details</div>
+        <div class="paper-detail">
+          <div class="detail-grid">
+            <div class="detail-left">
+              <div class="theorem-box" style="border-color:var(--gold);"><p class="theorem-label">Necessity Hook</p><p class="theorem-text">Students write a 1-paragraph argument about their issue using only their intuition.<br><br>Then they find the data. The gap between the two is the whole course.</p></div>
+              <div class="theorem-box" style="border-color:#333;margin-top:1rem;"><p class="theorem-label">Abuelita Test</p><p class="theorem-text">Final deliverable must include an explanation a non-technical family member could read.<br><br>If they can't explain it, they don't understand it.</p></div>
+            </div>
+            <div class="detail-right">
+              <div class="detail-grid">
+                <div class="detail-section"><h4>Technical Scope</h4><ul><li>Fetch API with a public dataset (Census, data.gov, local open data)</li><li>CSV or JSON parsing</li><li>Chart.js or D3.js for visualization</li><li>HTML/CSS narrative layout wrapping the charts</li></ul></div>
+                <div class="detail-section"><h4>The Deep Learning Layer</h4><ul><li>Students must justify their data source selection in writing</li><li>At least one visualization must be revised after peer feedback</li><li>Written narrative required: what does this mean for real people?</li><li>Presentation to the class with Q&amp;A — defend your choices</li></ul></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<!-- LINEAR ALGEBRA LAB -->
-<section id="linear-algebra-lab" style="padding: 7rem 5vw; background: var(--ink); color: var(--paper); border-bottom: 2px solid var(--ink);">
-<style>
-/* ── LA Lab scoped styles ─────────────────────────────── */
-#linear-algebra-lab * { box-sizing: border-box; }
-#linear-algebra-lab .la-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  gap: 1px;
-  background: #1a1a1a;
-  border: 1px solid #1a1a1a;
-  margin-bottom: 3.5rem;
-}
-#linear-algebra-lab .la-card {
-  background: #0c0c0c;
-  padding: 2rem;
-  transition: background 0.15s;
-}
-#linear-algebra-lab .la-card:hover { background: #111; }
-#linear-algebra-lab .la-paper-num {
-  font-family: var(--mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  margin-bottom: 0.75rem;
-}
-#linear-algebra-lab .la-card h3 {
-  font-family: var(--fell);
-  font-size: 1.3rem;
-  font-weight: 400;
-  color: var(--paper);
-  margin-bottom: 0.2rem;
-}
-#linear-algebra-lab .la-sub {
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.08em;
-  margin-bottom: 0.85rem;
-}
-#linear-algebra-lab .la-desc {
-  font-family: var(--serif);
-  font-size: 0.88rem;
-  color: #888;
-  line-height: 1.75;
-  font-weight: 300;
-  margin-bottom: 1.1rem;
-}
-#linear-algebra-lab .la-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 1.1rem; }
-#linear-algebra-lab .la-tag {
-  font-family: var(--mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.08em;
-  padding: 2px 8px;
-  border: 1px solid currentColor;
-  opacity: 0.5;
-}
-#linear-algebra-lab .la-toggle {
-  width: 100%;
-  background: transparent;
-  border: 1px solid #222;
-  color: #555;
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.1em;
-  padding: 7px 10px;
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.15s;
-}
-#linear-algebra-lab .la-toggle:hover { color: #aaa; border-color: #333; }
-#linear-algebra-lab .la-toggle.open { border-color: currentColor; color: var(--paper); }
-#linear-algebra-lab .la-panel { display: none; margin-top: 1.25rem; border-top: 1px solid #1a1a1a; padding-top: 1.25rem; }
-#linear-algebra-lab .la-panel.open { display: block; }
-#linear-algebra-lab .la-demo-label {
-  font-family: var(--mono);
-  font-size: 0.55rem;
-  letter-spacing: 0.15em;
-  color: #333;
-  margin-bottom: 0.75rem;
-  text-transform: uppercase;
-}
-#linear-algebra-lab canvas.la-cvs {
-  display: block; width: 100%;
-  border: 1px solid #1a1a1a;
-  image-rendering: pixelated;
-  margin-bottom: 0.75rem;
-}
-#linear-algebra-lab .la-ctrl { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
-#linear-algebra-lab .la-clabel {
-  font-family: var(--mono);
-  font-size: 0.58rem;
-  color: #444;
-  width: 120px;
-  flex-shrink: 0;
-}
-#linear-algebra-lab input[type=range] {
-  -webkit-appearance: none;
-  height: 1px;
-  flex: 1;
-  background: #1a1a1a;
-  border-radius: 0;
-  cursor: pointer;
-}
-#linear-algebra-lab input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 12px; height: 12px;
-  background: currentColor;
-  border-radius: 50%;
-}
-#linear-algebra-lab .la-btns { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 0.75rem; }
-#linear-algebra-lab .la-btn {
-  font-family: var(--mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.08em;
-  padding: 4px 10px;
-  background: transparent;
-  border: 1px solid #222;
-  color: #444;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-#linear-algebra-lab .la-btn:hover { color: #aaa; border-color: #444; }
-#linear-algebra-lab .la-btn.la-on { color: var(--paper) !important; border-color: currentColor !important; }
-#linear-algebra-lab .la-insight {
-  border-left: 2px solid var(--gold);
-  padding: 0.75rem 1rem;
-  font-family: var(--serif);
-  font-size: 0.8rem;
-  color: #666;
-  font-weight: 300;
-  line-height: 1.7;
-  margin-top: 0.9rem;
-}
-#linear-algebra-lab .la-insight strong { color: var(--gold); font-weight: 600; }
-#linear-algebra-lab .la-intro-note {
-  border-left: 2px solid var(--rust);
-  padding: 0.85rem 1.25rem;
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 0.92rem;
-  color: #888;
-  font-weight: 300;
-  line-height: 1.7;
-  margin-bottom: 3rem;
-  max-width: 68ch;
-}
-#linear-algebra-lab .la-intro-note strong { color: #aaa; font-style: normal; font-weight: 600; }
-#linear-algebra-lab .la-repo {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2.5rem;
-  background: #0c0c0c;
-  border: 1px solid #1a1a1a;
-  padding: 2rem 2.5rem;
-  margin-top: 3rem;
-}
-@media(max-width:640px){
-  #linear-algebra-lab .la-grid { grid-template-columns: 1fr; }
-  #linear-algebra-lab .la-repo { grid-template-columns: 1fr; }
-}
-#linear-algebra-lab .la-repo-label {
-  font-family: var(--mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.15em;
-  color: #333;
-  text-transform: uppercase;
-  margin-bottom: 0.75rem;
-}
-#linear-algebra-lab pre {
-  font-family: var(--mono);
-  font-size: 0.65rem;
-  color: #2a2a2a;
-  line-height: 1.85;
-  overflow-x: auto;
-}
-#linear-algebra-lab .la-repo a {
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  color: var(--gold);
-  text-decoration: none;
-  letter-spacing: 0.08em;
-}
-#linear-algebra-lab .la-repo a:hover { text-decoration: underline; }
-</style>
+<!-- Linear Algebra Lab injected by previous commit — appears here -->
+<!-- CONCEPTS section follows -->
 
-  <!-- Section header -->
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 07 — THEORETICAL FRAMEWORK
+     (the TDG/PedDebt/MVC ideas, now honestly framed)
+     ══════════════════════════════════════════════════════════════ -->
+<section id="concepts" style="padding:7rem 5vw;border-bottom:1px solid var(--rule);">
   <div class="section-header">
-    <span class="section-number" style="color:var(--gold);">06c</span>
+    <span class="section-number">07</span>
     <div class="section-rule"></div>
-    <span class="section-title">Linear Algebra Lab · Applied Curriculum Series</span>
+    <span class="section-title">Theoretical Framework · Key Concepts</span>
   </div>
+  <p style="font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--muted);max-width:65ch;margin-bottom:4rem;">The conceptual vocabulary underlying the research agenda. These are theoretical constructs — some have roots in existing literature, some are proposed extensions. The empirical projects above are designed to test whether these constructs are measurable and useful.</p>
 
-  <!-- Anderson tie-in note -->
-  <p class="la-intro-note">
-    <strong>Connection to this research agenda:</strong>
-    Each paper opens with the headache before the tool — a direct application of
-    Harel's necessity principle from Paper 01 and the Anderson modeling criteria from Paper 03.
-    Every paper scores ≤ 2 on the PedDebt motivational debt scale.
-    Built for students in introductory CS at community colleges, in Java, C++, and Python.
-  </p>
+  <div class="concept-map" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:var(--rule);">
 
-  <!-- 4 paper cards -->
-  <div class="la-grid">
-
-    <!-- LA-01: Image Processing -->
-    <div class="la-card">
-      <div class="la-paper-num" style="color:#7aaa7a;">Paper LA-01</div>
-      <h3>Image Processing</h3>
-      <div class="la-sub" style="color:#7aaa7a;">Compression · Convolution · PSNR Trade-offs</div>
-      <p class="la-desc">
-        Explore the trade-off between JPEG compression ratio and image quality.
-        Build blur, sharpen, and edge-detection filters from scratch using convolution matrices.
-        Measure quality loss with Peak Signal-to-Noise Ratio (PSNR).
-      </p>
-      <div class="la-tags">
-        <span class="la-tag" style="color:#7aaa7a;">Python</span>
-        <span class="la-tag" style="color:#7aaa7a;">Java</span>
-        <span class="la-tag" style="color:#7aaa7a;">C++</span>
-        <span class="la-tag" style="color:#7aaa7a;">OpenCV</span>
-      </div>
-      <button class="la-toggle" style="color:#7aaa7a;border-color:#7aaa7a22;"
-        onclick="laOpen(this,'la-p-img')">▶ &nbsp;Interactive Demo — Convolution Kernels</button>
-      <div class="la-panel" id="la-p-img">
-        <div class="la-demo-label" style="color:#7aaa7a;">▶ Live Kernel Filter + Compression Quality</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
-          <div>
-            <div style="font-family:var(--mono);font-size:0.5rem;color:#2a2a2a;margin-bottom:3px;">ORIGINAL</div>
-            <canvas id="la-orig" class="la-cvs" width="200" height="150"></canvas>
-          </div>
-          <div>
-            <div style="font-family:var(--mono);font-size:0.5rem;color:#7aaa7a;margin-bottom:3px;">FILTERED</div>
-            <canvas id="la-filt" class="la-cvs" width="200" height="150"></canvas>
-          </div>
-        </div>
-        <div class="la-btns" id="la-kbtns">
-          <button class="la-btn la-on" style="color:#7aaa7a;" data-k="gaussian" onclick="laKernel(this,'gaussian')">Gaussian</button>
-          <button class="la-btn" onclick="laKernel(this,'blur')">Box Blur</button>
-          <button class="la-btn" onclick="laKernel(this,'sharpen')">Sharpen</button>
-          <button class="la-btn" onclick="laKernel(this,'edge')">Edge</button>
-          <button class="la-btn" onclick="laKernel(this,'emboss')">Emboss</button>
-        </div>
-        <div class="la-ctrl">
-          <span class="la-clabel" id="la-qlabel" style="color:#7aaa7a;">Quality: 80%</span>
-          <input type="range" min="10" max="100" value="80" style="color:#7aaa7a;"
-            oninput="laQual(this)">
-        </div>
-        <div id="la-kmat" style="font-family:var(--mono);font-size:0.6rem;color:#2a2a2a;margin-top:0.5rem;line-height:1.9;"></div>
-        <div class="la-insight">
-          <strong>Key insight:</strong> Convolution is the same operation regardless of kernel —
-          only the weights change. JPEG quality below 30 introduces visible 8×8 blocking artifacts
-          because the DCT quantization discards high-frequency components at the tile boundary.
-        </div>
+    <div class="concept-node">
+      <span class="concept-glyph">G</span>
+      <div class="concept-content">
+        <div class="concept-paper">P4 Proposal</div>
+        <div class="concept-name">Typed Dependency Grammar</div>
+        <div class="concept-desc">A directed graph G = (L, D) encoding four types of curriculum dependency. The theoretical language for P4's empirical curriculum graph study.</div>
       </div>
     </div>
 
-    <!-- LA-02: PCA -->
-    <div class="la-card">
-      <div class="la-paper-num" style="color:#6a9ed4;">Paper LA-02</div>
-      <h3>Machine Learning via PCA</h3>
-      <div class="la-sub" style="color:#6a9ed4;">Eigendecomposition · Dimensionality Reduction · Geometry</div>
-      <p class="la-desc">
-        Understand the geometry of Principal Component Analysis from covariance matrices to eigenvectors.
-        Apply PCA to the Iris dataset (4D → 2D, 97.7% variance retained).
-        Implement the algorithm from scratch — no sklearn.
-      </p>
-      <div class="la-tags">
-        <span class="la-tag" style="color:#6a9ed4;">Python</span>
-        <span class="la-tag" style="color:#6a9ed4;">Java</span>
-        <span class="la-tag" style="color:#6a9ed4;">C++ / Eigen3</span>
-        <span class="la-tag" style="color:#6a9ed4;">scikit-learn</span>
-      </div>
-      <button class="la-toggle" style="color:#6a9ed4;border-color:#6a9ed422;"
-        onclick="laOpen(this,'la-p-pca')">▶ &nbsp;Interactive Demo — Live PCA Scatter Plot</button>
-      <div class="la-panel" id="la-p-pca">
-        <div class="la-demo-label" style="color:#6a9ed4;">▶ Adjust data — watch eigenvectors respond</div>
-        <canvas id="la-pca" class="la-cvs" width="400" height="270"></canvas>
-        <div class="la-ctrl">
-          <span class="la-clabel" id="la-pn" style="color:#6a9ed4;">Points: 80</span>
-          <input type="range" min="20" max="200" value="80" style="color:#6a9ed4;"
-            oninput="laPca('n',this)">
-        </div>
-        <div class="la-ctrl">
-          <span class="la-clabel" id="la-ps" style="color:#6a9ed4;">Spread: 70</span>
-          <input type="range" min="10" max="120" value="70" style="color:#6a9ed4;"
-            oninput="laPca('s',this)">
-        </div>
-        <div class="la-ctrl">
-          <span class="la-clabel" id="la-pa" style="color:#6a9ed4;">Angle: 35°</span>
-          <input type="range" min="0" max="90" value="35" style="color:#6a9ed4;"
-            oninput="laPca('a',this)">
-        </div>
-        <div class="la-insight">
-          <strong>Key insight:</strong> PC1 points in the direction of maximum variance.
-          The percentage shows how much total spread that axis captures.
-          Rotate the data — the eigendecomposition of the covariance matrix responds instantly.
-        </div>
+    <div class="concept-node">
+      <span class="concept-glyph">M</span>
+      <div class="concept-content">
+        <div class="concept-paper">P4 · P2</div>
+        <div class="concept-name">Motivational Reachability</div>
+        <div class="concept-desc">Every advanced objective should be reachable via a chain of motivational edges. Formalizes Harel's necessity principle in graph terms.</div>
       </div>
     </div>
 
-    <!-- LA-03: PageRank -->
-    <div class="la-card">
-      <div class="la-paper-num" style="color:var(--gold);">Paper LA-03</div>
-      <h3>Search Engine Mathematics</h3>
-      <div class="la-sub" style="color:var(--gold);">PageRank · Markov Chains · Power Iteration · $2T Algorithm</div>
-      <p class="la-desc">
-        Implement PageRank from first principles via power iteration.
-        Explore how the damping factor d = 0.85 prevents rank from draining into cycles.
-        Understand why this single eigenvector computation built a $2 trillion company —
-        and why that dwarfs OpenAI's valuation.
-      </p>
-      <div class="la-tags">
-        <span class="la-tag" style="color:var(--gold);">Python</span>
-        <span class="la-tag" style="color:var(--gold);">Java</span>
-        <span class="la-tag" style="color:var(--gold);">C++</span>
-        <span class="la-tag" style="color:var(--gold);">Graph Theory</span>
-      </div>
-      <button class="la-toggle" style="color:var(--gold);border-color:#c9963a22;"
-        onclick="laOpen(this,'la-p-pr')">▶ &nbsp;Interactive Demo — Web Graph Power Iteration</button>
-      <div class="la-panel" id="la-p-pr">
-        <div class="la-demo-label" style="color:var(--gold);">▶ Watch rank flow — step or run</div>
-        <div class="la-btns">
-          <button class="la-btn la-on" style="color:var(--gold);" data-g="simple" onclick="laPrGraph(this,'simple')">Simple</button>
-          <button class="la-btn" onclick="laPrGraph(this,'trap')">Rank Trap</button>
-          <button class="la-btn" onclick="laPrGraph(this,'star')">Star</button>
-        </div>
-        <canvas id="la-pr" class="la-cvs" width="400" height="290"></canvas>
-        <div class="la-ctrl">
-          <span class="la-clabel" id="la-prd" style="color:var(--gold);">Damping: 0.85</span>
-          <input type="range" min="50" max="99" value="85" style="color:var(--gold);"
-            oninput="laPrDamp(this)">
-        </div>
-        <div style="display:flex;gap:5px;margin-top:6px;">
-          <button class="la-btn" onclick="laPrStep()" style="flex:1;">Step →</button>
-          <button class="la-btn" id="la-pr-run" style="flex:1;color:var(--gold);border-color:var(--gold);" onclick="laPrRun()">▶ Run</button>
-          <button class="la-btn" onclick="laPrReset()" style="flex:1;">↺ Reset</button>
-        </div>
-        <div class="la-insight">
-          <strong>Financial context:</strong>
-          Google's $2T market cap runs on this eigenvector. PageRank is O(n·|E|) per iteration
-          and converges in ~20 steps. d = 0.85 was chosen empirically by Brin &amp; Page in 1998.
-          OpenAI valuation (2024): ~$300B.
-          One matrix equation — written before neural nets dominated — outvalued decades of generative AI.
-        </div>
+    <div class="concept-node">
+      <span class="concept-glyph">N</span>
+      <div class="concept-content">
+        <div class="concept-paper">All Projects</div>
+        <div class="concept-name">The Necessity Principle</div>
+        <div class="concept-desc">"If math is the medicine, what is the headache?" From Harel — students must experience intellectual need before receiving the tool that answers it.</div>
       </div>
     </div>
 
-    <!-- LA-04: Benchmarks -->
-    <div class="la-card">
-      <div class="la-paper-num" style="color:var(--rust);">Paper LA-04</div>
-      <h3>Matrix-Vector Benchmarks</h3>
-      <div class="la-sub" style="color:var(--rust);">NumPy vs C/Fortran · BLAS · Cache Efficiency · SIMD</div>
-      <p class="la-desc">
-        Build a complete linear algebra library from scratch — vectors, matrix multiply, norms.
-        Then measure the staggering gap against NumPy (which calls Fortran BLAS routines).
-        Understand why a 256×256 matmul is 15,000× faster in NumPy than pure Python loops.
-      </p>
-      <div class="la-tags">
-        <span class="la-tag" style="color:var(--rust);">Python</span>
-        <span class="la-tag" style="color:var(--rust);">C++</span>
-        <span class="la-tag" style="color:var(--rust);">Fortran/BLAS</span>
-        <span class="la-tag" style="color:var(--rust);">NumPy</span>
-      </div>
-      <button class="la-toggle" style="color:var(--rust);border-color:#b84a2e22;"
-        onclick="laOpen(this,'la-p-bm')">▶ &nbsp;Interactive Demo — Performance Benchmark Chart</button>
-      <div class="la-panel" id="la-p-bm">
-        <div class="la-demo-label" style="color:var(--rust);">▶ Adjust matrix size — watch speedup scale</div>
-        <canvas id="la-bm" class="la-cvs" width="500" height="250"></canvas>
-        <div class="la-ctrl">
-          <span class="la-clabel" id="la-bml" style="color:var(--rust);">Size: 64×64</span>
-          <input type="range" min="0" max="6" value="2" style="color:var(--rust);"
-            oninput="laBm(this)">
-        </div>
-        <div class="la-insight">
-          <strong>Why NumPy wins:</strong>
-          BLAS DGEMM uses cache-blocking — matrices split into tiles fitting L2 cache.
-          AVX2 SIMD processes 4 doubles per instruction.
-          OpenBLAS auto-parallelizes across cores.
-          For bioinformatics and genomics workflows: never loop over large arrays in Python.
-          The bottleneck is almost always a matrix multiply.
-        </div>
+    <div class="concept-node">
+      <span class="concept-glyph">D</span>
+      <div class="concept-content">
+        <div class="concept-paper">P2</div>
+        <div class="concept-name">Pedagogical Debt</div>
+        <div class="concept-desc">The accumulated cost to student understanding of instructional shortcuts. Named by analogy with technical debt — a theoretical construct awaiting empirical validation.</div>
       </div>
     </div>
 
-  </div><!-- end la-grid -->
-
-  <!-- Repo footer -->
-  <div class="la-repo">
-    <div>
-      <div class="la-repo-label">Repository Structure</div>
-      <pre>linear-algebra-lab/
-├── 01-image-processing/
-│   ├── compression.py
-│   ├── convolution.py
-│   ├── Convolution.java
-│   └── convolution.cpp
-├── 02-pca/
-│   ├── pca_from_scratch.py
-│   └── PrincipalComponentAnalysis.java
-├── 03-pagerank/
-│   ├── pagerank.py
-│   └── PageRank.java
-└── 04-benchmarks/
-    ├── linalg_bench.py
-    └── LinAlgBenchmark.java</pre>
-    </div>
-    <div>
-      <div class="la-repo-label">Quick Start</div>
-      <pre>pip install numpy scipy \
-  matplotlib Pillow scikit-learn
-
-python 01-image-processing/convolution.py
-python 02-pca/pca_from_scratch.py
-python 03-pagerank/pagerank.py
-python 04-benchmarks/linalg_bench.py</pre>
-      <div style="margin-top:1.25rem;">
-        <a href="https://github.com/fansofhenry/cs-ed-research" target="_blank">
-          → View on GitHub
-        </a>
+    <div class="concept-node">
+      <span class="concept-glyph">⊢</span>
+      <div class="concept-content">
+        <div class="concept-paper">P2</div>
+        <div class="concept-name">Static Analysis of Materials</div>
+        <div class="concept-desc">Examining course materials without needing student data — just as a type checker examines source code without running the program.</div>
       </div>
     </div>
+
+    <div class="concept-node">
+      <span class="concept-glyph">*</span>
+      <div class="concept-content">
+        <div class="concept-paper">P4</div>
+        <div class="concept-name">Minimum Viable Curriculum</div>
+        <div class="concept-desc">The smallest instructionally sufficient curriculum for a given terminal objective set. NP-complete to find optimally; greedy approximation available.</div>
+      </div>
+    </div>
+
+    <div class="concept-node">
+      <span class="concept-glyph">Δ</span>
+      <div class="concept-content">
+        <div class="concept-paper">P4</div>
+        <div class="concept-name">MVC-Distance</div>
+        <div class="concept-desc">How far a real curriculum is from its minimum viable form. The empirical hypothesis: higher MVC-distance predicts lower persistence. Needs testing.</div>
+      </div>
+    </div>
+
+    <div class="concept-node">
+      <span class="concept-glyph">→?</span>
+      <div class="concept-content">
+        <div class="concept-paper">P1</div>
+        <div class="concept-name">Help-Seeking Suppression</div>
+        <div class="concept-desc">The behavioral pattern in which students who need help do not seek it. Predicted by Seymour &amp; Hunter to be structurally caused. P1 operationalizes this as a measurable LMS feature.</div>
+      </div>
+    </div>
+
+    <div class="concept-node">
+      <span class="concept-glyph">σ</span>
+      <div class="concept-content">
+        <div class="concept-paper">P3 · P5</div>
+        <div class="concept-name">Structural Belonging</div>
+        <div class="concept-desc">The degree to which course design signals that students of varying backgrounds are expected to succeed. Distinct from interpersonal belonging — it is measurable from materials alone.</div>
+      </div>
+    </div>
+
   </div>
-
 </section>
 
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 08 — EXECUTION ROADMAP
+     ══════════════════════════════════════════════════════════════ -->
+<section id="roadmap" style="padding:7rem 5vw;border-bottom:1px solid var(--rule);">
+  <div class="section-header">
+    <span class="section-number">08</span>
+    <div class="section-rule"></div>
+    <span class="section-title">Execution Roadmap · 2025–2027</span>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 2fr;gap:4rem;">
+    <div>
+      <h2 style="font-family:var(--fell);font-size:2.2rem;font-weight:400;line-height:1.2;margin-bottom:1.5rem;">A Realistic Schedule</h2>
+      <p style="font-family:var(--serif);font-size:0.9rem;color:var(--muted);font-weight:300;line-height:1.75;">Projects are sequenced so that P3 (interviews) produces the conceptual foundation that P1 and P2 need. No project claims results it hasn't earned yet.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-month">Now — Spring 2026</div>
+        <h3>IRB Protocol + Corpus Construction</h3>
+        <p>Submit IRB for P3 interview study. Collect 100+ syllabi for P2 corpus. Develop annotation schema. PhD program applications.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-month">Summer 2026</div>
+        <h3>P3: Departure Interviews</h3>
+        <p>Conduct 20–30 semi-structured interviews with students who left STEM at Foothill. Code against S&amp;H taxonomy. Begin grounded theory analysis.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-month">Fall 2026</div>
+        <h3>P2: Annotation Study + P1: LMS Analysis</h3>
+        <p>Recruit expert annotators for P2. Begin NLP classifier training. In parallel, analyze LMS data for P1 help-seeking feature extraction.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-month">Spring 2027</div>
+        <h3>First Submissions</h3>
+        <p>Submit P3 (interview study) to ICER 2027. Submit P2 (SyllabusAudit) to Learning @ Scale 2027. Pilot P4 instructor annotation study.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-month">PhD Program</div>
+        <h3>Dissertation Research</h3>
+        <p>Integrate P1–P5 into a coherent dissertation on structural predictors of help-seeking and STEM departure at community colleges. Advisor conversations underway.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     SECTION 09 — ABOUT + CONTACT
+     ══════════════════════════════════════════════════════════════ -->
+<section id="about" style="padding:7rem 5vw 5rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;border-top:2px solid var(--ink);background:var(--ink);color:var(--paper);">
+  <div class="about-left">
+    <h2>About the Researcher</h2>
+    <p>I am a first-generation college student, McNair Scholar at San Jose State University, and Research Lead at the Foothill College Science Learning Institute. I am applying to PhD programs in CS education, learning sciences, and human-centered computing for Fall 2026.</p>
+    <p>Before this research, I spent years working in student services at Foothill College — financial aid, academic counseling, tutoring, learning communities, affinity groups — watching the same students encounter the same invisible structural barriers from every angle the institution offers. That experience is the origin of this work, not a detour from it.</p>
+    <p>My intellectual touchstones: Seymour &amp; Hunter's <em>Talking About Leaving Revisited</em>, Jeff Anderson's applied linear algebra curriculum, and the SIGCSE community's sustained attention to who CS education is actually designed for. I am interested in research groups working at the intersection of learning analytics, qualitative CS education research, and tool-building for educational equity.</p>
+    <p>This work is dedicated to Jeff Anderson, whose Applied Linear Algebra Fundamentals textbook and twelve modeling criteria are evidence that the problem is solvable — and that solving it is worth a career.</p>
+    <div style="margin-top:2rem;padding:1.25rem;border-left:2px solid var(--rust);font-family:var(--serif);font-style:italic;font-size:0.92rem;color:#888;line-height:1.7;">
+      "I do not come to this research with the most advanced technical portfolio. What I bring is an unusually complete picture of how students actually move through institutions."
+    </div>
+  </div>
+
+  <div class="about-right">
+    <div class="contact-item">
+      <div class="contact-label">Institution</div>
+      <div class="contact-value">San Jose State University · McNair Scholar</div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">Research Role</div>
+      <div class="contact-value">Foothill College Science Learning Institute · Research Lead</div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">Research Area</div>
+      <div class="contact-value">CS Education · Learning Analytics · STEM Persistence · Help-Seeking</div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">Target Venues</div>
+      <div class="contact-value">SIGCSE · ICER · EDM · LAK · ACM Learning @ Scale</div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">PhD Applications</div>
+      <div class="contact-value">UW Paul G. Allen · Georgia Tech · Stanford HAI · UMass Amherst · UC Irvine · CU Boulder</div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">Email</div>
+      <div class="contact-value"><a href="mailto:henry@henryfan.org">henry@henryfan.org</a></div>
+    </div>
+    <div class="contact-item">
+      <div class="contact-label">CV</div>
+      <div class="contact-value"><a href="cv.pdf">Download CV (PDF) →</a></div>
+    </div>
+
+    <div class="github-cta">
+      <p>// Research repository</p>
+      <code>git clone https://github.com/fansofhenry/cs-ed-research</code>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Henry Fan · SJSU McNair Scholar · Foothill College Science Learning Institute Research Lead</p>
+  <p>All papers, code, and tools released open-source. No paywall.</p>
+</footer>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">Close ✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
 <script>
 /* ── Linear Algebra Lab — Interactive Demos ────────────────── */
 
@@ -1636,143 +1531,6 @@ function laBmDraw(si){
   ctx.fillText(sp+'× speedup',P.l+W,P.t+12);
 }
 </script>
-
-<!-- CONCEPTS -->
-<section id="concepts">
-  <div class="section-header">
-    <span class="section-number">06</span>
-    <div class="section-rule"></div>
-    <span class="section-title">Key Concepts</span>
-  </div>
-  <p class="concepts-intro">Nine concepts that form the intellectual architecture of this research series. Hover to explore.</p>
-  <div class="concept-map">
-    <div class="concept-node" onclick="openModal('tdg')"><span class="concept-glyph">G</span><div class="concept-content"><p class="concept-paper">Paper 01</p><h3 class="concept-name">Typed Dependency Grammar</h3><p class="concept-desc">A directed graph G = (L, D) encoding four types of dependency. The first formal language for curriculum structure.</p></div></div>
-    <div class="concept-node" onclick="openModal('motreach')"><span class="concept-glyph">M</span><div class="concept-content"><p class="concept-paper">Paper 01</p><h3 class="concept-name">Motivational Reachability</h3><p class="concept-desc">Every advanced objective must be reachable via a chain of motivational edges. Formalizes Harel's necessity principle.</p></div></div>
-    <div class="concept-node" onclick="openModal('necessity')"><span class="concept-glyph">N</span><div class="concept-content"><p class="concept-paper">Papers 01–03</p><h3 class="concept-name">The Necessity Principle</h3><p class="concept-desc">"If math is the medicine, what is the headache?" Students must experience intellectual need before receiving the tool that answers it.</p></div></div>
-    <div class="concept-node" onclick="openModal('peddebt')"><span class="concept-glyph">D</span><div class="concept-content"><p class="concept-paper">Paper 02</p><h3 class="concept-name">Pedagogical Debt</h3><p class="concept-desc">The accumulated cost to student understanding of instructional shortcuts. Named by analogy with technical debt in software.</p></div></div>
-    <div class="concept-node" onclick="openModal('static')"><span class="concept-glyph">⊢</span><div class="concept-content"><p class="concept-paper">Paper 02</p><h3 class="concept-name">Static Analysis of Course Materials</h3><p class="concept-desc">PedDebt examines materials without needing student data — just as a type checker examines source code without running the program.</p></div></div>
-    <div class="concept-node" onclick="openModal('mvc')"><span class="concept-glyph">*</span><div class="concept-content"><p class="concept-paper">Paper 03</p><h3 class="concept-name">Minimum Viable Curriculum</h3><p class="concept-desc">The smallest instructionally sufficient TDG for a given terminal objective set. Analogous to the Minimum Viable Product.</p></div></div>
-    <div class="concept-node" onclick="openModal('nphard')"><span class="concept-glyph">𝒫</span><div class="concept-content"><p class="concept-paper">Paper 03</p><h3 class="concept-name">NP-Hardness of MVC</h3><p class="concept-desc">Finding the optimal MVC is NP-complete, proved by polynomial reduction from Set Cover.</p></div></div>
-    <div class="concept-node" onclick="openModal('mvcdist')"><span class="concept-glyph">Δ</span><div class="concept-content"><p class="concept-paper">Paper 03</p><h3 class="concept-name">MVC-Distance</h3><p class="concept-desc">How far a real curriculum is from its minimum viable form. High MVC-distance predicts lower persistence and self-efficacy.</p></div></div>
-    <div class="concept-node" onclick="openModal('keystone')"><span class="concept-glyph">⌨</span><div class="concept-content"><p class="concept-paper">All Papers</p><h3 class="concept-name">The Roman Keystone Principle</h3><p class="concept-desc">From Jeff Anderson: choose models that serve as meaningful introductions to much larger fields. Each concept here is a keystone.</p></div></div>
-    <div class="concept-node" onclick="openModal('basins')"><span class="concept-glyph">β</span><div class="concept-content"><p class="concept-paper">Paper 04</p><h3 class="concept-name">Basins of Belief</h3><p class="concept-desc">STEM self-efficacy modeled as a bistable dynamical system. Two attractors. One separatrix. The threshold at which a student's trajectory is determined.</p></div></div>
-    <div class="concept-node" onclick="openModal('separatrix')"><span class="concept-glyph">σ</span><div class="concept-content"><p class="concept-paper">Paper 04</p><h3 class="concept-name">The Separatrix</h3><p class="concept-desc">The boundary between the high- and low-efficacy basins. Median instruction puts this at β = 0.42 — well inside the range of ordinary students. Bad pedagogy is not neutral.</p></div></div>
-  </div>
-</section>
-
-<!-- CRITERIA -->
-<section id="criteria">
-  <div class="section-header">
-    <span class="section-number">07</span>
-    <div class="section-rule"></div>
-    <span class="section-title">Alignment with Anderson's 12 Criteria</span>
-  </div>
-  <p class="criteria-intro">Jeff Anderson's twelve criteria are not just cited — they are load-bearing. This table shows exactly where each criterion appears in the work.</p>
-  <table class="criteria-table">
-    <thead><tr><th>#</th><th>Criterion</th><th>Paper 01</th><th>Paper 02</th><th>Paper 03</th><th>Role in Research</th></tr></thead>
-    <tbody>
-      <tr><td><span class="criterion-num">C1</span></td><td><span class="criterion-name">Necessity</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>Motivational reachability in TDG; motivational debt in PedDebt; headache-first student activity in MVC</td></tr>
-      <tr><td><span class="criterion-num">C2</span></td><td><span class="criterion-name">Active Learning</span></td><td><span class="dot partial"></span></td><td><span class="dot partial"></span></td><td><span class="dot yes"></span></td><td>MVC student activity is fully student-driven; Papers 1–2 design tools that empower student autonomy</td></tr>
-      <tr><td><span class="criterion-num">C3</span></td><td><span class="criterion-name">Scaffolding</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>Scaffolding regularity is a TDG condition; scaffolding debt is a PedDebt component; MVC activity is phased</td></tr>
-      <tr><td><span class="criterion-num">C4</span></td><td><span class="criterion-name">Authenticity</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>All three projects address real institutional and instructional problems</td></tr>
-      <tr><td><span class="criterion-num">C5</span></td><td><span class="criterion-name">Roman Keystone</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>TDG is a keystone for formal education research; MVC opens into complexity theory and PL</td></tr>
-      <tr><td><span class="criterion-num">C6</span></td><td><span class="criterion-name">Verification</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>TDG well-formedness is checkable; PedDebt gives instructors self-audit capacity; MVC is self-verifiable</td></tr>
-      <tr><td><span class="criterion-num">C7</span></td><td><span class="criterion-name">Directness</span></td><td><span class="dot partial"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>PedDebt and MVC tools are immediately usable by instructors</td></tr>
-      <tr><td><span class="criterion-num">C8</span></td><td><span class="criterion-name">Reproducibility</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>All data, code, and LaTeX source released open-source</td></tr>
-      <tr><td><span class="criterion-num">C9</span></td><td><span class="criterion-name">Cost-Saving</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>All tools run on standard hardware; all datasets are public</td></tr>
-      <tr><td><span class="criterion-num">C10</span></td><td><span class="criterion-name">Safety</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>Computational research; PedDebt audits materials, not individuals</td></tr>
-      <tr><td><span class="criterion-num">C11</span></td><td><span class="criterion-name">No Paywall</span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>All papers, code, datasets, and tools are released at no cost</td></tr>
-      <tr><td><span class="criterion-num">C12</span></td><td><span class="criterion-name">Low-floor / High-ceiling</span></td><td><span class="dot partial"></span></td><td><span class="dot yes"></span></td><td><span class="dot yes"></span></td><td>MVC activity accessible with graph drawing; extends to complexity proofs</td></tr>
-    </tbody>
-  </table>
-  <p style="margin-top:1.5rem;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;color:var(--muted)"><span class="dot yes"></span> Full &nbsp;&nbsp; <span class="dot partial"></span> Partial &nbsp;&nbsp; <span class="dot"></span> N/A</p>
-</section>
-
-<!-- ROADMAP -->
-<section id="roadmap">
-  <div class="section-header">
-    <span class="section-number">08</span>
-    <div class="section-rule"></div>
-    <span class="section-title">Execution Roadmap</span>
-  </div>
-  <div class="timeline">
-    <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-month">Months 1–2</p><h3>Deep Reading and Precise Definitions</h3><p>Read Seymour & Hunter, Shannon's 1948 paper, and Turing's 1936 paper. Write formal definitions before writing code. No GitHub commits yet — only LaTeX.</p></div>
-    <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-month">Month 3</p><h3>MVC Theory Section Complete</h3><p>Formalize the MVC problem. Prove NP-hardness and the polynomial tractable case. Post preprint to arXiv (cs.CY). Get feedback before building code.</p></div>
-    <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-month">Months 4–5</p><h3>PedDebt Tool Built and Validated</h3><p>Build PedDebt on Foothill College Science Learning Institute materials. Recruit expert annotators. Compute Cohen's κ. Submit to ACM Learning @ Scale.</p></div>
-    <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-month">Month 5</p><h3>TDG Grammar and Empirical Study</h3><p>Build the IPEDS curriculum graph pipeline. Construct TDGs for twelve STEM departments. Write Paper 1. Submit to EDM 2026.</p></div>
-    <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-month">Month 6</p><h3>GitHub Portfolio and Statement of Purpose</h3><p>Polish all three repositories. Write a statement of purpose that frames all three projects as a single research agenda with one mission-critical bottleneck.</p></div>
-    <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-month">Applications</p><h3>PhD Program Submissions</h3><p>UW Paul G. Allen School · Georgia Tech Interactive Computing · Stanford HAI · UMass Amherst · UC Irvine · CU Boulder · ASU · U Utah · UT Dallas.</p></div>
-  </div>
-</section>
-
-<!-- ORIGIN -->
-<section id="origin">
-  <div class="section-header">
-    <span class="section-number">09</span>
-    <div class="section-rule"></div>
-    <span class="section-title">Where This Research Comes From</span>
-  </div>
-  <div class="origin-grid">
-    <div class="origin-left">
-      <h2>The Institution Seen from Every Angle</h2>
-      <p class="origin-pull">"The research isn't despite the student services work. The research <em>is</em> the student services work, made formal."</p>
-      <p>Most CS education researchers arrive at questions about student success from the outside — from data, from literature, from the lab. I arrived at them from inside the institution, from five different roles in which I watched the same students encounter the same invisible structural barriers from completely different vantage points.</p>
-      <p>In financial aid, I saw students leave STEM because a funding gap at the wrong moment made a hard class feel unsurvivable. In counseling, I heard students describe themselves as "not a math person" — a belief constructed from curricula that never explained why anything mattered. In the Teaching and Learning Center, I watched students spend hours on content their course objectives barely required. In learning communities and affinity groups, I saw students discover for the first time that their peers were struggling too — and that this shared knowledge was what let them stay.</p>
-      <p>The research questions in these three papers are not abstractions. They are formalized versions of things I watched happen to real students. I do not come to this research with the most advanced CS portfolio in my cohort. What I bring is an unusually complete picture of how students actually move through institutions — and an unusually strong conviction that the problems are structural, solvable, and worth a career.</p>
-    </div>
-    <div class="origin-right">
-      <div class="service-role"><div class="role-bar"></div><div class="role-content"><p class="role-title">Financial Aid</p><p class="role-insight">Watched students withdraw from STEM not from lack of ability but because financial precarity made any obstacle feel final. Learned that structural interventions outperform individual counseling every time.</p><p class="role-research-link">→ Grounds the equity focus of all three papers</p></div></div>
-      <div class="service-role"><div class="role-bar"></div><div class="role-content"><p class="role-title">Counseling Support</p><p class="role-insight">Heard students articulate fixed beliefs about their own mathematical ability — beliefs formed from curricula that never established why the material mattered. Introduced to Harel's necessity principle not from theory but from watching what happened when it was violated.</p><p class="role-research-link">→ Motivational debt · Necessity principle</p></div></div>
-      <div class="service-role"><div class="role-bar"></div><div class="role-content"><p class="role-title">Teaching &amp; Learning Center</p><p class="role-insight">Tutored students navigating content their course objectives barely required. Began asking: how much of what students are struggling with is actually necessary for where they are trying to go? This question became the Minimum Viable Curriculum problem.</p><p class="role-research-link">→ Direct origin of Paper 03</p></div></div>
-      <div class="service-role"><div class="role-bar"></div><div class="role-content"><p class="role-title">Learning Communities</p><p class="role-insight">Saw peer context transform students' relationship to difficulty. A student who believes they are uniquely confused is fragile. One who learns confusion is shared and structural is resilient. Learning communities make the structural visible — exactly what this research does computationally.</p><p class="role-research-link">→ Social dependency type in TDG</p></div></div>
-      <div class="service-role"><div class="role-bar"></div><div class="role-content"><p class="role-title">Affinity Groups</p><p class="role-insight">Worked with students told in both explicit and subtle ways that STEM was not for them. Saw how belonging-based interventions changed persistence more reliably than content-based ones. Began asking: what would curriculum look like that creates belonging as a structural feature, not an add-on?</p><p class="role-research-link">→ Equity framing · MVC-distance and disproportionate burden</p></div></div>
-    </div>
-    <div class="origin-conviction">
-      <p class="conviction-left">"The goal is not a better prediction model. The goal is curriculum that builds students' belief in themselves, their tolerance for hard problems, and their capacity for deep learning — by design, not by accident."</p>
-      <div class="conviction-right">
-        <p>This research is a first step toward translating a decade of watching students into tools that instructors and institutions can actually use. The papers are rigorous because the problems deserve rigor. The tools are open because the students who need them most are already paying too much.</p>
-        <p>The long-term vision is project-based curriculum grounded in this research — learning experiences that activate intrinsic motivation, reward intellectual courage, and make students the authors of their own understanding.</p>
-        <div class="conviction-pillars">
-          <span class="pillar">Belief in self</span><span class="pillar">Hard problems</span><span class="pillar">Deep learning</span><span class="pillar">Intrinsic motivation</span><span class="pillar">Structural equity</span><span class="pillar">Open access</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="about-left">
-    <h2>About<br>the<br>Researcher</h2>
-    <p>I am a first-generation college student, McNair Scholar at San Jose State University, and Research Lead at the Foothill College Science Learning Institute. Before this research, I spent years working in student services — financial aid, counseling, tutoring, learning communities, affinity groups — watching the same students encounter the same invisible structural barriers from every angle the institution offers.</p>
-    <p>That experience is the origin of this work, not a detour from it. The questions in these papers are formalized versions of things I watched happen to real students. Pedagogical debt is the cost I watched them pay. MVC-distance is the invisible weight I watched them carry.</p>
-    <p>The long-term goal is to turn this research into project-based curriculum that builds students' belief in themselves, their tolerance for hard problems, and their capacity for deep learning — by activating intrinsic motivation and by design, not by accident.</p>
-    <p>This work is dedicated to Jeff Anderson, whose <em>Applied Linear Algebra Fundamentals</em> textbook and twelve criteria for modeling activities are the existence proof that the problem is solvable — and that solving it is worth a career.</p>
-  </div>
-  <div class="about-right">
-    <div class="contact-item"><span class="contact-label">Institution</span><span class="contact-value">San Jose State University · McNair Scholar</span></div>
-    <div class="contact-item"><span class="contact-label">Research Role</span><span class="contact-value">Foothill College Science Learning Institute · Research Lead</span></div>
-    <div class="contact-item"><span class="contact-label">Research Area</span><span class="contact-value">Computational Education · Learning Analytics · Formal Methods</span></div>
-    <div class="contact-item"><span class="contact-label">Target Conference</span><span class="contact-value">EDM · LAK · ACM Learning @ Scale · ICER · NeurIPS Education</span></div>
-    <div class="github-cta">
-      <p>// Clone this research repository</p>
-      <code>git clone https://github.com/henry-fan/computational-education-research</code>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <p>© 2026 Henry Fan · SJSU McNair Scholar · Foothill College Science Learning Institute Research Lead</p>
-  <p>All papers, code, and tools released open-source. No paywall.</p>
-</footer>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
-  <div class="modal" id="modal-content">
-    <button class="modal-close" onclick="closeModal()">Close ✕</button>
-    <div id="modal-body"></div>
-  </div>
-</div>
 
 <script>
 // ─────────────────────────────────────────────
@@ -2261,6 +2019,13 @@ window.addEventListener('load', () => {
 // ─────────────────────────────────────────────
 // SHARED UTILS
 // ─────────────────────────────────────────────
+function toggleDetail(btn) {
+  var detail = btn.nextElementSibling;
+  var isOpen = detail.style.display === "block";
+  detail.style.display = isOpen ? "none" : "block";
+  btn.innerHTML = (isOpen ? "▶" : "▼") + btn.innerHTML.substring(1);
+}
+
 function togglePaper(card) {
   const wasOpen = card.classList.contains('open');
   document.querySelectorAll('.paper-card').forEach(c => c.classList.remove('open'));
