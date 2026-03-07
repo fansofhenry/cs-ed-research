@@ -469,6 +469,7 @@ footer p { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; 
     <li><a href="#demo-mvc">MVC Demo</a></li>
     <li><a href="#papers">Papers</a></li>
     <li><a href="#cs-projects">CS Projects</a></li>
+    <li><a href="#linear-algebra-lab">Linear Algebra Lab</a></li>
     <li><a href="#origin">Origin</a></li>
     <li><a href="#about">About</a></li>
   </ul>
@@ -973,6 +974,669 @@ footer p { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; 
     </div>
   </div>
 </section>
+
+<!-- LINEAR ALGEBRA LAB -->
+<section id="linear-algebra-lab" style="padding: 7rem 5vw; background: var(--ink); color: var(--paper); border-bottom: 2px solid var(--ink);">
+<style>
+/* ── LA Lab scoped styles ─────────────────────────────── */
+#linear-algebra-lab * { box-sizing: border-box; }
+#linear-algebra-lab .la-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 1px;
+  background: #1a1a1a;
+  border: 1px solid #1a1a1a;
+  margin-bottom: 3.5rem;
+}
+#linear-algebra-lab .la-card {
+  background: #0c0c0c;
+  padding: 2rem;
+  transition: background 0.15s;
+}
+#linear-algebra-lab .la-card:hover { background: #111; }
+#linear-algebra-lab .la-paper-num {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+#linear-algebra-lab .la-card h3 {
+  font-family: var(--fell);
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--paper);
+  margin-bottom: 0.2rem;
+}
+#linear-algebra-lab .la-sub {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.85rem;
+}
+#linear-algebra-lab .la-desc {
+  font-family: var(--serif);
+  font-size: 0.88rem;
+  color: #888;
+  line-height: 1.75;
+  font-weight: 300;
+  margin-bottom: 1.1rem;
+}
+#linear-algebra-lab .la-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 1.1rem; }
+#linear-algebra-lab .la-tag {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border: 1px solid currentColor;
+  opacity: 0.5;
+}
+#linear-algebra-lab .la-toggle {
+  width: 100%;
+  background: transparent;
+  border: 1px solid #222;
+  color: #555;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  padding: 7px 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+}
+#linear-algebra-lab .la-toggle:hover { color: #aaa; border-color: #333; }
+#linear-algebra-lab .la-toggle.open { border-color: currentColor; color: var(--paper); }
+#linear-algebra-lab .la-panel { display: none; margin-top: 1.25rem; border-top: 1px solid #1a1a1a; padding-top: 1.25rem; }
+#linear-algebra-lab .la-panel.open { display: block; }
+#linear-algebra-lab .la-demo-label {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  color: #333;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+}
+#linear-algebra-lab canvas.la-cvs {
+  display: block; width: 100%;
+  border: 1px solid #1a1a1a;
+  image-rendering: pixelated;
+  margin-bottom: 0.75rem;
+}
+#linear-algebra-lab .la-ctrl { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+#linear-algebra-lab .la-clabel {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  color: #444;
+  width: 120px;
+  flex-shrink: 0;
+}
+#linear-algebra-lab input[type=range] {
+  -webkit-appearance: none;
+  height: 1px;
+  flex: 1;
+  background: #1a1a1a;
+  border-radius: 0;
+  cursor: pointer;
+}
+#linear-algebra-lab input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px; height: 12px;
+  background: currentColor;
+  border-radius: 50%;
+}
+#linear-algebra-lab .la-btns { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 0.75rem; }
+#linear-algebra-lab .la-btn {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid #222;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+#linear-algebra-lab .la-btn:hover { color: #aaa; border-color: #444; }
+#linear-algebra-lab .la-btn.la-on { color: var(--paper) !important; border-color: currentColor !important; }
+#linear-algebra-lab .la-insight {
+  border-left: 2px solid var(--gold);
+  padding: 0.75rem 1rem;
+  font-family: var(--serif);
+  font-size: 0.8rem;
+  color: #666;
+  font-weight: 300;
+  line-height: 1.7;
+  margin-top: 0.9rem;
+}
+#linear-algebra-lab .la-insight strong { color: var(--gold); font-weight: 600; }
+#linear-algebra-lab .la-intro-note {
+  border-left: 2px solid var(--rust);
+  padding: 0.85rem 1.25rem;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: #888;
+  font-weight: 300;
+  line-height: 1.7;
+  margin-bottom: 3rem;
+  max-width: 68ch;
+}
+#linear-algebra-lab .la-intro-note strong { color: #aaa; font-style: normal; font-weight: 600; }
+#linear-algebra-lab .la-repo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  background: #0c0c0c;
+  border: 1px solid #1a1a1a;
+  padding: 2rem 2.5rem;
+  margin-top: 3rem;
+}
+@media(max-width:640px){
+  #linear-algebra-lab .la-grid { grid-template-columns: 1fr; }
+  #linear-algebra-lab .la-repo { grid-template-columns: 1fr; }
+}
+#linear-algebra-lab .la-repo-label {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  color: #333;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+#linear-algebra-lab pre {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: #2a2a2a;
+  line-height: 1.85;
+  overflow-x: auto;
+}
+#linear-algebra-lab .la-repo a {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--gold);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+}
+#linear-algebra-lab .la-repo a:hover { text-decoration: underline; }
+</style>
+
+  <!-- Section header -->
+  <div class="section-header">
+    <span class="section-number" style="color:var(--gold);">06c</span>
+    <div class="section-rule"></div>
+    <span class="section-title">Linear Algebra Lab · Applied Curriculum Series</span>
+  </div>
+
+  <!-- Anderson tie-in note -->
+  <p class="la-intro-note">
+    <strong>Connection to this research agenda:</strong>
+    Each paper opens with the headache before the tool — a direct application of
+    Harel's necessity principle from Paper 01 and the Anderson modeling criteria from Paper 03.
+    Every paper scores ≤ 2 on the PedDebt motivational debt scale.
+    Built for students in introductory CS at community colleges, in Java, C++, and Python.
+  </p>
+
+  <!-- 4 paper cards -->
+  <div class="la-grid">
+
+    <!-- LA-01: Image Processing -->
+    <div class="la-card">
+      <div class="la-paper-num" style="color:#7aaa7a;">Paper LA-01</div>
+      <h3>Image Processing</h3>
+      <div class="la-sub" style="color:#7aaa7a;">Compression · Convolution · PSNR Trade-offs</div>
+      <p class="la-desc">
+        Explore the trade-off between JPEG compression ratio and image quality.
+        Build blur, sharpen, and edge-detection filters from scratch using convolution matrices.
+        Measure quality loss with Peak Signal-to-Noise Ratio (PSNR).
+      </p>
+      <div class="la-tags">
+        <span class="la-tag" style="color:#7aaa7a;">Python</span>
+        <span class="la-tag" style="color:#7aaa7a;">Java</span>
+        <span class="la-tag" style="color:#7aaa7a;">C++</span>
+        <span class="la-tag" style="color:#7aaa7a;">OpenCV</span>
+      </div>
+      <button class="la-toggle" style="color:#7aaa7a;border-color:#7aaa7a22;"
+        onclick="laOpen(this,'la-p-img')">▶ &nbsp;Interactive Demo — Convolution Kernels</button>
+      <div class="la-panel" id="la-p-img">
+        <div class="la-demo-label" style="color:#7aaa7a;">▶ Live Kernel Filter + Compression Quality</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;">
+          <div>
+            <div style="font-family:var(--mono);font-size:0.5rem;color:#2a2a2a;margin-bottom:3px;">ORIGINAL</div>
+            <canvas id="la-orig" class="la-cvs" width="200" height="150"></canvas>
+          </div>
+          <div>
+            <div style="font-family:var(--mono);font-size:0.5rem;color:#7aaa7a;margin-bottom:3px;">FILTERED</div>
+            <canvas id="la-filt" class="la-cvs" width="200" height="150"></canvas>
+          </div>
+        </div>
+        <div class="la-btns" id="la-kbtns">
+          <button class="la-btn la-on" style="color:#7aaa7a;" data-k="gaussian" onclick="laKernel(this,'gaussian')">Gaussian</button>
+          <button class="la-btn" onclick="laKernel(this,'blur')">Box Blur</button>
+          <button class="la-btn" onclick="laKernel(this,'sharpen')">Sharpen</button>
+          <button class="la-btn" onclick="laKernel(this,'edge')">Edge</button>
+          <button class="la-btn" onclick="laKernel(this,'emboss')">Emboss</button>
+        </div>
+        <div class="la-ctrl">
+          <span class="la-clabel" id="la-qlabel" style="color:#7aaa7a;">Quality: 80%</span>
+          <input type="range" min="10" max="100" value="80" style="color:#7aaa7a;"
+            oninput="laQual(this)">
+        </div>
+        <div id="la-kmat" style="font-family:var(--mono);font-size:0.6rem;color:#2a2a2a;margin-top:0.5rem;line-height:1.9;"></div>
+        <div class="la-insight">
+          <strong>Key insight:</strong> Convolution is the same operation regardless of kernel —
+          only the weights change. JPEG quality below 30 introduces visible 8×8 blocking artifacts
+          because the DCT quantization discards high-frequency components at the tile boundary.
+        </div>
+      </div>
+    </div>
+
+    <!-- LA-02: PCA -->
+    <div class="la-card">
+      <div class="la-paper-num" style="color:#6a9ed4;">Paper LA-02</div>
+      <h3>Machine Learning via PCA</h3>
+      <div class="la-sub" style="color:#6a9ed4;">Eigendecomposition · Dimensionality Reduction · Geometry</div>
+      <p class="la-desc">
+        Understand the geometry of Principal Component Analysis from covariance matrices to eigenvectors.
+        Apply PCA to the Iris dataset (4D → 2D, 97.7% variance retained).
+        Implement the algorithm from scratch — no sklearn.
+      </p>
+      <div class="la-tags">
+        <span class="la-tag" style="color:#6a9ed4;">Python</span>
+        <span class="la-tag" style="color:#6a9ed4;">Java</span>
+        <span class="la-tag" style="color:#6a9ed4;">C++ / Eigen3</span>
+        <span class="la-tag" style="color:#6a9ed4;">scikit-learn</span>
+      </div>
+      <button class="la-toggle" style="color:#6a9ed4;border-color:#6a9ed422;"
+        onclick="laOpen(this,'la-p-pca')">▶ &nbsp;Interactive Demo — Live PCA Scatter Plot</button>
+      <div class="la-panel" id="la-p-pca">
+        <div class="la-demo-label" style="color:#6a9ed4;">▶ Adjust data — watch eigenvectors respond</div>
+        <canvas id="la-pca" class="la-cvs" width="400" height="270"></canvas>
+        <div class="la-ctrl">
+          <span class="la-clabel" id="la-pn" style="color:#6a9ed4;">Points: 80</span>
+          <input type="range" min="20" max="200" value="80" style="color:#6a9ed4;"
+            oninput="laPca('n',this)">
+        </div>
+        <div class="la-ctrl">
+          <span class="la-clabel" id="la-ps" style="color:#6a9ed4;">Spread: 70</span>
+          <input type="range" min="10" max="120" value="70" style="color:#6a9ed4;"
+            oninput="laPca('s',this)">
+        </div>
+        <div class="la-ctrl">
+          <span class="la-clabel" id="la-pa" style="color:#6a9ed4;">Angle: 35°</span>
+          <input type="range" min="0" max="90" value="35" style="color:#6a9ed4;"
+            oninput="laPca('a',this)">
+        </div>
+        <div class="la-insight">
+          <strong>Key insight:</strong> PC1 points in the direction of maximum variance.
+          The percentage shows how much total spread that axis captures.
+          Rotate the data — the eigendecomposition of the covariance matrix responds instantly.
+        </div>
+      </div>
+    </div>
+
+    <!-- LA-03: PageRank -->
+    <div class="la-card">
+      <div class="la-paper-num" style="color:var(--gold);">Paper LA-03</div>
+      <h3>Search Engine Mathematics</h3>
+      <div class="la-sub" style="color:var(--gold);">PageRank · Markov Chains · Power Iteration · $2T Algorithm</div>
+      <p class="la-desc">
+        Implement PageRank from first principles via power iteration.
+        Explore how the damping factor d = 0.85 prevents rank from draining into cycles.
+        Understand why this single eigenvector computation built a $2 trillion company —
+        and why that dwarfs OpenAI's valuation.
+      </p>
+      <div class="la-tags">
+        <span class="la-tag" style="color:var(--gold);">Python</span>
+        <span class="la-tag" style="color:var(--gold);">Java</span>
+        <span class="la-tag" style="color:var(--gold);">C++</span>
+        <span class="la-tag" style="color:var(--gold);">Graph Theory</span>
+      </div>
+      <button class="la-toggle" style="color:var(--gold);border-color:#c9963a22;"
+        onclick="laOpen(this,'la-p-pr')">▶ &nbsp;Interactive Demo — Web Graph Power Iteration</button>
+      <div class="la-panel" id="la-p-pr">
+        <div class="la-demo-label" style="color:var(--gold);">▶ Watch rank flow — step or run</div>
+        <div class="la-btns">
+          <button class="la-btn la-on" style="color:var(--gold);" data-g="simple" onclick="laPrGraph(this,'simple')">Simple</button>
+          <button class="la-btn" onclick="laPrGraph(this,'trap')">Rank Trap</button>
+          <button class="la-btn" onclick="laPrGraph(this,'star')">Star</button>
+        </div>
+        <canvas id="la-pr" class="la-cvs" width="400" height="290"></canvas>
+        <div class="la-ctrl">
+          <span class="la-clabel" id="la-prd" style="color:var(--gold);">Damping: 0.85</span>
+          <input type="range" min="50" max="99" value="85" style="color:var(--gold);"
+            oninput="laPrDamp(this)">
+        </div>
+        <div style="display:flex;gap:5px;margin-top:6px;">
+          <button class="la-btn" onclick="laPrStep()" style="flex:1;">Step →</button>
+          <button class="la-btn" id="la-pr-run" style="flex:1;color:var(--gold);border-color:var(--gold);" onclick="laPrRun()">▶ Run</button>
+          <button class="la-btn" onclick="laPrReset()" style="flex:1;">↺ Reset</button>
+        </div>
+        <div class="la-insight">
+          <strong>Financial context:</strong>
+          Google's $2T market cap runs on this eigenvector. PageRank is O(n·|E|) per iteration
+          and converges in ~20 steps. d = 0.85 was chosen empirically by Brin &amp; Page in 1998.
+          OpenAI valuation (2024): ~$300B.
+          One matrix equation — written before neural nets dominated — outvalued decades of generative AI.
+        </div>
+      </div>
+    </div>
+
+    <!-- LA-04: Benchmarks -->
+    <div class="la-card">
+      <div class="la-paper-num" style="color:var(--rust);">Paper LA-04</div>
+      <h3>Matrix-Vector Benchmarks</h3>
+      <div class="la-sub" style="color:var(--rust);">NumPy vs C/Fortran · BLAS · Cache Efficiency · SIMD</div>
+      <p class="la-desc">
+        Build a complete linear algebra library from scratch — vectors, matrix multiply, norms.
+        Then measure the staggering gap against NumPy (which calls Fortran BLAS routines).
+        Understand why a 256×256 matmul is 15,000× faster in NumPy than pure Python loops.
+      </p>
+      <div class="la-tags">
+        <span class="la-tag" style="color:var(--rust);">Python</span>
+        <span class="la-tag" style="color:var(--rust);">C++</span>
+        <span class="la-tag" style="color:var(--rust);">Fortran/BLAS</span>
+        <span class="la-tag" style="color:var(--rust);">NumPy</span>
+      </div>
+      <button class="la-toggle" style="color:var(--rust);border-color:#b84a2e22;"
+        onclick="laOpen(this,'la-p-bm')">▶ &nbsp;Interactive Demo — Performance Benchmark Chart</button>
+      <div class="la-panel" id="la-p-bm">
+        <div class="la-demo-label" style="color:var(--rust);">▶ Adjust matrix size — watch speedup scale</div>
+        <canvas id="la-bm" class="la-cvs" width="500" height="250"></canvas>
+        <div class="la-ctrl">
+          <span class="la-clabel" id="la-bml" style="color:var(--rust);">Size: 64×64</span>
+          <input type="range" min="0" max="6" value="2" style="color:var(--rust);"
+            oninput="laBm(this)">
+        </div>
+        <div class="la-insight">
+          <strong>Why NumPy wins:</strong>
+          BLAS DGEMM uses cache-blocking — matrices split into tiles fitting L2 cache.
+          AVX2 SIMD processes 4 doubles per instruction.
+          OpenBLAS auto-parallelizes across cores.
+          For bioinformatics and genomics workflows: never loop over large arrays in Python.
+          The bottleneck is almost always a matrix multiply.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end la-grid -->
+
+  <!-- Repo footer -->
+  <div class="la-repo">
+    <div>
+      <div class="la-repo-label">Repository Structure</div>
+      <pre>linear-algebra-lab/
+├── 01-image-processing/
+│   ├── compression.py
+│   ├── convolution.py
+│   ├── Convolution.java
+│   └── convolution.cpp
+├── 02-pca/
+│   ├── pca_from_scratch.py
+│   └── PrincipalComponentAnalysis.java
+├── 03-pagerank/
+│   ├── pagerank.py
+│   └── PageRank.java
+└── 04-benchmarks/
+    ├── linalg_bench.py
+    └── LinAlgBenchmark.java</pre>
+    </div>
+    <div>
+      <div class="la-repo-label">Quick Start</div>
+      <pre>pip install numpy scipy \
+  matplotlib Pillow scikit-learn
+
+python 01-image-processing/convolution.py
+python 02-pca/pca_from_scratch.py
+python 03-pagerank/pagerank.py
+python 04-benchmarks/linalg_bench.py</pre>
+      <div style="margin-top:1.25rem;">
+        <a href="https://github.com/fansofhenry/cs-ed-research" target="_blank">
+          → View on GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+/* ── Linear Algebra Lab — Interactive Demos ────────────────── */
+
+// Panel toggle
+function laOpen(btn, id) {
+  var p = document.getElementById(id);
+  var open = p.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.textContent = (open ? '▼' : '▶') + btn.textContent.slice(1);
+  if (open) {
+    if (id==='la-p-img') laImgInit();
+    if (id==='la-p-pca') laPcaInit();
+    if (id==='la-p-pr')  laPrInit();
+    if (id==='la-p-bm')  laBmInit();
+  }
+}
+
+/* ─── LA-01 Convolution ─────────────────────────────────── */
+var _laK = {
+  gaussian:[[1/16,2/16,1/16],[2/16,4/16,2/16],[1/16,2/16,1/16]],
+  blur:    [[1/9,1/9,1/9],[1/9,1/9,1/9],[1/9,1/9,1/9]],
+  sharpen: [[0,-1,0],[-1,5,-1],[0,-1,0]],
+  edge:    [[-1,-1,-1],[-1,8,-1],[-1,-1,-1]],
+  emboss:  [[-2,-1,0],[-1,1,1],[0,1,2]]
+};
+var _laKn='gaussian', _laQ=80;
+
+function laImgInit() {
+  var c=document.getElementById('la-orig'); if(!c||c.width>0&&c._done) return;
+  c.width=200; c.height=150; c._done=true;
+  var ctx=c.getContext('2d');
+  for(var y=0;y<150;y++) for(var x=0;x<200;x++) {
+    ctx.fillStyle='rgb('+
+      (Math.abs(Math.sin(x*.1)*255)|0)+','+
+      (Math.abs(Math.cos(y*.08)*200)|0)+','+
+      (Math.abs(Math.sin((x+y)*.06)*220)|0)+')';
+    ctx.fillRect(x,y,1,1);
+  }
+  ctx.fillStyle='rgba(255,200,0,.75)';ctx.beginPath();ctx.arc(80,60,35,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='rgba(0,120,255,.65)';ctx.fillRect(130,35,55,75);
+  ctx.fillStyle='rgba(220,70,70,.8)';ctx.beginPath();ctx.moveTo(28,132);ctx.lineTo(60,88);ctx.lineTo(92,132);ctx.fill();
+  laImgRender();
+}
+function laImgRender() {
+  var s=document.getElementById('la-orig'), d=document.getElementById('la-filt');
+  if(!s||!s.width) return;
+  d.width=s.width; d.height=s.height;
+  var sc=s.getContext('2d'), dc=d.getContext('2d');
+  var sd=sc.getImageData(0,0,s.width,s.height), dd=dc.createImageData(s.width,s.height);
+  var k=_laK[_laKn], W=s.width, H=s.height, noise=(1-_laQ/100)*18;
+  for(var y=1;y<H-1;y++) for(var x=1;x<W-1;x++) {
+    var r=0,g=0,b=0;
+    for(var ky=0;ky<3;ky++) for(var kx=0;kx<3;kx++) {
+      var p=((y+ky-1)*W+(x+kx-1))*4;
+      r+=sd.data[p]*k[ky][kx]; g+=sd.data[p+1]*k[ky][kx]; b+=sd.data[p+2]*k[ky][kx];
+    }
+    var i=(y*W+x)*4, n=(Math.random()-.5)*noise;
+    dd.data[i]=Math.min(255,Math.max(0,r+n))|0;
+    dd.data[i+1]=Math.min(255,Math.max(0,g+n))|0;
+    dd.data[i+2]=Math.min(255,Math.max(0,b+n))|0;
+    dd.data[i+3]=255;
+  }
+  dc.putImageData(dd,0,0);
+  // Matrix display
+  var m=document.getElementById('la-kmat'); if(!m) return;
+  var k2=_laK[_laKn], h='<span style="font-size:.5rem;color:#2a2a2a;letter-spacing:.1em;">KERNEL — '+_laKn.toUpperCase()+'</span><br>';
+  for(var i=0;i<3;i++) { for(var j=0;j<3;j++) {
+    var v=k2[i][j], c2=v>0?'#7aaa7a':v<0?'#b84a2e':'#222';
+    h+='<span style="color:'+c2+';display:inline-block;width:54px;text-align:center;border:1px solid #111;padding:2px 0;margin:1px;">'+(Math.abs(v)<.001?'0':v.toFixed(4).replace(/\.?0+$/, ''))+'</span>';
+  } h+='<br>'; }
+  m.innerHTML=h;
+}
+function laKernel(btn,name) {
+  document.querySelectorAll('[data-k]').forEach(function(b){b.classList.remove('la-on');b.style.color='';b.style.borderColor='';});
+  btn.classList.add('la-on'); btn.style.color='#7aaa7a'; _laKn=name; laImgRender();
+}
+function laQual(el) { _laQ=+el.value; document.getElementById('la-qlabel').textContent='Quality: '+el.value+'%'; laImgRender(); }
+
+/* ─── LA-02 PCA ──────────────────────────────────────────── */
+var _laPca={n:80,s:70,a:35};
+function laPcaInit(){laPcaDraw();}
+function laPca(k,el) {
+  _laPca[k]=+el.value;
+  var labels={n:'la-pn',s:'la-ps',a:'la-pa'}, names={n:'Points: ',s:'Spread: ',a:'Angle: '}, sfx={n:'',s:'',a:'°'};
+  document.getElementById(labels[k]).textContent=names[k]+el.value+sfx[k];
+  laPcaDraw();
+}
+function laPcaDraw() {
+  var c=document.getElementById('la-pca'); if(!c) return;
+  c.width=400; c.height=270;
+  var ctx=c.getContext('2d'); ctx.fillStyle='#0c0c0c'; ctx.fillRect(0,0,400,270);
+  var cx=200,cy=135;
+  ctx.strokeStyle='#111'; ctx.lineWidth=1;
+  for(var i=0;i<=400;i+=40){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,270);ctx.stroke();}
+  for(var i=0;i<=270;i+=40){ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(400,i);ctx.stroke();}
+  ctx.strokeStyle='#1a1a1a';
+  ctx.beginPath();ctx.moveTo(0,cy);ctx.lineTo(400,cy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(cx,0);ctx.lineTo(cx,270);ctx.stroke();
+  var th=_laPca.a*Math.PI/180, pts=[];
+  for(var i=0;i<_laPca.n;i++){var t=(Math.random()-.5)*_laPca.s*2,p=(Math.random()-.5)*20;pts.push([t*Math.cos(th)-p*Math.sin(th),t*Math.sin(th)+p*Math.cos(th)]);}
+  var mx=0,my=0; pts.forEach(function(p){mx+=p[0];my+=p[1];}); mx/=pts.length; my/=pts.length;
+  var cxx=0,cxy=0,cyy=0;
+  pts.forEach(function(p){cxx+=(p[0]-mx)*(p[0]-mx);cxy+=(p[0]-mx)*(p[1]-my);cyy+=(p[1]-my)*(p[1]-my);});
+  cxx/=pts.length; cxy/=pts.length; cyy/=pts.length;
+  var vx=1,vy=0;
+  for(var i=0;i<60;i++){var nx=cxx*vx+cxy*vy,ny=cxy*vx+cyy*vy,l=Math.sqrt(nx*nx+ny*ny);if(l>0){vx=nx/l;vy=ny/l;}}
+  var l1=cxx*vx*vx+2*cxy*vx*vy+cyy*vy*vy, l2=(cxx+cyy)-l1, tot=l1+l2;
+  pts.forEach(function(p){ctx.fillStyle='rgba(106,158,212,.5)';ctx.beginPath();ctx.arc(cx+p[0],cy-p[1],2.5,0,Math.PI*2);ctx.fill();});
+  var s1=Math.sqrt(Math.max(0,l1))*1.3, s2=Math.sqrt(Math.max(0,l2))*1.3;
+  ctx.strokeStyle='#6a9ed4'; ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(cx+mx-vx*s1,cy-(my-vy*s1));ctx.lineTo(cx+mx+vx*s1,cy-(my+vy*s1));ctx.stroke();
+  ctx.fillStyle='#6a9ed4';ctx.font='bold 11px JetBrains Mono, monospace';ctx.textAlign='left';
+  ctx.fillText('PC1 '+(l1/tot*100).toFixed(1)+'%',cx+mx+vx*s1+5,cy-(my+vy*s1)+4);
+  ctx.strokeStyle='#c9963a'; ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(cx+mx+vy*s2,cy-(my-vx*s2));ctx.lineTo(cx+mx-vy*s2,cy-(my+vx*s2));ctx.stroke();
+  ctx.fillStyle='#c9963a';ctx.font='10px JetBrains Mono, monospace';
+  ctx.fillText('PC2 '+(l2/tot*100).toFixed(1)+'%',cx+mx-vy*s2+5,cy-(my+vx*s2)+4);
+}
+
+/* ─── LA-03 PageRank ─────────────────────────────────────── */
+var _laPrG={
+  simple:{nodes:[{id:'A',x:200,y:65},{id:'B',x:75,y:195},{id:'C',x:325,y:195},{id:'D',x:200,y:305}],edges:[['A','B'],['A','C'],['B','D'],['C','A'],['D','A'],['D','C']]},
+  trap:{nodes:[{id:'P',x:95,y:135},{id:'Q',x:300,y:75},{id:'R',x:300,y:215},{id:'S',x:175,y:295}],edges:[['P','Q'],['P','R'],['Q','R'],['R','Q'],['S','P']]},
+  star:{nodes:[{id:'Hub',x:200,y:145},{id:'1',x:200,y:38},{id:'2',x:325,y:145},{id:'3',x:200,y:252},{id:'4',x:75,y:145}],edges:[['1','Hub'],['2','Hub'],['3','Hub'],['4','Hub'],['Hub','1']]}
+};
+var _laPrC='simple', _laPrR={}, _laPrIt=0, _laPrD=0.85, _laPrRun=false, _laPrT=null;
+function laPrInit(){laPrReset();}
+function laPrReset(){
+  _laPrIt=0; _laPrRun=false; clearInterval(_laPrT);
+  var g=_laPrG[_laPrC]; _laPrR={};
+  g.nodes.forEach(function(n){_laPrR[n.id]=1/g.nodes.length;});
+  var btn=document.getElementById('la-pr-run'); if(btn){btn.textContent='▶ Run';btn.style.color='var(--gold)';btn.style.borderColor='';}
+  laPrDraw();
+}
+function laPrStep(){
+  var g=_laPrG[_laPrC],n=g.nodes.length,out={};
+  g.nodes.forEach(function(nd){out[nd.id]=[];});
+  g.edges.forEach(function(e){out[e[0]].push(e[1]);});
+  var nr={};
+  g.nodes.forEach(function(nd){
+    var inc=0;
+    g.edges.filter(function(e){return e[1]===nd.id;}).forEach(function(e){if(out[e[0]].length>0)inc+=_laPrR[e[0]]/out[e[0]].length;});
+    nr[nd.id]=(1-_laPrD)/n+_laPrD*inc;
+  });
+  var sum=Object.values(nr).reduce(function(a,b){return a+b;},0);
+  g.nodes.forEach(function(nd){_laPrR[nd.id]=nr[nd.id]/sum;});
+  _laPrIt++; laPrDraw();
+}
+function laPrRun(){
+  _laPrRun=!_laPrRun;
+  var btn=document.getElementById('la-pr-run');
+  if(_laPrRun){btn.textContent='■ Stop';btn.style.color='#b84a2e';btn.style.borderColor='#b84a2e';_laPrT=setInterval(laPrStep,300);}
+  else{btn.textContent='▶ Run';btn.style.color='var(--gold)';btn.style.borderColor='';clearInterval(_laPrT);}
+}
+function laPrGraph(btn,name){
+  document.querySelectorAll('[data-g]').forEach(function(b){b.classList.remove('la-on');b.style.color='';b.style.borderColor='';});
+  btn.classList.add('la-on');btn.style.color='var(--gold)';btn.style.borderColor='var(--gold)';_laPrC=name;laPrReset();
+}
+function laPrDamp(el){_laPrD=el.value/100;document.getElementById('la-prd').textContent='Damping: '+_laPrD.toFixed(2);laPrReset();}
+function laPrDraw(){
+  var c=document.getElementById('la-pr'); if(!c) return;
+  c.width=400;c.height=290;
+  var ctx=c.getContext('2d');ctx.fillStyle='#0c0c0c';ctx.fillRect(0,0,400,290);
+  var g=_laPrG[_laPrC],pos={};
+  g.nodes.forEach(function(n){pos[n.id]=[n.x,n.y];});
+  g.edges.forEach(function(e){
+    var x1=pos[e[0]][0],y1=pos[e[0]][1],x2=pos[e[1]][0],y2=pos[e[1]][1];
+    var dx=x2-x1,dy=y2-y1,d=Math.sqrt(dx*dx+dy*dy),ux=dx/d,uy=dy/d,r=22;
+    ctx.strokeStyle='#2a2a2a';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(x1+ux*r,y1+uy*r);ctx.lineTo(x2-ux*r,y2-uy*r);ctx.stroke();
+    var ax=x2-ux*(r+7),ay=y2-uy*(r+7);
+    ctx.fillStyle='#2a2a2a';ctx.beginPath();ctx.moveTo(x2-ux*r,y2-uy*r);ctx.lineTo(ax+uy*4,ay-ux*4);ctx.lineTo(ax-uy*4,ay+ux*4);ctx.fill();
+  });
+  var mx=Math.max.apply(null,Object.values(_laPrR));
+  g.nodes.forEach(function(n){
+    var x=pos[n.id][0],y=pos[n.id][1],r=_laPrR[n.id]||0,nr=mx>0?r/mx:.5;
+    var grd=ctx.createRadialGradient(x,y,0,x,y,36);
+    grd.addColorStop(0,'rgba(201,150,58,'+(nr*.35)+')');grd.addColorStop(1,'transparent');
+    ctx.fillStyle=grd;ctx.beginPath();ctx.arc(x,y,36,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#111';ctx.strokeStyle='#c9963a';ctx.lineWidth=1+nr*3;
+    ctx.beginPath();ctx.arc(x,y,22,0,Math.PI*2);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#f5f0e8';ctx.font='bold 12px JetBrains Mono,monospace';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(n.id,x,y-4);
+    ctx.fillStyle='#c9963a';ctx.font='9px JetBrains Mono,monospace';
+    ctx.fillText((r*100).toFixed(1)+'%',x,y+9);
+  });
+  ctx.fillStyle='#222';ctx.font='9px JetBrains Mono,monospace';ctx.textAlign='left';ctx.textBaseline='top';
+  ctx.fillText('iter: '+_laPrIt+' · d='+_laPrD.toFixed(2),7,7);
+}
+
+/* ─── LA-04 Benchmarks ───────────────────────────────────── */
+var _laBmSz=[16,32,64,128,256,512,1024];
+var _laBmD=[
+  {label:'Python\nLoop',   color:'#b84a2e', base:.8},
+  {label:'NumPy\nmatmul',  color:'#c9963a', base:320},
+  {label:'C++\nEigen',     color:'#6a9ed4', base:890},
+  {label:'BLAS\nFortran',  color:'#7aaa7a', base:1100},
+  {label:'BLAS +\nAVX2',   color:'#c9963a', base:1450}
+];
+function laBmInit(){laBmDraw(2);}
+function laBm(el){
+  document.getElementById('la-bml').textContent='Size: '+_laBmSz[+el.value]+'×'+_laBmSz[+el.value];
+  laBmDraw(+el.value);
+}
+function laBmDraw(si){
+  var c=document.getElementById('la-bm'); if(!c) return;
+  c.width=500;c.height=250;
+  var ctx=c.getContext('2d');ctx.fillStyle='#0c0c0c';ctx.fillRect(0,0,500,250);
+  var P={t:18,r:18,b:52,l:50},W=500-P.l-P.r,H=250-P.t-P.b,sz=_laBmSz[si];
+  var vals=_laBmD.map(function(d,i){return d.base*Math.pow(sz/64,i===0?1.9:.8+i*.06);});
+  var mx=Math.max.apply(null,vals);
+  ctx.strokeStyle='#111';ctx.lineWidth=1;
+  for(var gi=0;gi<=4;gi++){
+    var gy=P.t+H-(gi/4)*H;
+    ctx.beginPath();ctx.moveTo(P.l,gy);ctx.lineTo(P.l+W,gy);ctx.stroke();
+    ctx.fillStyle='#2a2a2a';ctx.font='9px JetBrains Mono,monospace';ctx.textAlign='right';
+    ctx.fillText(((mx*gi/4)/1000).toFixed(0)+'K',P.l-4,gy+3);
+  }
+  ctx.save();ctx.translate(12,P.t+H/2);ctx.rotate(-Math.PI/2);
+  ctx.fillStyle='#2a2a2a';ctx.font='8px JetBrains Mono,monospace';ctx.textAlign='center';
+  ctx.fillText('GFLOPS/sec',0,0);ctx.restore();
+  var bW=W/_laBmD.length*.6,gap=W/_laBmD.length;
+  _laBmD.forEach(function(d,i){
+    var v=vals[i],bH=(v/mx)*H,x=P.l+i*gap+(gap-bW)/2,y=P.t+H-bH;
+    var grd=ctx.createLinearGradient(x,y,x,y+bH);
+    grd.addColorStop(0,d.color+'cc');grd.addColorStop(1,d.color+'33');
+    ctx.fillStyle=grd;ctx.fillRect(x,y,bW,bH);
+    ctx.fillStyle=d.color;ctx.font='bold 9px JetBrains Mono,monospace';ctx.textAlign='center';
+    ctx.fillText(v>=1000?(v/1000).toFixed(1)+'K':v.toFixed(0),x+bW/2,y-4);
+    ctx.fillStyle='#2a2a2a';ctx.font='8px JetBrains Mono,monospace';
+    d.label.split('\n').forEach(function(ln,li){ctx.fillText(ln,x+bW/2,P.t+H+13+li*11);});
+  });
+  var sp=(vals[4]/vals[0]).toFixed(0);
+  ctx.fillStyle='#b84a2e66';ctx.font='bold 10px JetBrains Mono,monospace';ctx.textAlign='right';
+  ctx.fillText(sp+'× speedup',P.l+W,P.t+12);
+}
+</script>
+
 <!-- CONCEPTS -->
 <section id="concepts">
   <div class="section-header">
